@@ -8,14 +8,12 @@ using Task = Ejercicio_AsignadorTareas.Entity.Task;
 
 namespace Ejercicio_AsignadorTareas.Controller.Interfaces
 {
-    internal interface IRegister
+    internal interface IFinder
     {
-        Task registNewTask();
+        Team findTeamByName(List<Team> teams);
+        ITWorker findWorker(List<ITWorker> workers);
+        Task findTask(ITWorker worker, List<Task> taskList);
 
-        Team registNewTeam();
 
-        ITWorker registNewWorker();
-
-        List<String> registKnowledges(List<String> knowledge);
     }
 }

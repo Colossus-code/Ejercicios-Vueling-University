@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ejercicio_AsignadorTareas.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace Ejercicio_AsignadorTareas.Controller.Interfaces
 {
     internal interface IPrinter
     {
+        string printTeams(List<Team> teams);
+
+        string printTask(List<Entity.Task> tasks);
     }
 }

@@ -8,5 +8,6 @@ namespace Ejercicio_AsignadorTareas.Controller.Interfaces
 {
     internal interface IMenu
     {
+        void showMenu();
     }
 }

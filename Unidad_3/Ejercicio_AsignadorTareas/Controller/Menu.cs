@@ -154,7 +154,7 @@ namespace Ejercicio_AsignadorTareas.Controller
                     }
                     else
                     {
-                        Console.WriteLine("The worker or team is not created yet or data is wrong."); // TODO sgarciam 3005 refactorizar
+                        Console.WriteLine(InputClass.ErrorMsg);
                     }
 
                     return false;

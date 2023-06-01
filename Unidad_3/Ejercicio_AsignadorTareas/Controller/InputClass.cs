@@ -8,6 +8,8 @@ namespace Ejercicio_AsignadorTareas.Controller
 {
     internal static class InputClass
     {
+        public static string ErrorMsg { get; set; } 
+
         public static string inputMessageString(string msg)
         {
             string inputMsg = "";
@@ -23,7 +25,7 @@ namespace Ejercicio_AsignadorTareas.Controller
 
         public static int inputMessageInt(string msg)
         {
-            int inputMsgInt = 0;
+            int inputMsgInt = -1;
             do
             {
                 Console.WriteLine(msg);
@@ -34,9 +36,9 @@ namespace Ejercicio_AsignadorTareas.Controller
                 }
                 catch (FormatException)
                 {
-                    return 0;
+                    continue;
                 }
-            } while (inputMsgInt < 0);
+            } while (inputMsgInt < 0 || inputMsgInt == -1);
 
             return inputMsgInt;
         }
@@ -70,7 +72,7 @@ namespace Ejercicio_AsignadorTareas.Controller
                         }
                         else
                         {
-                            workingYears = InputClass.inputMessageInt("Write the experience years of the employer.");
+                            workingYears = inputMessageInt("Write the experience years of the employer.");
 
                             if (workerRealAge < workingYears)
                             {
@@ -89,5 +91,8 @@ namespace Ejercicio_AsignadorTareas.Controller
 
             } while (true);
         }
+        
+ 
+
     }
 }

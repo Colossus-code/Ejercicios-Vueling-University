@@ -44,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\Assigner.cs" />
+    <Compile Include="Controller\Finder.cs" />
     <Compile Include="Controller\InputClass.cs" />
     <Compile Include="Controller\Interfaces\IAssigner.cs" />
+    <Compile Include="Controller\Interfaces\IFinder.cs" />
     <Compile Include="Controller\Interfaces\IMenu.cs" />
     <Compile Include="Controller\Interfaces\IPrinter.cs" />
     <Compile Include="Controller\Interfaces\IRegister.cs" />

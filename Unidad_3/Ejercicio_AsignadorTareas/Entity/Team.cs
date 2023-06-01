@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ejercicio_AsignadorTareas.Entity
 {
-    internal class Team
+    public class Team
     {
         public string teamName { get; set; }
         public ITWorker managerTeam { get; set; }

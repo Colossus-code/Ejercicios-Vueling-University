@@ -45,8 +45,12 @@ namespace Ejercicio_AsignadorTareas.Controller
                 foreach (var e in teams.Where(e => e.teamName.Equals(teamName)))
                 {
                     toShow += $"\nTeam name: {e.teamName}. \n" +
-                        $"Team manager: {e.managerTeam}. \n" +
-                        $"Team technicians: {e.technician.Select(i => i.Name)}. \n"; // TODO sgarciam 3005 error porque no hay técnicos en el equipo
+                        $"Team manager: {e.managerTeam.Name}. \n"; 
+
+                    foreach(var i in e.technician)
+                    {
+                        toShow += $"Technician name: {i.Name} {i.Surname}.\n";
+                    }
                 }
             }
             catch (ArgumentNullException)

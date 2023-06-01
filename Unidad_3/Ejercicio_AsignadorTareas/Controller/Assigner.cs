@@ -3,6 +3,7 @@ using Ejercicio_AsignadorTareas.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using Task = Ejercicio_AsignadorTareas.Entity.Task;
@@ -11,60 +12,153 @@ namespace Ejercicio_AsignadorTareas.Controller
 {
     internal class Assigner : IAssigner
     {
+        public readonly Finder finder; 
+        //Comprobe that parameters for assing manager or worker it's not null
+        public bool checkParametersNotNull(List<Team> teams, List<ITWorker> workers)
+        {
+            return teams.Count() <= 0 || workers.Count() <= 0 ? false : true;
+
+        }
+        //Manage the assing of the manager to one team
         public List<Team> assignManagerForATeam(List<Team> teams, List<ITWorker> workers)
         {
-            if (checkParameters(teams, workers))
+            if (checkParametersNotNull(teams, workers))
             {
-                try
-                {
 
-                    var team = findTeamByName(teams);
+                var team = finder.findTeamByName(teams);
 
-                    var worker = findWorker(workers); // TODO sgarciam 3005 checkear que el ITWorker no tenga equipo actual 
-
-                    if (worker.Team != null)
-                    {
-                        switchWorkersTeam(worker);
-                    }
-                    return assingManager(team, worker, teams);
+                var worker = finder.findWorker(workers); // TODO sgarciam 3005 checkear que el ITWorker no tenga equipo actual 
 
 
-                }
-                catch (ArgumentNullException)
+                if (worker == null || team == null)
                 {
                     return null;
                 }
-            }
-            else
-            {
-                return null;
-            }
 
-
-        }
-        public List<Team> assignWorkerForATeam(List<Team> teams, List<ITWorker> workers)
-        {
-            if (checkParameters(teams, workers))
-            {
-                try
+                if (!checkParametersManagerTeams(teams, worker))
                 {
-                    var team = findTeamByName(teams);
-
-                    var worker = findWorker(workers);
-
-                    if (worker.Team != null)
-                    {
-                        switchWorkersTeam(worker);
-                    }
-                    team.technician.Add(worker);
-
-                    worker.Team = team;
-
+                    return null;
+                }
+                else
+                {
                     teams.Remove(team);
+
+                    team.managerTeam = worker;
 
                     teams.Add(team);
 
-                    return teams;
+                }
+
+                return teams;
+
+            }
+            else
+            {
+                InputClass.ErrorMsg = "You must to create workers and teams first";
+                return null;
+            }
+        }
+        //Check that manager it's on a team as manager yet o tech and if the user want can switch, else keeps in the same situation
+        public bool checkParametersManagerTeams(List<Team> teams, ITWorker worker)
+        {
+            try
+            {
+                bool switchTeamTech = true;
+                bool switchManagerTeamVal = true;
+
+                if (worker.yearsExperiencie < 5)
+                {
+                    InputClass.ErrorMsg = "The worker must to be a senior"; // HACK sgarciam 3105 aplicar enum de forma correcta
+                    return false;
+                }
+                if (worker.Team != null)
+                {
+                    switchTeamTech = switchTechToManager(worker);
+
+                }
+
+                switchManagerTeamVal = switchManagerTeam(teams, worker);
+
+                if (switchTeamTech == true && switchManagerTeamVal == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (ArgumentNullException)
+            {
+                return true;
+            }
+        }
+        public bool switchTechToManager(ITWorker worker)
+        {
+
+            if (InputClass.inputMessageString("This worker actually haves a team, do you want to swich team? (y/n)").ToLower().Equals("y"))
+            {
+                var teamOfTheWorker = worker.Team;
+                teamOfTheWorker.technician.Remove(worker);
+                return true;
+
+            }
+            else
+            {
+                Console.WriteLine("Worker team won't be updated");
+                return false;
+            }
+        }
+        public bool switchManagerTeam(List<Team> teams, ITWorker worker)
+        {
+            Team teamToReplace = null;
+
+            foreach (Team team in teams.Where(e => e.managerTeam != null))
+            {
+                if (team.managerTeam == worker)
+                {
+                    teamToReplace = team;
+
+                    if (InputClass.inputMessageString("The worker actually haves a team, you want to swich to make manager? (y/n)").ToLower().Equals("y"))
+                    {
+                        teamToReplace.managerTeam = null;
+                        return true;
+                    }
+                    else
+                    {
+                        InputClass.ErrorMsg = "The worker won't be updated";
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+
+        }
+        //Manage the assing of the worker to one team
+        public List<Team> assignWorkerForATeam(List<Team> teams, List<ITWorker> workers)
+        {
+            if (checkParametersNotNull(teams, workers))
+            {
+                try
+                {
+                    var team = finder.findTeamByName(teams);
+
+                    var worker = finder.findWorker(workers);
+
+                    managerToTeach(teams, worker);
+
+                    if (worker.Team == null || switchTechTeam(worker, teams) == true)
+                    {
+                        worker.Team = team;
+                        team.technician.Add(worker);
+                        return teams;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
 
                 }
                 catch (ArgumentNullException)
@@ -78,16 +172,84 @@ namespace Ejercicio_AsignadorTareas.Controller
                 return null;
             }
         }
-        public bool assignTaskToItWorker(List<ITWorker> workers, List<Task> tasks)
+        //Check that worker it's on a team as manager yet o tech and if the user want can switch, else keeps in the same situation
+        public bool switchTechTeam(ITWorker worker, List<Team> teams)
         {
             try
             {
+                foreach (var team in teams.Where(e => e.technician != null))
+                {
+                    if (team.technician.Contains(worker))
+                    {
+                        if (InputClass.inputMessageString("This worker actually haves a team, do you want to swich team? (y/n)").ToLower().Equals("y"))
+                        {
+                            team.technician.Remove(worker);
 
-                var worker = findWorker(workers);
+                            return true;
+                        }
+                        else
+                        {
+                            InputClass.ErrorMsg = "The worker won't be updated";
+                            return false;
+                        }
 
-                var taskToAssign = findTask(worker, tasks);
+                    }
+                }
 
-                if (worker.techKnowledges.Contains(taskToAssign.technology))
+                return true;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+        }
+        public bool managerToTeach(List<Team> teams, ITWorker worker)
+        {
+            try
+            {
+                foreach (var team in teams.Where(e => e.managerTeam != null))
+                {
+                    if (team.managerTeam.Equals(worker))
+                    {
+                        if (InputClass.inputMessageString("This worker actually is a manager of a team, do you want to swich? (y/n)").ToLower().Equals("y"))
+                        {
+                            team.managerTeam = null;
+
+                            return true;
+                        }
+                        else
+                        {
+                            InputClass.ErrorMsg = "The worker won't be updated";
+                            return false;
+                        }
+
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+        }
+        //Manage the assing of the task to one worker
+        public bool assignTaskToItWorker(List<ITWorker> workers, List<Task> tasks)
+        {
+            if (workers.Count == 0 || tasks.Count == 0)
+            {
+                InputClass.ErrorMsg = "You must to create workers or task first";
+                return false;
+            }
+
+            try
+            {
+
+                var worker = finder.findWorker(workers);
+
+                var taskToAssign = finder.findTask(worker, tasks);
+
+                if (worker.techKnowledges.Contains(taskToAssign.technology) && switchTask(tasks,worker,taskToAssign))
                 {
                     worker.itWorkerTask = taskToAssign;
                     taskToAssign.worker = worker;
@@ -96,19 +258,43 @@ namespace Ejercicio_AsignadorTareas.Controller
                 }
                 else
                 {
-                    Console.WriteLine("The worker must to have the technology of the task to do it.");
                     return false;
                 }
 
             }
             catch (FormatException)
             {
+                InputClass.ErrorMsg = "The worker must to have the technology of the task to do it.";
                 return false;
             }
         }
+        //Check that worker haves a task yet and if the user want can switch, else keeps in the same situation
+        public bool switchTask(List<Task> tasks, ITWorker worker, Task allreadyAssigned)
+        {
+            foreach (Task task in tasks.Where(e => e.worker != null))
+            {
+                if (task.worker.Equals(worker))
+                {
+
+                    if (InputClass.inputMessageString("The worker actually haves a task, you want to swich? (y/n)").ToLower().Equals("y"))
+                    {
+                        task.worker = null;
+                        return true;
+                    }
+                    else
+                    {
+                        InputClass.ErrorMsg = "The worker's task won't be updated";
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+        // Unassing the worker to one team, like tech or manager and unassing task if he had
         public void deleteWorker(List<ITWorker> workers)
         {
-            var worker = findWorker(workers);
+            var worker = finder.findWorker(workers);
 
             if (worker.itWorkerTask != null)
             {
@@ -130,141 +316,13 @@ namespace Ejercicio_AsignadorTareas.Controller
                 worker.Team = null;
             }
 
+
+
             worker.LeavingDate = DateTime.Now.Date;
 
         }
-        public bool checkParameters(List<Team> teams, List<ITWorker> workers)
-        {
-            return teams.Count() <= 0 || workers.Count() <= 0 ? false : true;
+        // TODO sgarciam 0106 EXTRAER EN CLASE APARTE CON INTERFAZ
+        
 
-        }
-        public Team findTeamByName(List<Team> teams)
-        {
-            string teamName = InputClass.inputMessageString("Select the team name please.");
-
-            return teams.FirstOrDefault(e => e.teamName.Equals(teamName));
-
-        }
-        public ITWorker findWorker(List<ITWorker> workers)
-        {
-
-            Console.WriteLine("Select the id of the worker: ");
-            Console.WriteLine("\n****************************************************************");
-            foreach (ITWorker wrk in workers)
-            {
-                Console.WriteLine($"Worker ID: {wrk.itWorkerID}\n" +
-                    $"Worker name: {wrk.Name}\n");
-            }
-            Console.WriteLine("****************************************************************\n");
-            int employerId = 0;
-            int.TryParse(Console.ReadLine(), out employerId);
-
-            return workers.FirstOrDefault(e => e.itWorkerID == employerId);
-
-
-        }
-        public void switchWorkersTeam(ITWorker worker)
-        {
-            bool found = false;
-            do
-            {
-                if (worker.Team != null)
-                {
-                    string answer = InputClass.inputMessageString("This worker actually haves a team, do you want to swich team? (y/n)");
-
-                    if (answer.Equals("y"))
-                    {
-                        worker.Team = null;
-
-
-                    }
-                    else if (answer.Equals("n"))
-                    {
-                        found = false;
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("You must to select (y/n)");
-                    }
-
-                }
-
-            } while (!found);
-
-
-        }
-        public Task findTask(ITWorker worker, List<Task> taskList)
-        {
-
-            bool found = false;
-            do
-            {
-                Console.WriteLine("Select the id of the task: ");
-                Console.WriteLine("\n****************************************************************");
-                foreach (Task tsk in taskList.Where(e => e.assigned == false))
-                {
-                    Console.WriteLine($"Task ID: {tsk.taskId}\n" +
-                        $"Task description: {tsk.taskDescription}\n");
-                }
-                Console.WriteLine("****************************************************************\n");
-                int taskID = 0;
-                int.TryParse(Console.ReadLine(), out taskID);
-
-                var task = taskList.FirstOrDefault(e => e.taskId == taskID);
-
-                return task;
-
-            } while (!found);
-
-        }
-        public List<Team> assingManager(Team teamSelected, ITWorker worker, List<Team> teams)
-        {
-
-            if (teamSelected.managerTeam != null && worker.yearsExperiencie > 5)
-            {
-                do
-                {
-                    var answer = InputClass.inputMessageString("Actually this team has a manager, you want to swing? (y/n)");
-
-                    if (answer.Equals("y"))
-                    {
-                        if (teamSelected.technician.Contains(worker))
-                        {
-                            teamSelected.technician.Remove(worker);
-                        }
-                        teamSelected.managerTeam = worker;
-                        worker.Team = teamSelected;
-                        teams.Remove(teamSelected);
-                        teams.Add(teamSelected);
-
-                        return teams;
-
-                    }
-                    else if (answer.Equals("n"))
-                    {
-                        return teams;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You must to write (y/n)");
-                    }
-
-                } while (true);
-            }
-            else if (teamSelected.managerTeam == null && worker.yearsExperiencie > 5)
-            {
-                teamSelected.managerTeam = worker;
-                worker.Team = teamSelected;
-                teams.Remove(teamSelected);
-                teams.Add(teamSelected);
-                return teams;
-            }
-            else
-            {
-                Console.WriteLine("The employer must to have more than 5 years of experience.");
-                return null;
-            }
-        }
     }
 }
