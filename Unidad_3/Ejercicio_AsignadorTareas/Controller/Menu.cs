@@ -47,16 +47,19 @@ namespace Ejercicio_AsignadorTareas.Controller
             switch (selected)
             {
                 case 1:
+                    Console.Clear();
 
                     newWorker = newRegist.registNewWorker();
                     workers.Add(newWorker);
                     return false;
                 case 2:
+                    Console.Clear();
 
                     newTeam = newRegist.registNewTeam();
                     teams.Add(newTeam);
                     return false;
                 case 3:
+                    Console.Clear();
 
                     newTask = newRegist.registNewTask();
                     tasks.Add(newTask);
@@ -67,17 +70,15 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                     string printNameTeams = printer.printTeams(teams);
 
-                    if (printNameTeams == null)
+                    if (printNameTeams == "")
                     {
                         Console.WriteLine("****************************************************************");
-                        Console.WriteLine("Not created a team for now.");
+                        Console.WriteLine(InputClass.ErrorMsg);
                         Console.WriteLine("****************************************************************");
                     }
                     else
                     {
-                        Console.WriteLine("****************************************************************");
-                        Console.WriteLine(printNameTeams);
-                        Console.WriteLine("****************************************************************");
+                        Console.WriteLine($"****************************************************************\n{printNameTeams}\n****************************************************************");
                     }
                     return false;
 
@@ -85,21 +86,17 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                     Console.Clear();
 
-                    Console.WriteLine("Please, introduce the name of the team");
-
                     string printTeamByName = printerBy.printTeams(teams);
 
-                    if (printTeamByName == null)
+                    if (printTeamByName == "")
                     {
                         Console.WriteLine("****************************************************************");
-                        Console.WriteLine("Not workers for this team.");
+                        Console.WriteLine(InputClass.ErrorMsg);
                         Console.WriteLine("****************************************************************");
                     }
                     else
                     {
-                        Console.WriteLine("****************************************************************");
-                        Console.WriteLine(printTeamByName);
-                        Console.WriteLine("****************************************************************");
+                        Console.WriteLine($"****************************************************************\n{printTeamByName}\n****************************************************************");
                     }
                     return false;
                 case 6:
@@ -108,10 +105,10 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                     string print = printer.printTask(tasks);
 
-                    if (print == null)
+                    if (print == "")
                     {
                         Console.WriteLine("****************************************************************");
-                        Console.WriteLine("Not created unassigned task yet.");
+                        Console.WriteLine(InputClass.ErrorMsg);
                         Console.WriteLine("****************************************************************");
                     }
                     else
@@ -126,14 +123,12 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                     Console.Clear();
 
-                    Console.WriteLine("Please, introduce the name of the team.");
-
                     string printTaskByTeamName = printerBy.printTask(tasks);
 
-                    if (printTaskByTeamName == null)
+                    if (printTaskByTeamName == "")
                     {
                         Console.WriteLine("****************************************************************");
-                        Console.WriteLine("Not tasks in this team now.");
+                        Console.WriteLine(InputClass.ErrorMsg);
                         Console.WriteLine("****************************************************************");
                     }
                     else
@@ -144,12 +139,10 @@ namespace Ejercicio_AsignadorTareas.Controller
                     }
                     return false;
                 case 8:
+                    Console.Clear();
 
-                    var teamsValue = assigner.assignManagerForATeam(teams, workers);
-
-                    if (teamsValue != null)
+                    if (assigner.assignManagerForATeam(teams, workers))
                     {
-                        teams = teamsValue;
                         Console.WriteLine("Worker has been updated to manager of the team.");
                     }
                     else
@@ -159,20 +152,19 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                     return false;
                 case 9:
+                    Console.Clear();
 
-                    var teamsValueWorker = assigner.assignWorkerForATeam(teams, workers);
-
-                    if (teamsValueWorker != null)
+                    if (assigner.assignWorkerForATeam(teams, workers))
                     {
-                        teams = teamsValueWorker;
                         Console.WriteLine("Worker has introduced to the team.");
                     }
                     else
                     {
-                        Console.WriteLine("The worker or team is not created yet or data is wrong."); // TODO sgarciam 3005 refactorizar
+                        Console.WriteLine(InputClass.ErrorMsg); // TODO sgarciam 3005 refactorizar
                     }
                     return false;
                 case 10:
+                    Console.Clear();
 
                     if (assigner.assignTaskToItWorker(workers, tasks))
                     {
@@ -180,14 +172,22 @@ namespace Ejercicio_AsignadorTareas.Controller
                     }
                     else
                     {
-                        Console.WriteLine("Error introducing task");
+                        Console.WriteLine(InputClass.ErrorMsg);
                     }
                     return false;
 
                 case 11:
+                    Console.Clear();
 
-                    assigner.deleteWorker(workers);
-                    Console.WriteLine("Worker has been deleted.");
+                    if (assigner.deleteWorker(workers))
+                    {
+                        Console.WriteLine("Worker has been deleted.");
+                    }
+                    else
+                    {
+                        Console.WriteLine(InputClass.ErrorMsg);
+                    }
+                    
                     return false;
                 case 12:
 

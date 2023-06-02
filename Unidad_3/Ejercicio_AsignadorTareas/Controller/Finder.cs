@@ -3,8 +3,6 @@ using Ejercicio_AsignadorTareas.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Task = Ejercicio_AsignadorTareas.Entity.Task;
 
 namespace Ejercicio_AsignadorTareas.Controller
@@ -25,20 +23,26 @@ namespace Ejercicio_AsignadorTareas.Controller
 
             string teamName = InputClass.inputMessageString("Select the team name please.");
 
+            Team teamVaue = null;
             try
             {
-                return teams.FirstOrDefault(e => e.teamName.Equals(teamName));
+                teamVaue = teams.FirstOrDefault(e => e.teamName.Equals(teamName));
+
+                if (teamVaue == null)
+                {
+                    InputClass.ErrorMsg = "There isn't a team with that name";
+                    return null;
+                }
             }
             catch (ArgumentNullException)
             {
-                InputClass.ErrorMsg = "There isn't a team with that name";
                 return null;
             }
+
+            return teamVaue;
         }
         public ITWorker findWorker(List<ITWorker> workers)
         {
-
-
             Console.WriteLine("\n****************************************************************");
             foreach (ITWorker wrk in workers)
             {
@@ -55,10 +59,14 @@ namespace Ejercicio_AsignadorTareas.Controller
             {
                 worker = workers.FirstOrDefault(e => e.itWorkerID == employerId);
 
+                if (worker == null)
+                {
+                    InputClass.ErrorMsg = "There isn't a worker with that ID";
+                    return null;
+                }
             }
             catch (ArgumentNullException)
             {
-                InputClass.ErrorMsg = "There isn't a worker with that ID";
                 return null;
             }
 
@@ -68,7 +76,7 @@ namespace Ejercicio_AsignadorTareas.Controller
         {
 
             Console.WriteLine("\n****************************************************************");
-            foreach (Task tsk in taskList.Where(e => e.assigned == false))
+            foreach (Task tsk in taskList.Where(e => e.assigned == false && e.StatusOfTask == Enum.TaskStatus.todo))
             {
                 Console.WriteLine($"Task ID: {tsk.taskId}\n" +
                     $"Task description: {tsk.taskDescription}\n");
@@ -80,11 +88,17 @@ namespace Ejercicio_AsignadorTareas.Controller
             try
             {
                 var task = taskList.FirstOrDefault(e => e.taskId == taskID);
+                
+                if (task == null)
+                {
+                    InputClass.ErrorMsg = "There isn't a task with that ID";
+                    return null;
+                }
                 return task;
             }
             catch (ArgumentNullException)
             {
-                InputClass.ErrorMsg = "There isn't a task with that ID";
+                
                 return null;
             }
 

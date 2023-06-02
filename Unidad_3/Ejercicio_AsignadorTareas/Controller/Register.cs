@@ -1,5 +1,6 @@
 ﻿using Ejercicio_AsignadorTareas.Controller.Interfaces;
 using Ejercicio_AsignadorTareas.Entity;
+using Ejercicio_AsignadorTareas.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Ejercicio_AsignadorTareas.Entity.ITWorker;
 using Task = Ejercicio_AsignadorTareas.Entity.Task;
+using TaskStatus = Ejercicio_AsignadorTareas.Enum.TaskStatus;
 
 namespace Ejercicio_AsignadorTareas.Controller
 {
@@ -24,7 +26,7 @@ namespace Ejercicio_AsignadorTareas.Controller
             {
                 var defineStatus = InputClass.inputMessageString("Do you want to give a status to the task? (y/n)").ToLower();
 
-                var taskProgress = Task.status.todo;
+                var taskProgress = TaskStatus.todo;
 
                 if (defineStatus.Equals("y"))
                 {
@@ -38,11 +40,11 @@ namespace Ejercicio_AsignadorTareas.Controller
                             break;
 
                         case "doing":
-                            taskProgress = Task.status.doing;
+                            taskProgress = TaskStatus.doing;
                             break;
 
                         case "done":
-                            taskProgress = Task.status.done;
+                            taskProgress = TaskStatus.done;
                             break;
 
                         default:
@@ -68,6 +70,7 @@ namespace Ejercicio_AsignadorTareas.Controller
         {
             string teamName = InputClass.inputMessageString("Please, introduce a name for the team.");
 
+            Console.WriteLine("Team has been sucess created.");
             return new Team(teamName);
         }
 
@@ -86,18 +89,18 @@ namespace Ejercicio_AsignadorTareas.Controller
 
             var lvlSelect = InputClass.inputMessageString("Please select the level of the worker (junior , medium, senior)").ToLower();
 
-            var techLevel = level.junior;
+            var techLevel = ITWorkerLevel.junior;
             switch (lvlSelect)
             {
                 case "junior":
                     break;
                 case "medium":
-                    techLevel = level.medium;
+                    techLevel = ITWorkerLevel.medium;
                     break;
                 case "senior":
                     if (workingYears >= 5)
                     {
-                        techLevel = level.senior;
+                        techLevel = ITWorkerLevel.senior;
                     }
                     else
                     {
@@ -108,6 +111,7 @@ namespace Ejercicio_AsignadorTareas.Controller
                     Console.WriteLine("Please, select a correct answer (junior , medium, senior)");
                     break;
             }
+            Console.WriteLine("Worker has been sucess created.");
             return new ITWorker(workerName, workerSurname, workerBirthday, workingYears, knowledge, techLevel);
         }
         public List<String> registKnowledges(List<String> knowledge)

@@ -10,8 +10,8 @@ namespace Ejercicio_AsignadorTareas.Controller.Interfaces
 {
     internal interface IAssigner
     {
-        List<Team> assignManagerForATeam(List<Team> teams, List<ITWorker> workers);
-        List<Team> assignWorkerForATeam(List<Team> teams, List<ITWorker> workers);
+        bool assignManagerForATeam(List<Team> teams, List<ITWorker> workers);
+        bool assignWorkerForATeam(List<Team> teams, List<ITWorker> workers);
         bool assignTaskToItWorker(List<ITWorker> workers, List<Task> tasks);
     }
 }

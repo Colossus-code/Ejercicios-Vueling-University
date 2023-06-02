@@ -59,6 +59,8 @@
     <Compile Include="Entity\Task.cs" />
     <Compile Include="Entity\Team.cs" />
     <Compile Include="Entity\Worker.cs" />
+    <Compile Include="Enum\ITWorkerLevel.cs" />
+    <Compile Include="Enum\TaskStatus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -12,15 +12,24 @@ namespace Ejercicio_AsignadorTareas.Controller
 {
     internal class Assigner : IAssigner
     {
-        public readonly Finder finder; 
+        public readonly Finder finder = new Finder();
         //Comprobe that parameters for assing manager or worker it's not null
         public bool checkParametersNotNull(List<Team> teams, List<ITWorker> workers)
         {
-            return teams.Count() <= 0 || workers.Count() <= 0 ? false : true;
+            if (teams.Count() <= 0 || workers.Count() <= 0)
+            {
+                InputClass.ErrorMsg = "You must to create first teams and workers";
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
 
         }
         //Manage the assing of the manager to one team
-        public List<Team> assignManagerForATeam(List<Team> teams, List<ITWorker> workers)
+        public bool assignManagerForATeam(List<Team> teams, List<ITWorker> workers)
         {
             if (checkParametersNotNull(teams, workers))
             {
@@ -29,15 +38,14 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                 var worker = finder.findWorker(workers); // TODO sgarciam 3005 checkear que el ITWorker no tenga equipo actual 
 
-
                 if (worker == null || team == null)
                 {
-                    return null;
+                    return false;
                 }
 
                 if (!checkParametersManagerTeams(teams, worker))
                 {
-                    return null;
+                    return false;
                 }
                 else
                 {
@@ -49,13 +57,13 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                 }
 
-                return teams;
+                return true;
 
             }
             else
             {
                 InputClass.ErrorMsg = "You must to create workers and teams first";
-                return null;
+                return false;
             }
         }
         //Check that manager it's on a team as manager yet o tech and if the user want can switch, else keeps in the same situation
@@ -66,9 +74,9 @@ namespace Ejercicio_AsignadorTareas.Controller
                 bool switchTeamTech = true;
                 bool switchManagerTeamVal = true;
 
-                if (worker.yearsExperiencie < 5)
+                if (worker.itWorkerLevel != Enum.ITWorkerLevel.senior)
                 {
-                    InputClass.ErrorMsg = "The worker must to be a senior"; // HACK sgarciam 3105 aplicar enum de forma correcta
+                    InputClass.ErrorMsg = "The worker must to be a senior";
                     return false;
                 }
                 if (worker.Team != null)
@@ -105,7 +113,7 @@ namespace Ejercicio_AsignadorTareas.Controller
             }
             else
             {
-                Console.WriteLine("Worker team won't be updated");
+                InputClass.ErrorMsg = "Worker team won't be updated";
                 return false;
             }
         }
@@ -113,10 +121,11 @@ namespace Ejercicio_AsignadorTareas.Controller
         {
             Team teamToReplace = null;
 
-            foreach (Team team in teams.Where(e => e.managerTeam != null))
+            try
             {
-                if (team.managerTeam == worker)
+                foreach (Team team in teams.Where(e => e.managerTeam == worker))
                 {
+
                     teamToReplace = team;
 
                     if (InputClass.inputMessageString("The worker actually haves a team, you want to swich to make manager? (y/n)").ToLower().Equals("y"))
@@ -130,13 +139,16 @@ namespace Ejercicio_AsignadorTareas.Controller
                         return false;
                     }
                 }
+
+                return true;
             }
-
-            return true;
-
+            catch (Exception)
+            {
+                return true;
+            }
         }
         //Manage the assing of the worker to one team
-        public List<Team> assignWorkerForATeam(List<Team> teams, List<ITWorker> workers)
+        public bool assignWorkerForATeam(List<Team> teams, List<ITWorker> workers)
         {
             if (checkParametersNotNull(teams, workers))
             {
@@ -146,17 +158,21 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                     var worker = finder.findWorker(workers);
 
+                    if (worker == null || team == null)
+                    {
+                        return false;
+                    }
                     managerToTeach(teams, worker);
 
                     if (worker.Team == null || switchTechTeam(worker, teams) == true)
                     {
                         worker.Team = team;
                         team.technician.Add(worker);
-                        return teams;
+                        return true;
                     }
                     else
                     {
-                        return null;
+                        return false;
                     }
 
 
@@ -164,12 +180,12 @@ namespace Ejercicio_AsignadorTareas.Controller
                 catch (ArgumentNullException)
                 {
 
-                    return null;
+                    return false;
                 }
             }
             else
             {
-                return null;
+                return false;
             }
         }
         //Check that worker it's on a team as manager yet o tech and if the user want can switch, else keeps in the same situation
@@ -177,23 +193,21 @@ namespace Ejercicio_AsignadorTareas.Controller
         {
             try
             {
-                foreach (var team in teams.Where(e => e.technician != null))
+                foreach (var team in teams.Where(e => e.technician.Contains(worker)))
                 {
-                    if (team.technician.Contains(worker))
+
+                    if (InputClass.inputMessageString("This worker actually haves a team, do you want to swich team? (y/n)").ToLower().Equals("y"))
                     {
-                        if (InputClass.inputMessageString("This worker actually haves a team, do you want to swich team? (y/n)").ToLower().Equals("y"))
-                        {
-                            team.technician.Remove(worker);
+                        team.technician.Remove(worker);
 
-                            return true;
-                        }
-                        else
-                        {
-                            InputClass.ErrorMsg = "The worker won't be updated";
-                            return false;
-                        }
-
+                        return true;
                     }
+                    else
+                    {
+                        InputClass.ErrorMsg = "The worker won't be updated";
+                        return false;
+                    }
+
                 }
 
                 return true;
@@ -249,7 +263,12 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                 var taskToAssign = finder.findTask(worker, tasks);
 
-                if (worker.techKnowledges.Contains(taskToAssign.technology) && switchTask(tasks,worker,taskToAssign))
+                if (worker == null || taskToAssign == null)
+                {
+                    return false;
+                }
+
+                if (worker.techKnowledges.Contains(taskToAssign.technology) && switchTask(tasks, worker, taskToAssign))
                 {
                     worker.itWorkerTask = taskToAssign;
                     taskToAssign.worker = worker;
@@ -271,11 +290,10 @@ namespace Ejercicio_AsignadorTareas.Controller
         //Check that worker haves a task yet and if the user want can switch, else keeps in the same situation
         public bool switchTask(List<Task> tasks, ITWorker worker, Task allreadyAssigned)
         {
-            foreach (Task task in tasks.Where(e => e.worker != null))
+            try
             {
-                if (task.worker.Equals(worker))
+                foreach (Task task in tasks.Where(e => e.worker.Equals(worker)))
                 {
-
                     if (InputClass.inputMessageString("The worker actually haves a task, you want to swich? (y/n)").ToLower().Equals("y"))
                     {
                         task.worker = null;
@@ -287,13 +305,21 @@ namespace Ejercicio_AsignadorTareas.Controller
                         return false;
                     }
                 }
+                return true;
             }
-
-            return true;
+            catch (Exception)
+            {
+                return true;
+            }
         }
         // Unassing the worker to one team, like tech or manager and unassing task if he had
-        public void deleteWorker(List<ITWorker> workers)
+        public bool deleteWorker(List<ITWorker> workers)
         {
+            if (workers.Count == 0)
+            {
+                InputClass.ErrorMsg = "Workers has not created";
+                return false;
+            }
             var worker = finder.findWorker(workers);
 
             if (worker.itWorkerTask != null)
@@ -319,10 +345,11 @@ namespace Ejercicio_AsignadorTareas.Controller
 
 
             worker.LeavingDate = DateTime.Now.Date;
+            return true;
 
         }
         // TODO sgarciam 0106 EXTRAER EN CLASE APARTE CON INTERFAZ
-        
+
 
     }
 }

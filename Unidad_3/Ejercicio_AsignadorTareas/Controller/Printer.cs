@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = Ejercicio_AsignadorTareas.Entity.Task;
 
 namespace Ejercicio_AsignadorTareas.Controller
 {
@@ -29,7 +30,7 @@ namespace Ejercicio_AsignadorTareas.Controller
             return toShow;
         }
 
-        public string printTask(List<Entity.Task> tasks)
+        public string printTask(List<Task> tasks)
         {
             string toShow = null;
 
@@ -39,7 +40,8 @@ namespace Ejercicio_AsignadorTareas.Controller
                 {
                     toShow += $"\nTask ID: {e.taskId}. \n" +
                         $"Task description: {e.taskDescription}. \n" +
-                        $"Task technology: {e.technology}. \n";
+                        $"Task technology: {e.technology}. \n" +
+                        $"Task team: {(e.worker.Team != null ? e.worker.Team.teamName : "")}";
                 }
             }
             catch (ArgumentNullException)

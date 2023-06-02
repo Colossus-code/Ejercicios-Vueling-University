@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ejercicio_AsignadorTareas.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,13 @@ namespace Ejercicio_AsignadorTareas.Entity
         public List<string> techKnowledges { get; set; }
         public Task itWorkerTask { get; set; }
         public Team Team { get; set; }
-
-        public enum level
-        {
-            junior,
-            medium,
-            senior
-        }
-
-        public ITWorker(string _name, string _surname, DateTime _birthDate, int yearsWorking, List<string> knowledge, level itLvl = level.junior) : base(_name, _surname, _birthDate)
+        public ITWorkerLevel itWorkerLevel { get; set; }
+        public ITWorker(string _name, string _surname, DateTime _birthDate, int yearsWorking, List<string> knowledge, ITWorkerLevel itLvl) : base(_name, _surname, _birthDate)
         {
             this.itWorkerID = Worker.workerId;
             this.yearsExperiencie = yearsWorking;
             this.techKnowledges = knowledge;
+            itWorkerLevel = itLvl;
 
         }
 

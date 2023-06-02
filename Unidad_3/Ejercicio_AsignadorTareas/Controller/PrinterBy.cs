@@ -5,57 +5,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = Ejercicio_AsignadorTareas.Entity.Task;
 
 namespace Ejercicio_AsignadorTareas.Controller
 {
     internal class PrinterBy : IPrinter
     {
-        public string printTask(List<Entity.Task> tasks)
+        Finder finderBy = new Finder();
+        public string printTask(List<Task> tasks)
         {
+            if (tasks.Count == 0)
+            {
+                return InputClass.ErrorMsg = "Not created tasks yet";
+            }
 
-            string teamName = Console.ReadLine();
+            string teamName = InputClass.inputMessageString("Introduce the name of the team.");
 
             string toShow = null;
-
+           
             try
             {
-                foreach (var e in tasks.Where(e => e.worker.Team.teamName == teamName))
-                {
-                    toShow += $"\nTask ID: {e.taskId}. \n" +
-                        $"Task description: {e.taskDescription}. \n" +
-                        $"Task technology: {e.technology}. \n" +
-                        $"Team name: {e.worker.Team.teamName}";
-                }
+                var taskFound = tasks.FirstOrDefault(e => e.worker.Team.Equals(teamName));
+
+                toShow += $"\nTask ID: {taskFound.taskId}. \nTask description: {taskFound.taskDescription}. \nTask technology: {taskFound.technology}. \nTeam name: {taskFound.worker.Team.teamName}. \nTask Status: {taskFound.StatusOfTask}.";
+
             }
-            catch (ArgumentNullException)
+            catch (Exception)
             {
-                return toShow;
+                return InputClass.ErrorMsg = "Team not found";
             }
             return toShow;
         }
 
         public string printTeams(List<Team> teams)
         {
+            if(teams.Count == 0)
+            {
+                return InputClass.ErrorMsg = "Not created teams yet";
+            }
+            
             string toShow = null;
-
-            string teamName = Console.ReadLine();
+            string teamName = InputClass.inputMessageString("Introduce the name of the team");
 
             try
             {
-                foreach (var e in teams.Where(e => e.teamName.Equals(teamName)))
-                {
-                    toShow += $"\nTeam name: {e.teamName}. \n" +
-                        $"Team manager: {e.managerTeam.Name}. \n"; 
+                var teamKnowledge = teams.FirstOrDefault(e => e.teamName.Equals(teamName));
 
-                    foreach(var i in e.technician)
-                    {
-                        toShow += $"Technician name: {i.Name} {i.Surname}.\n";
-                    }
+                toShow += $"\nTeam name: {teamKnowledge.teamName}. \nTeam manager: {(teamKnowledge.managerTeam != null ? teamKnowledge.managerTeam.Name : "")}.\n";
+
+                foreach (var i in teamKnowledge.technician)
+                {
+                    toShow += $"Technician name: {(i != null ? i.Name : "")} {(i.Surname != null ? i.Surname : "")}.\n";
                 }
+
             }
-            catch (ArgumentNullException)
+            catch (Exception)
             {
-                return toShow;
+                return InputClass.ErrorMsg = "Team not found";
             }
             return toShow;
         }

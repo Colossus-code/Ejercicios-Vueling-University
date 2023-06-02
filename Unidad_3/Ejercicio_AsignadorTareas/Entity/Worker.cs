@@ -13,7 +13,6 @@ namespace Ejercicio_AsignadorTareas.Entity
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
         public DateTime LeavingDate { get; set; }
-
         public Worker(string name, string surname, DateTime birthDate)
         {
             Worker.workerId++;
