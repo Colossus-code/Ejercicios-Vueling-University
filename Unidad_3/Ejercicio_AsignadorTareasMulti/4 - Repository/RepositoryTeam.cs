@@ -20,7 +20,8 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                 new Team()
                 {
                     TeamName = "Equipo Prueba 1",
-                    ManagerTeamId = 1
+                    ManagerTeamId = 1,
+                    TechnicianId = {2,3}
                 },
                 new Team()
                 {

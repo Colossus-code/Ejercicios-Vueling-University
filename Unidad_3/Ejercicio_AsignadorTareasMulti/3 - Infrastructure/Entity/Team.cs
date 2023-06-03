@@ -8,7 +8,7 @@ namespace Ejercicio_AsignadorTareasMulti.Entity
     {
         public string TeamName { get; set; }
         public int ManagerTeamId { get; set; }
-        public List<ITWorker> Technician = new List<ITWorker>();
+        public List<int> TechnicianId = new List<int>();
 
     }
 }

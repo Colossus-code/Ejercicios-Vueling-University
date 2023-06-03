@@ -1,4 +1,5 @@
-﻿using Ejercicio_AsignadorTareasMulti.Entity;
+﻿using Ejercicio_AsignadorTareasMulti._2___Bussines.Data_Transformation;
+using Ejercicio_AsignadorTareasMulti.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository
         List<ITWorker> getItWorkerList();
         bool setListItWorker(ITWorker newWorker);
         ITWorker getWorkerById(int idWorker);
-        
+        bool setItWorker(ItWorkerDto newWorker);
+
+
     }
 }

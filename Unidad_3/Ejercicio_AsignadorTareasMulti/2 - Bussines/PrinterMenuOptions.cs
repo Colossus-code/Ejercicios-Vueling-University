@@ -14,7 +14,10 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
             switch (rolSelected)
             {
                 case "rolAdmin":
+                    Console.Clear();
                     return ("\n****************************************************************\n" +
+                           "                          ADMIN MODE                               \n" +
+                           "___________________________________________________________________\n" +
                            "1. Register new IT worker. \n" +
                            "2. Register new team. \n" +
                            "3. Register new task. \n" +
@@ -30,8 +33,10 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
                            "****************************************************************");
                     
                 case "rolManager":
-
-                    return("\n****************************************************************\n" +
+                    Console.Clear();
+                    return ("\n****************************************************************\n" +
+                           "                          MANAGER MODE                            \n" +
+                           "__________________________________________________________________\n" +
                            "1. List team members by team name. \n" +
                            "2. List unassigned tasks. \n" +
                            "3. List task assignments by team name. \n" +
@@ -41,9 +46,10 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
                            "****************************************************************");
 
                 case "rolTech":
-
-                    return("\n****************************************************************\n" +
-                          
+                    Console.Clear();
+                    return ("\n****************************************************************\n" +
+                          "                          TECH MODE                                \n" +
+                           "__________________________________________________________________\n" +
                           "1. List unassigned tasks. \n" +
                           "2. List task assignments by team name. \n" +                         
                           "3. Assign IT worker to a team as technician. \n" +

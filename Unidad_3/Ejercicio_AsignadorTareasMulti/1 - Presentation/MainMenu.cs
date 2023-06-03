@@ -11,12 +11,14 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
         private ILogin _login;
         private ILoginMenu _loginMenu;
         private IPrinterMenuOptions _printerMenuOptions;
+        private IMenuManage _menuManage;
 
-        public MainMenu(ILogin login, ILoginMenu loginMenu, IPrinterMenuOptions printerMenuOptions)
+        public MainMenu(ILogin login, ILoginMenu loginMenu, IPrinterMenuOptions printerMenuOptions, IMenuManage menuManage)
         {
             _login = login;
             _loginMenu = loginMenu;
             _printerMenuOptions = printerMenuOptions;
+            _menuManage = menuManage;
         }
 
         private bool _exitProgram { get; set;}
@@ -27,17 +29,19 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
 
             do
             {
+                // First print and input the login option 
                 int idSelected = _loginMenu.loginMenu();
-
+                // Comprobe that rol selected by the id of ITWorker selected
                 string rolSelected = _login.itWorkerRol(idSelected);
 
                 if (rolSelected.Equals(""))
                 {
                     continue;
                 }
-                Console.WriteLine(_printerMenuOptions.menuToPrint(rolSelected));
-
-                int menuOptionSelected = _inputValidationInt.validationIntEntry();
+                // Prints the message of bussisnes layer by the rol kind
+                int menuOptionSelected = _inputValidationInt.validationIntEntry(_printerMenuOptions.menuToPrint(rolSelected));
+                
+                _menuManage.manageMenu(rolSelected, menuOptionSelected);
                 
 
             } while (_exitProgram == false);

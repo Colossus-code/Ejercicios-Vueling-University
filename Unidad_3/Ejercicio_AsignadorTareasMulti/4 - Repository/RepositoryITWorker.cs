@@ -1,6 +1,7 @@
 ﻿
 
 using Ejercicio_AsignadorTareas.Enum;
+using Ejercicio_AsignadorTareasMulti._2___Bussines.Data_Transformation;
 using Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository;
 using Ejercicio_AsignadorTareasMulti.Entity;
 using System;
@@ -12,7 +13,8 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
     public class RepositoryITWorker : IRepositoryITWorker
     {
 
-        private List<ITWorker> _itWorkerList;   
+        private List<ITWorker> _itWorkerList;
+        private ITWorker _worker; 
 
         public RepositoryITWorker()
         {
@@ -39,13 +41,24 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                     TechKnowledges = new List<string>() { "C#", "HTML", "Agular" },
                     ItWorkerLevel = ITWorkerLevel.medium,
                     TeamName = "Equipo Prueba 1"
+                },                
+                new ITWorker()
+                {
+                    ItWorkerId = Worker.WorkerId,
+                    Name = "Manuel",
+                    Surname = "Martinez de la Rosa",
+                    BirthDate = new DateTime(21 / 01 / 1994),
+                    YearsExperiencie = 5,
+                    TechKnowledges = new List<string>() { "C#", "Phyton" },
+                    ItWorkerLevel = ITWorkerLevel.medium,
+                    TeamName = "Equipo Prueba 1"
                 },
                 new ITWorker()
                 {
                     ItWorkerId = 0,
                     Name = "Sergio",
                     Surname = "Garcia Martin",
-                    BirthDate = new System.DateTime(25 / 05 / 2000),
+                    BirthDate = new DateTime(25 / 05 / 2000),
                     YearsExperiencie = 1,
                     TechKnowledges = new List<string>() { "C#", "Java" },
                 } 
@@ -76,6 +89,26 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
         public ITWorker getWorkerById(int idWorker)
         {
             return _itWorkerList.FirstOrDefault(e => e.ItWorkerId == idWorker);
+        }
+        
+        public bool setItWorker(ItWorkerDto newWorker)
+        {
+            try
+            {
+                _worker = new ITWorker();
+                _worker.Name = newWorker.WorkerName;
+                _worker.Surname = newWorker.WorkerSurname;
+                _worker.BirthDate = newWorker.WorkerBirthDay;
+                _worker.YearsExperiencie = newWorker.WorkerYearsExperience;
+                _worker.TechKnowledges = newWorker.Knowledge;
+                _worker.ItWorkerLevel = (ITWorkerLevel)newWorker.TechLevel;
+
+                return true;
+            
+            }catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

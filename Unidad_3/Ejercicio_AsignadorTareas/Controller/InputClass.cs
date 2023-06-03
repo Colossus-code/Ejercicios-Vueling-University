@@ -18,7 +18,7 @@ namespace Ejercicio_AsignadorTareas.Controller
                 Console.WriteLine(msg);
                 inputMsg = Console.ReadLine();
 
-            } while (inputMsg == "");
+            } while (inputMsg.Trim() == "");
 
             return inputMsg;
         }

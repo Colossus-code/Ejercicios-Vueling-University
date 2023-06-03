@@ -46,13 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1 - Presentation\Contracts\IMenuManageAdmin.cs" />
+    <Compile Include="1 - Presentation\Contracts\IMenuManageTeamManager.cs" />
+    <Compile Include="1 - Presentation\Contracts\IMenuManageTech.cs" />
+    <Compile Include="1 - Presentation\Helpers\InputValidation\DataCoherency.cs" />
     <Compile Include="1 - Presentation\Helpers\InputValidation\InputValidator.cs" />
     <Compile Include="1 - Presentation\Helpers\ReflectionRegistrator.cs" />
     <Compile Include="1 - Presentation\Contracts\ILoginMenu.cs" />
     <Compile Include="1 - Presentation\LoginMenu.cs" />
     <Compile Include="1 - Presentation\MainMenu.cs" />
+    <Compile Include="1 - Presentation\MenuManagers\MenuManageAdmin.cs" />
+    <Compile Include="1 - Presentation\MenuManagers\MenuManageTeamManager.cs" />
+    <Compile Include="1 - Presentation\MenuManagers\MenuManageTech.cs" />
+    <Compile Include="2 - Bussines\Builder.cs" />
+    <Compile Include="2 - Bussines\Data Transformation\ItWorkerDto.cs" />
+    <Compile Include="2 - Bussines\IServices\IBuilder.cs" />
     <Compile Include="2 - Bussines\IServices\ILogin.cs" />
+    <Compile Include="1 - Presentation\Contracts\IMenuManage.cs" />
     <Compile Include="2 - Bussines\IServices\IPrinterMenuOptions.cs" />
+    <Compile Include="1 - Presentation\MenuManage.cs" />
     <Compile Include="2 - Bussines\PrinterMenuOptions.cs" />
     <Compile Include="2 - Bussines\Login.cs" />
     <Compile Include="3 - Infrastructure\Entity\ITWorker.cs" />

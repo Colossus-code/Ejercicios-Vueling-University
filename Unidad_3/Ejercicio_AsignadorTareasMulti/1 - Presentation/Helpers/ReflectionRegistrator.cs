@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Ejercicio_AsignadorTareasMulti._1___Presentation.Contracts;
+using Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers;
 using Ejercicio_AsignadorTareasMulti._2___Bussines;
 using Ejercicio_AsignadorTareasMulti._2___Bussines.IServices;
 using Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository;
@@ -31,6 +33,10 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers
             containerBuilder.RegisterType<Login>().As<ILogin>();
             containerBuilder.RegisterType<LoginMenu>().As<ILoginMenu>();
             containerBuilder.RegisterType<PrinterMenuOptions>().As<IPrinterMenuOptions>();
+            containerBuilder.RegisterType<MenuManage>().As<IMenuManage>();
+            containerBuilder.RegisterType<MenuManageTech>().As<IMenuManageTech>();
+            containerBuilder.RegisterType<MenuManageAdmin>().As<IMenuManageAdmin>();
+            containerBuilder.RegisterType<MenuManageTeamManager>().As<IMenuManageTeamManager>();
         }
     }
 }

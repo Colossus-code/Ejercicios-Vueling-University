@@ -19,7 +19,8 @@ namespace Ejercicio_AsignadorTareasMulti
             var mainMenu = new MainMenu(
                 container.Resolve<ILogin>(),
                 container.Resolve<ILoginMenu>(),
-                container.Resolve<IPrinterMenuOptions>());
+                container.Resolve<IPrinterMenuOptions>(),
+                container.Resolve<IMenuManage>());
 
             mainMenu.StartProgram();
         }

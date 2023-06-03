@@ -19,10 +19,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
             // If the introduced ones isn't a number the program is going to ask again
             do
             {
-
-                Console.WriteLine(loginMsg);
-
-                introducedIDLogin = _validateInt.validationIntEntry();
+                introducedIDLogin = _validateInt.validationIntEntry(loginMsg);
 
             } while (introducedIDLogin == -1);
 
