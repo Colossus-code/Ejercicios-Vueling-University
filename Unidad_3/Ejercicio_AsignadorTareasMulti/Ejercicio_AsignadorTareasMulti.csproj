@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D01ECE5F-83B6-47FC-8E12-5AA82D0085B9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ejercicio_AsignadorTareasMulti</RootNamespace>
+    <AssemblyName>Ejercicio_AsignadorTareasMulti</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="1 - Presentation\Helpers\InputValidation\InputValidator.cs" />
+    <Compile Include="1 - Presentation\Helpers\ReflectionRegistrator.cs" />
+    <Compile Include="1 - Presentation\Contracts\ILoginMenu.cs" />
+    <Compile Include="1 - Presentation\LoginMenu.cs" />
+    <Compile Include="1 - Presentation\MainMenu.cs" />
+    <Compile Include="2 - Bussines\IServices\ILogin.cs" />
+    <Compile Include="2 - Bussines\IServices\IPrinterMenuOptions.cs" />
+    <Compile Include="2 - Bussines\PrinterMenuOptions.cs" />
+    <Compile Include="2 - Bussines\Login.cs" />
+    <Compile Include="3 - Infrastructure\Entity\ITWorker.cs" />
+    <Compile Include="3 - Infrastructure\Entity\Task.cs" />
+    <Compile Include="3 - Infrastructure\Entity\Team.cs" />
+    <Compile Include="3 - Infrastructure\Entity\Worker.cs" />
+    <Compile Include="3 - Infrastructure\Enum\WorkerRol.cs" />
+    <Compile Include="3 - Infrastructure\IRepository\IRepositoryITWorker.cs" />
+    <Compile Include="3 - Infrastructure\IRepository\IRepositoryTask.cs" />
+    <Compile Include="3 - Infrastructure\IRepository\IRepositoryTeam.cs" />
+    <Compile Include="4 - Repository\RepositoryITWorker.cs" />
+    <Compile Include="4 - Repository\RepositoryTask.cs" />
+    <Compile Include="4 - Repository\RepositoryTeam.cs" />
+    <Compile Include="3 - Infrastructure\Enum\ITWorkerLevel.cs" />
+    <Compile Include="3 - Infrastructure\Enum\TaskStatus.cs" />
+    <Compile Include="1 - Presentation\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

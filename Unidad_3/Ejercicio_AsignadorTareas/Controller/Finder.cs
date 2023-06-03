@@ -72,7 +72,7 @@ namespace Ejercicio_AsignadorTareas.Controller
 
             return worker;
         }
-        public Task findTask(ITWorker worker, List<Task> taskList)
+        public Task findTask(List<Task> taskList)
         {
 
             Console.WriteLine("\n****************************************************************");

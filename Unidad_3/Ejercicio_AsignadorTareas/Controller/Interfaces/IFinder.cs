@@ -12,7 +12,7 @@ namespace Ejercicio_AsignadorTareas.Controller.Interfaces
     {
         Team findTeamByName(List<Team> teams);
         ITWorker findWorker(List<ITWorker> workers);
-        Task findTask(ITWorker worker, List<Task> taskList);
+        Task findTask(List<Task> taskList);
 
 
     }

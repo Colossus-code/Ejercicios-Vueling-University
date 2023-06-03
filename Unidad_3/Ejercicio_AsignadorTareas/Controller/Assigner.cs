@@ -3,9 +3,6 @@ using Ejercicio_AsignadorTareas.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using Task = Ejercicio_AsignadorTareas.Entity.Task;
 
 namespace Ejercicio_AsignadorTareas.Controller
@@ -261,7 +258,7 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                 var worker = finder.findWorker(workers);
 
-                var taskToAssign = finder.findTask(worker, tasks);
+                var taskToAssign = finder.findTask(tasks);
 
                 if (worker == null || taskToAssign == null)
                 {
