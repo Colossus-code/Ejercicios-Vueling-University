@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
 {
-    internal class MenuManageTech : IMenuManageTech
+    public class MenuManageTech : IMenuManageTech
     {
+        public bool manageMenuTech(int option)
+        {
+            return false;
+        }
     }
 }

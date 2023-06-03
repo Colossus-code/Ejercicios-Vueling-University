@@ -37,6 +37,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers
             containerBuilder.RegisterType<MenuManageTech>().As<IMenuManageTech>();
             containerBuilder.RegisterType<MenuManageAdmin>().As<IMenuManageAdmin>();
             containerBuilder.RegisterType<MenuManageTeamManager>().As<IMenuManageTeamManager>();
+            containerBuilder.RegisterType<Builder>().As<IBuilder>();
         }
     }
 }

@@ -10,5 +10,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
     public interface IBuilder
     {
         bool buildItWorker(ItWorkerDto worker);
+        bool buildNewTeam(TeamDto team);       
+        bool buildNewTask(TaskDto task);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Ejercicio_AsignadorTareasMulti._1___Presentation;
+using Ejercicio_AsignadorTareasMulti._1___Presentation.Contracts;
 using Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers;
 using Ejercicio_AsignadorTareasMulti._2___Bussines.IServices;
 using Ejercicio_AsignadorTareasMulti._4___Repository;

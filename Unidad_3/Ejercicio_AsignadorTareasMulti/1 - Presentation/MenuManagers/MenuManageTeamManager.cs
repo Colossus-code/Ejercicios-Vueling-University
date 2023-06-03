@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
 {
-    internal class MenuManageTeamManager : IMenuManageTeamManager
+    public class MenuManageTeamManager : IMenuManageTeamManager
     {
+        public bool manageMenuTeamManager(int option)
+        {
+            return false;
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
     {
 
         private List<ITWorker> _itWorkerList;
-        private ITWorker _worker; 
+        private ITWorker _newWorker; 
 
         public RepositoryITWorker()
         {
@@ -95,14 +95,15 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
         {
             try
             {
-                _worker = new ITWorker();
-                _worker.Name = newWorker.WorkerName;
-                _worker.Surname = newWorker.WorkerSurname;
-                _worker.BirthDate = newWorker.WorkerBirthDay;
-                _worker.YearsExperiencie = newWorker.WorkerYearsExperience;
-                _worker.TechKnowledges = newWorker.Knowledge;
-                _worker.ItWorkerLevel = (ITWorkerLevel)newWorker.TechLevel;
+                _newWorker = new ITWorker();
+                _newWorker.Name = newWorker.WorkerName;
+                _newWorker.Surname = newWorker.WorkerSurname;
+                _newWorker.BirthDate = newWorker.WorkerBirthDay;
+                _newWorker.YearsExperiencie = newWorker.WorkerYearsExperience;
+                _newWorker.TechKnowledges = newWorker.Knowledge;
+                _newWorker.ItWorkerLevel = (ITWorkerLevel)newWorker.TechLevel;
 
+                _itWorkerList.Add(_newWorker);
                 return true;
             
             }catch (Exception)

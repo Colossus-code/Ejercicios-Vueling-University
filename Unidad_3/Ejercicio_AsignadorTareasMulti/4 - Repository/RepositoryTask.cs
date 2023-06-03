@@ -1,5 +1,6 @@
 ﻿
 using Ejercicio_AsignadorTareas.Enum;
+using Ejercicio_AsignadorTareasMulti._2___Bussines.Data_Transformation;
 using Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository;
 using Ejercicio_AsignadorTareasMulti.Entity;
 using System;
@@ -10,6 +11,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
     public class RepositoryTask : IRepositoryTask
     {
         private List<Task> _taskList;
+        private Task _newTask;
         public RepositoryTask()
         {
             _taskList = new List<Task>()
@@ -45,7 +47,8 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
             return _taskList;
         }
 
-        public bool setTask(Task newTask)
+
+        public bool setTaskList(Task newTask)
         {
             try
             {
@@ -54,6 +57,25 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
 
             }
             catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool setTask(TaskDto newTask)
+        {
+
+            try
+            {
+                _newTask = new Task();
+                _newTask.TaskId = Task.TaskIdIterator;
+                _newTask.TaskDescription = newTask.TaskDescription;
+                _newTask.Technology = newTask.Technology;
+                _newTask.StatusOfTask = newTask.StatusOfTask;
+
+                _taskList.Add(_newTask);
+                return true;
+
+            }catch(Exception)
             {
                 return false;
             }

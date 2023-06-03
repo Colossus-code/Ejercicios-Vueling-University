@@ -60,6 +60,8 @@
     <Compile Include="1 - Presentation\MenuManagers\MenuManageTech.cs" />
     <Compile Include="2 - Bussines\Builder.cs" />
     <Compile Include="2 - Bussines\Data Transformation\ItWorkerDto.cs" />
+    <Compile Include="2 - Bussines\Data Transformation\TaskDto.cs" />
+    <Compile Include="2 - Bussines\Data Transformation\TeamDto.cs" />
     <Compile Include="2 - Bussines\IServices\IBuilder.cs" />
     <Compile Include="2 - Bussines\IServices\ILogin.cs" />
     <Compile Include="1 - Presentation\Contracts\IMenuManage.cs" />

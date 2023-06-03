@@ -1,5 +1,6 @@
 ﻿
 
+using Ejercicio_AsignadorTareasMulti._2___Bussines.Data_Transformation;
 using Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository;
 using Ejercicio_AsignadorTareasMulti.Entity;
 using System;
@@ -12,6 +13,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
     {
 
         private List<Team> _teamsList;
+        private Team _newTeam;
 
         public RepositoryTeam()
         {
@@ -58,6 +60,22 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
             }
 
 
+        }
+
+        public bool setTeam(TeamDto newTeam)
+        {
+            try
+            {
+                _newTeam = new Team();
+                _newTeam.TeamName = newTeam.TeamName;
+
+                _teamsList.Add(_newTeam);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

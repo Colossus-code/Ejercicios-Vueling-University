@@ -1,4 +1,5 @@
 ﻿
+using Ejercicio_AsignadorTareasMulti._1___Presentation.Contracts;
 using Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers.InputValidation;
 using Ejercicio_AsignadorTareasMulti._2___Bussines.IServices;
 using System;
@@ -12,6 +13,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
         private ILoginMenu _loginMenu;
         private IPrinterMenuOptions _printerMenuOptions;
         private IMenuManage _menuManage;
+
 
         public MainMenu(ILogin login, ILoginMenu loginMenu, IPrinterMenuOptions printerMenuOptions, IMenuManage menuManage)
         {
@@ -38,11 +40,16 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
                 {
                     continue;
                 }
-                // Prints the message of bussisnes layer by the rol kind
-                int menuOptionSelected = _inputValidationInt.validationIntEntry(_printerMenuOptions.menuToPrint(rolSelected));
+                bool exit = false;
+
+                do
+                {
+                    // Prints the message of bussisnes layer by the rol kind
+                    int menuOptionSelected = _inputValidationInt.validationIntEntry(_printerMenuOptions.menuToPrint(rolSelected));
+
+                    exit = _menuManage.manageMenu(rolSelected, menuOptionSelected);
                 
-                _menuManage.manageMenu(rolSelected, menuOptionSelected);
-                
+                }while(exit != false);
 
             } while (_exitProgram == false);
 

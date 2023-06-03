@@ -14,7 +14,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
             switch (rolSelected)
             {
                 case "rolAdmin":
-                    Console.Clear();
+                    
                     return ("\n****************************************************************\n" +
                            "                          ADMIN MODE                               \n" +
                            "___________________________________________________________________\n" +
@@ -33,7 +33,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
                            "****************************************************************");
                     
                 case "rolManager":
-                    Console.Clear();
+                    
                     return ("\n****************************************************************\n" +
                            "                          MANAGER MODE                            \n" +
                            "__________________________________________________________________\n" +
@@ -46,7 +46,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
                            "****************************************************************");
 
                 case "rolTech":
-                    Console.Clear();
+                    
                     return ("\n****************************************************************\n" +
                           "                          TECH MODE                                \n" +
                            "__________________________________________________________________\n" +

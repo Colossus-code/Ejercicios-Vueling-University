@@ -25,24 +25,25 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 
             _menuManageAdmin = menuManageAdmin;
         }
-        public void manageMenu(string rol, int option)
+        public bool manageMenu(string rol, int option)
         {
 
             switch (rol)
             {
                 case "rolAdmin":
-                    _menuManageAdmin.manageMenuAdmin(option);
-                    break;
-
+                    
+                    return _menuManageAdmin.manageMenuAdmin(option);
+                    
                 case "rolManager":
-                    manageMenuManager(option);
-                    break;
+                    return _menuManageTeamManager.manageMenuTeamManager(option);
 
                 case "rolTech":
-                    manageMenuTech(option);
-                    break;
+                    return _menuManageTech.manageMenuTech(option);
+;
 
             }
+
+            return false;
         }
         
         public void manageMenuManager(int option)

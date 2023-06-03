@@ -114,7 +114,7 @@ namespace Ejercicio_AsignadorTareas.Controller
             Console.WriteLine("Worker has been sucess created.");
             return new ITWorker(workerName, workerSurname, workerBirthday, workingYears, knowledge, techLevel);
         }
-        public List<String> registKnowledges(List<String> knowledge)
+        public List<string> registKnowledges(List<String> knowledge)
         {
             knowledge.Add(InputClass.inputMessageString("Write the tech knowledge of the employer."));
 

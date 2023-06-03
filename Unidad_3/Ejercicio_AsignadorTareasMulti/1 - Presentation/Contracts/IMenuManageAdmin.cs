@@ -8,7 +8,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Contracts
 {
     public interface IMenuManageAdmin
     {
-        void manageMenuAdmin(int option);
+        bool manageMenuAdmin(int option);
 
     }
 }

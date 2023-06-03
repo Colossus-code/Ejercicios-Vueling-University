@@ -5,6 +5,7 @@ using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskStatus = Ejercicio_AsignadorTareas.Enum.TaskStatus;
 
 namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers.InputValidation
 {
@@ -92,6 +93,33 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers.InputValidati
 
                     default:
                         Console.WriteLine("Please, select a correct answer (junior , medium, senior).");
+                        break;
+                }
+            } while (true);
+
+        }
+        public Enum validationTaskStatus(string msg)
+        {
+            do
+            {
+                var taskProgress = validationStringEntry(msg);
+
+                switch (taskProgress.ToLower().Trim())
+                {
+                    case "todo":
+
+                        return TaskStatus.todo;
+
+                    case "doing":
+
+                        return TaskStatus.doing;
+
+                    case "senior":
+
+                        return TaskStatus.done;
+
+                    default:
+                        Console.WriteLine("Please, select a correct answer (to do , doing, done).");
                         break;
                 }
             } while (true);
