@@ -13,6 +13,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
         private ILoginMenu _loginMenu;
         private IPrinterMenuOptions _printerMenuOptions;
         private IMenuManage _menuManage;
+        private bool _exitProgram { get; set;}
 
 
         public MainMenu(ILogin login, ILoginMenu loginMenu, IPrinterMenuOptions printerMenuOptions, IMenuManage menuManage)
@@ -23,7 +24,6 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
             _menuManage = menuManage;
         }
 
-        private bool _exitProgram { get; set;}
         
         //Start of the program, it will be runing while the user don't exit
         public void StartProgram()

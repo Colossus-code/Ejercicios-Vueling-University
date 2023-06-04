@@ -14,7 +14,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
         private List<Task> _taskList;
         private Task _newTask;
 
-        private static int iteratorId = 3;
+        private static int iteratorId = 4;
         public RepositoryTask()
         {
             _taskList = new List<Task>()
@@ -23,7 +23,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                 {
                     TaskId = 1,
                     TaskDescription = "Create data base on SQL Server",
-                    Assigned = false,
+                    Assigned = true,
                     Technology = "SQL",
                     StatusOfTask = TaskStatus.todo
                 },
@@ -32,16 +32,24 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                 {
                     TaskId = 2,
                     TaskDescription = "Update file into Web API",
-                    Assigned = false,
+                    Assigned = true,
                     Technology = "C#",
-                    StatusOfTask = TaskStatus.todo
+                    StatusOfTask = TaskStatus.doing
                 },
                 new Task()
                 {
                     TaskId = 3,
                     TaskDescription = "Create PDF with the inform of the month",
-                    Assigned = false,
+                    Assigned = true,
                     Technology = "Java",
+                    StatusOfTask = TaskStatus.doing
+                },
+                new Task()
+                {
+                    TaskId = 4,
+                    TaskDescription = "Create this program :D",
+                    Assigned = false,
+                    Technology = "C#",
                     StatusOfTask = TaskStatus.todo
                 }
             };

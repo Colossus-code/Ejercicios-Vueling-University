@@ -106,9 +106,12 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
                 case 9:
                     Console.Clear();
                     assingTechToTeam();
-                    break;
+                    
+                    return true;
 
                 case 10:
+                    Console.Clear();
+                    assingTaskToWorker();
                     break;
 
                 case 11:
@@ -282,6 +285,31 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
             else
             {
                 Console.WriteLine(methodResponse);
+            }
+        }
+
+        private void assingTaskToWorker()
+        {
+            Console.WriteLine(_assignerRepositoryAdmin.getItWorkersList());
+            int idSelected = _inputValidator.validationIntEntry("Select the ID of the worker.");
+
+            Console.WriteLine(_assignerRepositoryAdmin.getTaskList());
+            int taskSelected = _inputValidator.validationIntEntry("Select the ID of the Task.");
+
+            string methodResponse = "";
+
+            bool actuallyAssigned = _assignerRepositoryAdmin.workerHavesTask(idSelected, taskSelected, out methodResponse);
+
+            string answer = "";
+            _inputValidator.validationYesOrNoEntry(methodResponse, out answer);
+
+            if (answer.Equals("n"))
+            {
+                Console.WriteLine("The worker won't be updated.");
+            }
+            else
+            {
+                Console.WriteLine(_assignerRepositoryAdmin.assingTaskToItWorker(idSelected,taskSelected));
             }
         }
     }
