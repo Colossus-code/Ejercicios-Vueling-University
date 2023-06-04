@@ -8,7 +8,7 @@ namespace Ejercicio_AsignadorTareasMulti.Entity
 {
     public class ITWorker : Worker
     {
-        public int ItWorkerId = WorkerId++;
+        public int ItWorkerId {get;set;}
         public int YearsExperiencie { get; set; }
         public List<string> TechKnowledges { get; set; }
         public int ItWorkerTaskId { get; set; }

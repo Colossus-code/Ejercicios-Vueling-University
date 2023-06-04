@@ -27,9 +27,9 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers
 
         private void RegisterCustomDependencies(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<RepositoryITWorker>().As<IRepositoryITWorker>();
-            containerBuilder.RegisterType<RepositoryTask>().As<IRepositoryTask>();
-            containerBuilder.RegisterType<RepositoryTeam>().As<IRepositoryTeam>();
+            containerBuilder.RegisterType<RepositoryITWorker>().As<IRepositoryITWorker>().SingleInstance();
+            containerBuilder.RegisterType<RepositoryTask>().As<IRepositoryTask>().SingleInstance();
+            containerBuilder.RegisterType<RepositoryTeam>().As<IRepositoryTeam>().SingleInstance();
             containerBuilder.RegisterType<Login>().As<ILogin>();
             containerBuilder.RegisterType<LoginMenu>().As<ILoginMenu>();
             containerBuilder.RegisterType<PrinterMenuOptions>().As<IPrinterMenuOptions>();
@@ -38,6 +38,8 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers
             containerBuilder.RegisterType<MenuManageAdmin>().As<IMenuManageAdmin>();
             containerBuilder.RegisterType<MenuManageTeamManager>().As<IMenuManageTeamManager>();
             containerBuilder.RegisterType<Builder>().As<IBuilder>();
+            containerBuilder.RegisterType<PrinterRepositoryAdmin>().As<IPrinterRepositoryAdmin>();
+            containerBuilder.RegisterType<AssignerRepositoryAdmin>().As<IAssignerRepositoryAdmin>();
         }
     }
 }

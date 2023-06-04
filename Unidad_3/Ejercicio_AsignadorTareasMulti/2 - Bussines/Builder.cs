@@ -11,31 +11,31 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 {
     public class Builder : IBuilder
     {
-        private IRepositoryITWorker _worker;
-        private IRepositoryTeam _team;
-        private IRepositoryTask _task; 
+        private IRepositoryITWorker _repositoryWorkers;
+        private IRepositoryTeam _repositoryTeams;
+        private IRepositoryTask _repositoryTasks; 
 
         public Builder(IRepositoryITWorker repoWorker, IRepositoryTeam team, IRepositoryTask task) 
         {
-            _worker = repoWorker;
-            _team = team;
-            _task = task;
+            _repositoryWorkers = repoWorker;
+            _repositoryTeams = team;
+            _repositoryTasks = task;
         }
 
         public bool buildItWorker(ItWorkerDto worker)
         {
-            return _worker.setItWorker(worker);
+            return _repositoryWorkers.setItWorker(worker);
 
         }
 
         public bool buildNewTeam(TeamDto team)
         {
-            return _team.setTeam(team);
+            return _repositoryTeams.setTeam(team);
         }
 
         public bool buildNewTask(TaskDto task)
         {
-            return _task.setTask(task);
+            return _repositoryTasks.setTask(task);
         }
     }
 }

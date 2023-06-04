@@ -38,7 +38,15 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
 
         public Team findTeamByTeamName(string teamName)
         {
-            return _teamsList.FirstOrDefault(e => e.TeamName == teamName);
+            try
+            {
+                return _teamsList.FirstOrDefault(e => e.TeamName == teamName);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
         public List<Team> getTeamsList()

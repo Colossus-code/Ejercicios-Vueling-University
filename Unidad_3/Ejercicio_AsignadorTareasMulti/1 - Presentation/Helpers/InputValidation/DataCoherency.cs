@@ -25,6 +25,11 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers.InputValidati
 
         public bool yearsWorkingCoherency(DateTime dateTime, int workingYears)
         {
+            if (workingYears < 0) {
+
+                Console.WriteLine("Wrong data from working years, introduce again");
+                return false; 
+            }
             var today = DateTime.Now.Date;
 
             var todayIntValue = (today - dateTime).Days / 365;

@@ -14,7 +14,9 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
     {
 
         private List<ITWorker> _itWorkerList;
-        private ITWorker _newWorker; 
+        private ITWorker _newWorker;
+
+        private static int iteratorId = 3;
 
         public RepositoryITWorker()
         {
@@ -22,36 +24,39 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
             {
                 new ITWorker()
                 {
-                    ItWorkerId = Worker.WorkerId,
+                    ItWorkerId = 1,
                     Name = "Carlos",
                     Surname = "Perez Gonzalez",
                     BirthDate = new DateTime(11 / 03 / 1993),
                     YearsExperiencie = 7,
-                    TechKnowledges = new List<string>() { "Java", "C#", "C++" },
+                    TechKnowledges = new List<string>() { "Java", "C#", "C++", "SQL"},
                     ItWorkerLevel = ITWorkerLevel.senior,
-                    TeamName = "Equipo Prueba 1"
+                    TeamName = "Equipo Prueba 1",
+                    ItWorkerTaskId = 1
                 },
                 new ITWorker()
                 {
-                    ItWorkerId = Worker.WorkerId,
+                    ItWorkerId = 2,
                     Name = "Jacinta",
                     Surname = "Rosales Sanchez",
                     BirthDate = new DateTime(04 / 05 / 1997),
                     YearsExperiencie = 3,
                     TechKnowledges = new List<string>() { "C#", "HTML", "Agular" },
                     ItWorkerLevel = ITWorkerLevel.medium,
-                    TeamName = "Equipo Prueba 1"
+                    TeamName = "Equipo Prueba 1",
+                    ItWorkerTaskId = 3
                 },                
                 new ITWorker()
                 {
-                    ItWorkerId = Worker.WorkerId,
+                    ItWorkerId = 3,
                     Name = "Manuel",
                     Surname = "Martinez de la Rosa",
                     BirthDate = new DateTime(21 / 01 / 1994),
                     YearsExperiencie = 5,
-                    TechKnowledges = new List<string>() { "C#", "Phyton" },
-                    ItWorkerLevel = ITWorkerLevel.medium,
-                    TeamName = "Equipo Prueba 1"
+                    TechKnowledges = new List<string>() { "C#", "Phyton", "SQL"},
+                    ItWorkerLevel = ITWorkerLevel.senior,
+                    TeamName = "Equipo Prueba 1",
+                    ItWorkerTaskId = 2
                 },
                 new ITWorker()
                 {
@@ -88,14 +93,22 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
 
         public ITWorker getWorkerById(int idWorker)
         {
-            return _itWorkerList.FirstOrDefault(e => e.ItWorkerId == idWorker);
+            try
+            {
+                return _itWorkerList.FirstOrDefault(e => e.ItWorkerId == idWorker);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         
         public bool setItWorker(ItWorkerDto newWorker)
         {
             try
-            {
+            {               
                 _newWorker = new ITWorker();
+                _newWorker.ItWorkerId = ++iteratorId;
                 _newWorker.Name = newWorker.WorkerName;
                 _newWorker.Surname = newWorker.WorkerSurname;
                 _newWorker.BirthDate = newWorker.WorkerBirthDay;
@@ -103,13 +116,22 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                 _newWorker.TechKnowledges = newWorker.Knowledge;
                 _newWorker.ItWorkerLevel = (ITWorkerLevel)newWorker.TechLevel;
 
-                _itWorkerList.Add(_newWorker);
+                setListItWorker(_newWorker);
                 return true;
             
             }catch (Exception)
             {
                 return false;
             }
+        }
+
+        public List<ITWorker> getWorkersByTeamName(string teamName)
+        {
+            try
+            {
+                return _itWorkerList.Where(e => e.TeamName.Equals(teamName)).ToList();
+            
+            }catch(Exception) { return null; }
         }
     }
 }

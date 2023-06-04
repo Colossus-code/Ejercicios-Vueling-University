@@ -21,10 +21,15 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
         private TaskDto _taskDto;
 
         private IBuilder _builder;
+        private IPrinterRepositoryAdmin _printerRepositoryAdmin;
+        private IAssignerRepositoryAdmin _assignerRepositoryAdmin;
 
-        public MenuManageAdmin(IBuilder builder)
+        public MenuManageAdmin(IBuilder builder, IPrinterRepositoryAdmin printerRepositoryAdmin, IAssignerRepositoryAdmin assignerRepositoryAdmin)
         {
             _builder = builder;
+            _printerRepositoryAdmin = printerRepositoryAdmin;
+            _assignerRepositoryAdmin = assignerRepositoryAdmin;
+
         }
         public bool manageMenuAdmin(int option)
         {
@@ -73,19 +78,30 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
                     return true;
 
                 case 4:
-                    break;
+                    Console.Clear();
+                    Console.WriteLine(_printerRepositoryAdmin.printerRepositoryTeamNames());
+                    return true;
 
                 case 5:
-                    break;
+                    Console.Clear();
+                    Console.WriteLine(_printerRepositoryAdmin.printerRepositoryITWorkersByTeamNames(_inputValidator.validationStringEntry("Introduce the name of the team.")));
+                    return true;
 
                 case 6:
-                    break;
+                    Console.Clear();
+                    Console.WriteLine(_printerRepositoryAdmin.printerRepositoryUnassignedTask());
+                    return true;
 
                 case 7:
-                    break;
+                    Console.Clear();
+                    Console.WriteLine(_printerRepositoryAdmin.printerRepositoryTaskByTeamName(_inputValidator.validationStringEntry("Introduce the name of the team.")));
+                    return true;
 
                 case 8:
-                    break;
+                    Console.Clear();
+                    assingManagerToTeam();
+
+                    return true;
 
                 case 9:
                     break;
@@ -193,6 +209,47 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
             {
                 Console.WriteLine("The task status will be created by to do defaults value.");
                 return new TaskDto(taskDesc, taskTech, TaskStatus.todo);
+            }
+
+        }
+
+        private bool assingManagerToTeam()
+        {
+            Console.WriteLine(_assignerRepositoryAdmin.getItWorkersList());
+            int idSelected = _inputValidator.validationIntEntry("Select the ID of the worker.");
+
+            Console.WriteLine(_assignerRepositoryAdmin.getTeamsList());
+            string teamSelected = _inputValidator.validationStringEntry("Select the name of the team.");
+
+            string methodResponse = "";
+            bool actuallyOnTeam = _assignerRepositoryAdmin.workerHavesTeam(idSelected, teamSelected, out methodResponse);
+
+            if (actuallyOnTeam && methodResponse != "")
+            {
+                string answer = "";
+
+                _inputValidator.validationYesOrNoEntry(methodResponse, out answer);
+
+                if (answer.Equals("n"))
+                {
+                    Console.WriteLine("The worker won't be updated.");
+                    return false;
+                }
+
+                Console.WriteLine(_assignerRepositoryAdmin.assingItWorkerToManager(idSelected, teamSelected));
+                return true;
+
+            }
+            else if (actuallyOnTeam && methodResponse == "")
+            {
+                Console.WriteLine(methodResponse);
+                return true;
+
+            }
+            else
+            {
+                _assignerRepositoryAdmin.assingItWorkerToManager(idSelected, teamSelected);
+                return true;
             }
 
         }

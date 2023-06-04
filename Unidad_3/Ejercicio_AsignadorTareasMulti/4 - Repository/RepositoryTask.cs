@@ -5,6 +5,7 @@ using Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository;
 using Ejercicio_AsignadorTareasMulti.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ejercicio_AsignadorTareasMulti._4___Repository
 {
@@ -12,13 +13,15 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
     {
         private List<Task> _taskList;
         private Task _newTask;
+
+        private static int iteratorId = 3;
         public RepositoryTask()
         {
             _taskList = new List<Task>()
             {
                 new Task()
                 {
-
+                    TaskId = 1,
                     TaskDescription = "Create data base on SQL Server",
                     Assigned = false,
                     Technology = "SQL",
@@ -27,6 +30,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
 
                 new Task()
                 {
+                    TaskId = 2,
                     TaskDescription = "Update file into Web API",
                     Assigned = false,
                     Technology = "C#",
@@ -34,6 +38,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                 },
                 new Task()
                 {
+                    TaskId = 3,
                     TaskDescription = "Create PDF with the inform of the month",
                     Assigned = false,
                     Technology = "Java",
@@ -41,13 +46,10 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                 }
             };
         }
-
         public List<Task> getTasks()
         {
             return _taskList;
         }
-
-
         public bool setTaskList(Task newTask)
         {
             try
@@ -67,7 +69,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
             try
             {
                 _newTask = new Task();
-                _newTask.TaskId = Task.TaskIdIterator;
+                _newTask.TaskId = ++iteratorId;
                 _newTask.TaskDescription = newTask.TaskDescription;
                 _newTask.Technology = newTask.Technology;
                 _newTask.StatusOfTask = newTask.StatusOfTask;
@@ -78,6 +80,17 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
             }catch(Exception)
             {
                 return false;
+            }
+        }
+        public Task getTaskById(int taskId)
+        {
+            try
+            {
+                return _taskList.FirstOrDefault(e => e.TaskId == taskId);
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

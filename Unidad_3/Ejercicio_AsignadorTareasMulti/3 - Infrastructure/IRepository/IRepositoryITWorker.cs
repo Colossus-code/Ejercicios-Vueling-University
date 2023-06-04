@@ -14,6 +14,7 @@ namespace Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository
         bool setListItWorker(ITWorker newWorker);
         ITWorker getWorkerById(int idWorker);
         bool setItWorker(ItWorkerDto newWorker);
+        List<ITWorker> getWorkersByTeamName(string teamName);
 
 
     }

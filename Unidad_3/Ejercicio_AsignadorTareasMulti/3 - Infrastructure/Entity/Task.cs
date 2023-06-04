@@ -6,8 +6,9 @@ namespace Ejercicio_AsignadorTareasMulti.Entity
 {
     public class Task
     {
-        public static int TaskIdIterator;
-        public int TaskId = TaskIdIterator++;
+
+
+        public int TaskId { get; set; } 
         public string TaskDescription { get; set; }
         public string Technology { get; set; }
         public bool Assigned { get; set; }

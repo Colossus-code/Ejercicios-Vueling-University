@@ -14,5 +14,7 @@ namespace Ejercicio_AsignadorTareasMulti._3___Infrastructure.IRepository
         bool setTaskList(Task newTask);
 
         bool setTask(TaskDto newTask);
+
+        Task getTaskById(int taskId);
     }
 }

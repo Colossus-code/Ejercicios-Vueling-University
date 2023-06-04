@@ -39,7 +39,7 @@ namespace Ejercicio_MultiCuenta
                     accountPin = Convert.ToInt32(Console.ReadLine());
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                     Console.WriteLine("The pincode must to be numeric!"); // No seria necesario controlarla realmente, ya que indicaría data incorrecta.

@@ -29,7 +29,7 @@ namespace Ejercicio_MultiCuentaOOP.EntityController
                 return Convert.ToInt32(Console.ReadLine());
 
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 Console.WriteLine("Select a valid option, please");
 

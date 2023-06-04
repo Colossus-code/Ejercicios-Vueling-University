@@ -33,7 +33,7 @@ namespace Ejercicio_AsignadorTareas.Controller
 
                 var team = finder.findTeamByName(teams);
 
-                var worker = finder.findWorker(workers); // TODO sgarciam 3005 checkear que el ITWorker no tenga equipo actual 
+                var worker = finder.findWorker(workers); 
 
                 if (worker == null || team == null)
                 {
@@ -345,7 +345,7 @@ namespace Ejercicio_AsignadorTareas.Controller
             return true;
 
         }
-        // TODO sgarciam 0106 EXTRAER EN CLASE APARTE CON INTERFAZ
+        
 
 
     }

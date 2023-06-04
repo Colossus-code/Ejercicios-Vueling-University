@@ -160,7 +160,7 @@ namespace Ejercicio_AsignadorTareas.Controller
                     }
                     else
                     {
-                        Console.WriteLine(InputClass.ErrorMsg); // TODO sgarciam 3005 refactorizar
+                        Console.WriteLine(InputClass.ErrorMsg);
                     }
                     return false;
                 case 10:
