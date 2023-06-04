@@ -27,11 +27,13 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                 },
                 new Team()
                 {
-                    TeamName = "Equipo Prueba 2"
+                    TeamName = "Equipo Prueba 2",
+                    ManagerTeamId = -1,
                 },
                 new Team()
                 {
-                    TeamName = "Equipo Prueba 3"
+                    TeamName = "Equipo Prueba 3",
+                    ManagerTeamId = -1,
                 }
             };
         }

@@ -104,6 +104,8 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
                     return true;
 
                 case 9:
+                    Console.Clear();
+                    assingTechToTeam();
                     break;
 
                 case 10:
@@ -213,9 +215,9 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
 
         }
 
-        private bool assingManagerToTeam()
+        private void assingManagerToTeam()
         {
-            Console.WriteLine(_assignerRepositoryAdmin.getItWorkersList());
+            Console.WriteLine(_assignerRepositoryAdmin.getItWorkersSeniorList());
             int idSelected = _inputValidator.validationIntEntry("Select the ID of the worker.");
 
             Console.WriteLine(_assignerRepositoryAdmin.getTeamsList());
@@ -233,25 +235,54 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
                 if (answer.Equals("n"))
                 {
                     Console.WriteLine("The worker won't be updated.");
-                    return false;
                 }
-
-                Console.WriteLine(_assignerRepositoryAdmin.assingItWorkerToManager(idSelected, teamSelected));
-                return true;
-
+                else
+                {
+                    Console.WriteLine(_assignerRepositoryAdmin.assingItWorkerToManager(idSelected, teamSelected));
+                }
             }
             else if (actuallyOnTeam && methodResponse == "")
             {
                 Console.WriteLine(methodResponse);
-                return true;
-
             }
             else
             {
-                _assignerRepositoryAdmin.assingItWorkerToManager(idSelected, teamSelected);
-                return true;
+                Console.WriteLine(_assignerRepositoryAdmin.assingItWorkerToManager(idSelected, teamSelected));
+
             }
 
+        }
+
+        private void assingTechToTeam()
+        {
+            Console.WriteLine(_assignerRepositoryAdmin.getItWorkersList());
+            int idSelected = _inputValidator.validationIntEntry("Select the ID of the worker.");
+
+            Console.WriteLine(_assignerRepositoryAdmin.getTeamsList());
+            string teamSelected = _inputValidator.validationStringEntry("Select the name of the team.");
+
+            string methodResponse = "";
+            bool actuallyOnTeam = _assignerRepositoryAdmin.workerHavesTeam(idSelected, teamSelected, out methodResponse, false);
+
+            if (actuallyOnTeam && methodResponse != "")
+            {
+                string answer = "";
+
+                _inputValidator.validationYesOrNoEntry(methodResponse, out answer);
+
+                if (answer.Equals("n"))
+                {
+                    Console.WriteLine("The worker won't be updated.");
+                }
+                else
+                {
+                    Console.WriteLine(_assignerRepositoryAdmin.assingItWorkerToTeach(idSelected, teamSelected));
+                }
+            }
+            else
+            {
+                Console.WriteLine(methodResponse);
+            }
         }
     }
 }
