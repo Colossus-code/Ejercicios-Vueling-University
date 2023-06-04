@@ -13,15 +13,14 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
         string assingItWorkerToManager(int idWorker, string teamName);
         string assingItWorkerToTeach(int idWorker, string teamName);
         string assingTaskToItWorker(int idWorker, int taskID);
+        string unassingItWorker(int idSelected);
         string getItWorkersSeniorList();
         string getItWorkersList();
         string getTeamsList();
         string getTaskList();   
         bool workerHavesTeam(int idWorker, string teamName, out string methodResponse, bool toManager = true);
         bool workerHavesTask(int idWorker, int taskID, out string methodResponse);
-        bool switchTeamToManager(int workerID, string teamName);
-        bool switchTeamTech(int workerId, string teamName);
-        bool switchTaskTech(int workerId, int taskID);
+        bool workerHavesSomething(int idSelected, out string methodResponse);
 
     }
 }

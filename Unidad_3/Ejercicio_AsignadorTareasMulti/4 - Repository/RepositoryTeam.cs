@@ -78,7 +78,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
             {
                 _newTeam = new Team();
                 _newTeam.TeamName = newTeam.TeamName;
-
+                _newTeam.ManagerTeamId = -1;
                 _teamsList.Add(_newTeam);
                 return true;
             }

@@ -56,7 +56,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
         }
         public List<Task> getTasks()
         {
-            return _taskList;
+            return _taskList.Where(e => e.TaskId > 0).ToList();
         }
         public bool setTaskList(Task newTask)
         {

@@ -60,6 +60,17 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 return "Error assigning the task";
             }
         }
+        public string unassingItWorker(int idSelected)
+        {
+            if (deleteWorker(idSelected))
+            {
+                return "Worker has been deleted";
+            }
+            else
+            {
+                return "Error deleting this worker";
+            }
+        }
         public bool workerHavesTeam(int idWorker, string teamName, out string methodResponse, bool toManager)
         {
             ITWorker worker = _repositoryWorkers.getWorkerById(idWorker);
@@ -128,7 +139,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             methodResponse = ""; // ESTO QUIERE DECIR QUE NO ESTA ASIGNADO A NINGUN EQUIPO 
             return false;
         }
-        public bool switchTeamToManager(int workerId, string teamName)
+        private bool switchTeamToManager(int workerId, string teamName)
         {
             try
             {
@@ -204,7 +215,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             }
 
         }
-        public bool switchTeamTech(int workerId, string teamName)
+        private bool switchTeamTech(int workerId, string teamName)
         {
             try
             {
@@ -218,13 +229,16 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 }
                 else
                 {
-                    if (teamOfWorker.ManagerTeamId == workerId)
+                    if(worker.TeamName != null)
                     {
-                        teamOfWorker.ManagerTeamId = -1;
+                        if (teamOfWorker.ManagerTeamId == workerId)
+                        {
+                            teamOfWorker.ManagerTeamId = -1;
+                        }
+
+                        teamOfWorker.TechnicianId.Remove(workerId);
                     }
-
-                    teamOfWorker.TechnicianId.Remove(workerId);
-
+                    
                     worker.TeamName = goingTeam.TeamName;
 
                     goingTeam.TechnicianId.Add(workerId);
@@ -237,7 +251,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 return false;
             }
         }
-        public bool switchTaskTech(int workerId, int taskID)
+        private bool switchTaskTech(int workerId, int taskID)
         {
             try
             {
@@ -271,6 +285,77 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             {
                 return false;
 
+            }
+        }
+        private bool deleteWorker(int idSelected)
+        {
+            try
+            {
+                ITWorker worker = _repositoryWorkers.getWorkerById(idSelected);
+               
+                if (worker.ItWorkerTaskId > 0)
+                {
+                    Task taskToUnassing = _repositoryTasks.getTaskById(worker.ItWorkerTaskId);
+
+                    taskToUnassing.StatusOfTask = TaskStatus.todo;
+                    taskToUnassing.Assigned = false;
+                    taskToUnassing.WorkerId = -98;
+
+                    worker.ItWorkerTaskId = -99;
+                }
+                if (worker.TeamName != "")
+                {
+                    Team teamToUnassing = _repositoryTeams.getTeamsList().FirstOrDefault(e => e.TechnicianId.Contains(worker.ItWorkerId));
+                    teamToUnassing.TechnicianId.Remove(worker.ItWorkerId);
+
+                    worker.TeamName = null;
+                }
+
+                worker.ItWorkerId = -100;
+
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+
+            }
+        }
+        public bool workerHavesSomething(int idSelected, out string methodResponse)
+        {
+            try
+            {
+                ITWorker worker = _repositoryWorkers.getWorkerById(idSelected);
+                
+                if (worker.ItWorkerTaskId > 0)
+                {
+                    methodResponse = "The worker actually haves a task, are you sure about to delete him? (y/n)";
+                    return true;
+                }
+                if (worker.TeamName != "")
+                {
+                    methodResponse = "The worker actually haves a team, are you sure about to delete him? (y/n)";
+                    return true;
+                }
+
+                if(worker.TeamName != "" && worker.ItWorkerTaskId > 0)
+                {
+                    methodResponse = "The worker haves a team and task to doing, are you sure to delete him? (y/n)";
+                    return true;
+                }
+                else
+                {
+
+                    methodResponse = "Are you sure about to delete this worker? (y/n)";
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                methodResponse = "";
+                return false;
+                
             }
         }
         public string getItWorkersSeniorList()

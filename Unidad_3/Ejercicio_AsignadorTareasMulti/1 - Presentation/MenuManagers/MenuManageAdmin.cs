@@ -115,6 +115,8 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
                     break;
 
                 case 11:
+                    Console.Clear();
+                    unassingItWorker();
                     break;
 
                 case 12:
@@ -284,7 +286,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
             }
             else
             {
-                Console.WriteLine(methodResponse);
+                Console.WriteLine(_assignerRepositoryAdmin.assingItWorkerToTeach(idSelected, teamSelected));
             }
         }
 
@@ -310,6 +312,29 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
             else
             {
                 Console.WriteLine(_assignerRepositoryAdmin.assingTaskToItWorker(idSelected,taskSelected));
+            }
+        }
+
+        private void unassingItWorker()
+        {
+            Console.WriteLine(_assignerRepositoryAdmin.getItWorkersList());
+            int idSelected = _inputValidator.validationIntEntry("Select the ID of the worker.");
+
+            string methodResponse = "";
+
+            bool actuallyAssigned = _assignerRepositoryAdmin.workerHavesSomething(idSelected, out methodResponse);
+
+            string answer = "";
+
+            _inputValidator.validationYesOrNoEntry(methodResponse, out answer);
+
+            if (answer.Equals("n"))
+            {
+                Console.WriteLine("The worker won't be deleted.");
+            }
+            else
+            {
+                Console.WriteLine(_assignerRepositoryAdmin.unassingItWorker(idSelected));
             }
         }
     }

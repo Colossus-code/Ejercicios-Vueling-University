@@ -72,7 +72,7 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
             
         public List<ITWorker> getItWorkerList() 
         {
-            return _itWorkerList;
+            return _itWorkerList.Where(e => e.ItWorkerId > 0).ToList();
         }
         
         public bool setListItWorker(ITWorker newWorker)
