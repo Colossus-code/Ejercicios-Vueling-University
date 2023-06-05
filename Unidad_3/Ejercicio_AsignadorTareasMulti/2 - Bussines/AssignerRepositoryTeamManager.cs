@@ -24,9 +24,40 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             _repositoryTasks = task;
         }
 
-        public string assingItWorkerToTeach(int idWorker, string teamName, int idManager)
+        public string assingItWorkerToTeach(int idWorker, int idManager)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                ITWorker worker = _repositoryWorkers.getWorkerById(idWorker);
+
+                Team workerTeam = _repositoryTeams.getTeamsList().Where(e => e.ManagerTeamId == idManager).FirstOrDefault();
+
+                if(worker.TeamName != null && worker.TeamName != _repositoryTeams.getTeamsList().FirstOrDefault(e => e.ManagerTeamId == idManager).TeamName) // Se introduce un it worker con un id que no se printea. 
+                {
+                    return "";
+
+                }
+                else if( worker.TeamName != null)
+                {
+
+                    return "The worker is already on this team";
+
+                }
+                else
+                {
+                    workerTeam.TechnicianId.Add(idWorker);
+                    worker.TeamName = worker.TeamName;
+
+                    return "Worker has been agregated to this team";
+                }
+
+
+            }catch (Exception )
+            {
+                return "Error assigning new IT Worker to the team";
+            }
+            
         }
 
         public string assingTaskToItWorker(int idWorker, int taskID, int idManager)
@@ -77,6 +108,29 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             return workersToString;
         }
 
+        public string getITWorkersListWithoutTeam()
+        {
+            List<ITWorker> workers = _repositoryWorkers.getItWorkerList().Where(e => e.TeamName == null).ToList();
+
+            string workersToString = "";
+
+            workersToString += "\n***************************************************************************\n";
+            
+            if(workers.Count == 0) 
+            {
+                return "Not unassigned workers for now";
+            
+            }
+            
+            foreach (ITWorker worker in workers)
+            {
+                workersToString += "____________________________________________________________________________\n";
+                workersToString += $" Worker ID: {worker.ItWorkerId}\n Worker name: {worker.Name} {worker.Surname}\n";
+            }
+            workersToString += "\n***************************************************************************\n";
+            return workersToString;
+        }
+
         public string getTaskId()
         {
             List<Task> tasks = _repositoryTasks.getTasks().Where(e => e.Assigned == false).ToList();
@@ -84,6 +138,12 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             string tasksToString = "";
 
             tasksToString += "\n***************************************************************************\n";
+
+            if (tasks.Count == 0)
+            {
+                return "Not unassigned task for now";
+
+            }
             foreach (Task task in tasks)
             {
                 tasksToString += "____________________________________________________________________________\n";
@@ -91,6 +151,30 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             }
             tasksToString += "\n***************************************************************************\n";
             return tasksToString;
+        }
+
+        public bool workerHavesTask(int idWorker, out string methodResponse)
+        {
+            try
+            {
+                ITWorker worker = _repositoryWorkers.getWorkerById(idWorker);
+            
+                if(worker.ItWorkerTaskId != 0)
+                {
+
+                    methodResponse = "Worker actually haves a task, you want to unassing? (y/n)";
+                    return true;
+                }
+
+                methodResponse = ""; // El worker no tiene task, no hay que pedir verificacion.
+                return true; 
+            }
+            catch (Exception)
+            {
+                methodResponse = "Worker has not found."; // El worker no tiene task, no hay que pedir verificacion.
+                return false;
+            
+            }
         }
     }
 }

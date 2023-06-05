@@ -8,9 +8,11 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
 {
     public interface IAssignerRepositoryTeamManager
     {
-        string assingItWorkerToTeach(int idWorker, string teamName, int idManager);
+        string assingItWorkerToTeach(int idWorker, int idManager);
         string assingTaskToItWorker(int idWorker, int taskID, int idManager);
         string getItWorkersList(int idManager);
+        string getITWorkersListWithoutTeam();
         string getTaskId();
+        bool workerHavesTask(int idWorker, out string methodResponse);
     }
 }

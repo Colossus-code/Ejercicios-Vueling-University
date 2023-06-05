@@ -18,6 +18,10 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
 
         private IPrinterRepositoryTeamManager _printerRepositoryTeamManager;
         private IAssignerRepositoryTeamManager _assignerRepositoryTeamManager;
+
+        private const string ERROR_WORKER = "Not unassigned workers for now";
+        private const string ERROR_TASK = "Not unassigned task for now";
+
         public MenuManageTeamManager(IPrinterRepositoryTeamManager printerRepo, IAssignerRepositoryTeamManager assignerRepo)
         {
             _printerRepositoryTeamManager = printerRepo;
@@ -43,13 +47,10 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
                     return true;             
 
                 case 4:
-                    Console.Clear();
-                    /*_assignerRepositoryTeamManager.assingItWorkerToTeach(idManager)*/;
-
+                    assingItWorkerToTeam(idManager);
                     return true;
 
-                case 5:
-                    Console.Clear();
+                case 5:;
                     assingTaskToWorker(idManager);
                     break;
 
@@ -68,13 +69,53 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
 
         private void assingTaskToWorker(int idManager)
         {
-            Console.WriteLine(_assignerRepositoryTeamManager.getItWorkersList(idManager));
-            int workerId = _inputValidator.validationIntEntry("Introduce the worker ID.");            
-            
-            Console.WriteLine(_assignerRepositoryTeamManager.getTaskId());
-            int taskID = _inputValidator.validationIntEntry("Introduce the task ID.");
+            if(!_assignerRepositoryTeamManager.getItWorkersList(idManager).Equals(ERROR_WORKER) && !_assignerRepositoryTeamManager.getTaskId().Equals(ERROR_TASK))
+            {
+                Console.WriteLine(_assignerRepositoryTeamManager.getItWorkersList(idManager));
+                int workerId = _inputValidator.validationIntEntry("Introduce the worker ID.");
 
-            Console.WriteLine(_assignerRepositoryTeamManager.assingTaskToItWorker(workerId, taskID, idManager));
+                Console.WriteLine(_assignerRepositoryTeamManager.getTaskId());
+                int taskID = _inputValidator.validationIntEntry("Introduce the task ID.");
+
+                string methodResponse;
+
+                if (_assignerRepositoryTeamManager.workerHavesTask(workerId, out methodResponse))
+                {
+                    string answer;
+
+                    _inputValidator.validationYesOrNoEntry(methodResponse, out answer);
+
+                    if (answer.Equals("y"))
+                    {
+                        Console.WriteLine(_assignerRepositoryTeamManager.assingTaskToItWorker(workerId, taskID, idManager));
+                    }
+                    else
+                    {
+                        Console.WriteLine("The task won't be assinged to the worker");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine(ERROR_TASK);
+            }
+
+        }
+
+        private void assingItWorkerToTeam(int idManager)
+        {
+            if (!_assignerRepositoryTeamManager.getITWorkersListWithoutTeam().Equals(ERROR_WORKER))
+            {
+                _assignerRepositoryTeamManager.getITWorkersListWithoutTeam();
+
+                int workerId = _inputValidator.validationIntEntry("Introduce the worker ID.");
+
+                _assignerRepositoryTeamManager.assingItWorkerToTeach(workerId, idManager);
+            }
+            else
+            {
+                Console.WriteLine(ERROR_WORKER);
+            }
 
         }
     }
