@@ -38,7 +38,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                     return _menuManageTeamManager.manageMenuTeamManager(option, idSelected);
 
                 case "rolTech":
-                    return _menuManageTech.manageMenuTech(option);
+                    return _menuManageTech.manageMenuTech(option, idSelected);
 ;
 
             }

@@ -38,10 +38,12 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers
             containerBuilder.RegisterType<MenuManageAdmin>().As<IMenuManageAdmin>();
             containerBuilder.RegisterType<MenuManageTeamManager>().As<IMenuManageTeamManager>();
             containerBuilder.RegisterType<Builder>().As<IBuilder>();
-            containerBuilder.RegisterType<PrinterRepositoryAdmin>().As<IPrinterRepositoryAdmin>();
-            containerBuilder.RegisterType<AssignerRepositoryAdmin>().As<IAssignerRepositoryAdmin>();
-            containerBuilder.RegisterType<AssignerRepositoryTeamManager>().As<IAssignerRepositoryTeamManager>();
-            containerBuilder.RegisterType<PrinterRepositoryTeamManager>().As<IPrinterRepositoryTeamManager>();
+            containerBuilder.RegisterType<PrinterServiceAdmin>().As<IPrinterServiceAdmin>();
+            containerBuilder.RegisterType<AssignerServiceAdmin>().As<IAssignerServiceAdmin>();
+            containerBuilder.RegisterType<AssignerServiceTeamManager>().As<IAssignerServiceTeamManager>();
+            containerBuilder.RegisterType<PrinterServiceTeamManager>().As<IPrinterServiceTeamManager>();
+            containerBuilder.RegisterType<PrinterServiceTech>().As<IPrinterServiceTech>();
+            containerBuilder.RegisterType<AssignerServiceTech>().As<IAssignerServiceTech>();
 
         }
     }

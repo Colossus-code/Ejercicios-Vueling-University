@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
 {
-    public interface IAssignerRepositoryTeamManager
+    public interface IAssignerServiceTeamManager
     {
         string assingItWorkerToTeach(int idWorker, int idManager);
         string assingTaskToItWorker(int idWorker, int taskID, int idManager);

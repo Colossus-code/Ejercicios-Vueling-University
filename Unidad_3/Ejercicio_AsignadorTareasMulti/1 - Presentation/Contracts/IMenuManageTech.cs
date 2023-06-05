@@ -8,6 +8,6 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Contracts
 {
     public interface IMenuManageTech
     {
-        bool manageMenuTech(int option);
+        bool manageMenuTech(int option, int idTech);
     }
 }

@@ -10,14 +10,14 @@ using Task = Ejercicio_AsignadorTareasMulti.Entity.Task;
 
 namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 {
-    public class AssignerRepositoryTeamManager : IAssignerRepositoryTeamManager
+    public class AssignerServiceTeamManager : IAssignerServiceTeamManager
     {
         private IRepositoryITWorker _repositoryWorkers;
         private IRepositoryTeam _repositoryTeams;
         private IRepositoryTask _repositoryTasks;
 
 
-        public AssignerRepositoryTeamManager(IRepositoryITWorker repoWorker, IRepositoryTeam team, IRepositoryTask task)
+        public AssignerServiceTeamManager(IRepositoryITWorker repoWorker, IRepositoryTeam team, IRepositoryTask task)
         {
             _repositoryWorkers = repoWorker;
             _repositoryTeams = team;
@@ -35,7 +35,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 
                 if(worker.TeamName != null && worker.TeamName != _repositoryTeams.getTeamsList().FirstOrDefault(e => e.ManagerTeamId == idManager).TeamName) // Se introduce un it worker con un id que no se printea. 
                 {
-                    return "";
+                    return "Unallow operation";
 
                 }
                 else if( worker.TeamName != null)
@@ -47,7 +47,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 else
                 {
                     workerTeam.TechnicianId.Add(idWorker);
-                    worker.TeamName = worker.TeamName;
+                    worker.TeamName = workerTeam.TeamName;
 
                     return "Worker has been agregated to this team";
                 }
@@ -67,7 +67,15 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 Task taskToWorker = _repositoryTasks.getTaskById(taskID);
                 ITWorker worker = _repositoryWorkers.getWorkerById(idWorker);
 
-                if(worker.TechKnowledges.Contains(taskToWorker.Technology))
+                if (worker.ItWorkerTaskId != taskToWorker.TaskId && _repositoryTasks.getTaskById(taskID).Assigned == false) // Se introduce un id task con un id que no se printea. 
+                {
+                    return "Unallow operation";
+                }else if(worker.ItWorkerTaskId > 0 && _repositoryTasks.getTaskById(taskID).WorkerId == idWorker)
+                {
+                    return "The task is already assigned to this techician";
+                }
+
+                if (worker.TechKnowledges.Contains(taskToWorker.Technology))
                 {
                     taskToWorker.WorkerId = idWorker;
                     worker.ItWorkerTaskId = taskID;
@@ -152,7 +160,6 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
             tasksToString += "\n***************************************************************************\n";
             return tasksToString;
         }
-
         public bool workerHavesTask(int idWorker, out string methodResponse)
         {
             try

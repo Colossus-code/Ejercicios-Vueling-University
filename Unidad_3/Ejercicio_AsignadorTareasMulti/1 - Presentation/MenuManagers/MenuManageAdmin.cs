@@ -21,10 +21,10 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
         private TaskDto _taskDto;
 
         private IBuilder _builder;
-        private IPrinterRepositoryAdmin _printerRepositoryAdmin;
-        private IAssignerRepositoryAdmin _assignerRepositoryAdmin;
+        private IPrinterServiceAdmin _printerRepositoryAdmin;
+        private IAssignerServiceAdmin _assignerRepositoryAdmin;
 
-        public MenuManageAdmin(IBuilder builder, IPrinterRepositoryAdmin printerRepositoryAdmin, IAssignerRepositoryAdmin assignerRepositoryAdmin)
+        public MenuManageAdmin(IBuilder builder, IPrinterServiceAdmin printerRepositoryAdmin, IAssignerServiceAdmin assignerRepositoryAdmin)
         {
             _builder = builder;
             _printerRepositoryAdmin = printerRepositoryAdmin;

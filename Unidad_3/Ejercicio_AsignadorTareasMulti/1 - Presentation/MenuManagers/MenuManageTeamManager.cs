@@ -14,15 +14,14 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
     public class MenuManageTeamManager : IMenuManageTeamManager
     {
         private InputValidator _inputValidator = new InputValidator();
-        private DataCoherency _dataCoherency = new DataCoherency();
 
-        private IPrinterRepositoryTeamManager _printerRepositoryTeamManager;
-        private IAssignerRepositoryTeamManager _assignerRepositoryTeamManager;
+        private IPrinterServiceTeamManager _printerRepositoryTeamManager;
+        private IAssignerServiceTeamManager _assignerRepositoryTeamManager;
 
         private const string ERROR_WORKER = "Not unassigned workers for now";
         private const string ERROR_TASK = "Not unassigned task for now";
 
-        public MenuManageTeamManager(IPrinterRepositoryTeamManager printerRepo, IAssignerRepositoryTeamManager assignerRepo)
+        public MenuManageTeamManager(IPrinterServiceTeamManager printerRepo, IAssignerServiceTeamManager assignerRepo)
         {
             _printerRepositoryTeamManager = printerRepo;
             _assignerRepositoryTeamManager = assignerRepo;
@@ -106,11 +105,11 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.MenuManagers
         {
             if (!_assignerRepositoryTeamManager.getITWorkersListWithoutTeam().Equals(ERROR_WORKER))
             {
-                _assignerRepositoryTeamManager.getITWorkersListWithoutTeam();
+                Console.WriteLine(_assignerRepositoryTeamManager.getITWorkersListWithoutTeam());
 
                 int workerId = _inputValidator.validationIntEntry("Introduce the worker ID.");
 
-                _assignerRepositoryTeamManager.assingItWorkerToTeach(workerId, idManager);
+                Console.WriteLine(_assignerRepositoryTeamManager.assingItWorkerToTeach(workerId, idManager));
             }
             else
             {

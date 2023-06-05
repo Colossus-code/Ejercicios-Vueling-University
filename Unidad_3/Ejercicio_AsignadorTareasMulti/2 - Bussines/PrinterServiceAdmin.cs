@@ -9,13 +9,13 @@ using System.Text;
 
 namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 {
-    public class PrinterRepositoryAdmin : IPrinterRepositoryAdmin
+    public class PrinterServiceAdmin : IPrinterServiceAdmin
     {
         private IRepositoryTeam _repositoryTeam;
         private IRepositoryTask _repositoryTask;
         private IRepositoryITWorker _repositoryWorker;
 
-        public PrinterRepositoryAdmin(IRepositoryTask repoTask, IRepositoryTeam repoTeam, IRepositoryITWorker repoWorker)
+        public PrinterServiceAdmin(IRepositoryTask repoTask, IRepositoryTeam repoTeam, IRepositoryITWorker repoWorker)
         {
             _repositoryTask = repoTask;
             _repositoryTeam = repoTeam;

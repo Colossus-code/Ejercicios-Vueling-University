@@ -51,10 +51,9 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
                           "                       TECHNICIAN MODE                              \n" +
                            "___________________________________________________________________\n" +
                           "1. List unassigned tasks. \n" +
-                          "2. List task assignments by team name. \n" +                         
-                          "3. Assign IT worker to a team as technician. \n" +
-                          "4. Assign task to IT worker. \n" +
-                          "5. Exit. \n" +
+                          "2. List tasks of the team. \n" +
+                          "3. Assing task to me. \n" +
+                          "4. Exit.                      \n" +
                           "****************************************************************");
 
                 default:

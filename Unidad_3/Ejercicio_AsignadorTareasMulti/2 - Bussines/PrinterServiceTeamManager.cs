@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 {
-    public class PrinterRepositoryTeamManager : IPrinterRepositoryTeamManager
+    public class PrinterServiceTeamManager : IPrinterServiceTeamManager
     {
         private IRepositoryTeam _repositoryTeam;
         private IRepositoryTask _repositoryTask;
         private IRepositoryITWorker _repositoryWorker;
-        private IPrinterRepositoryAdmin _printerAdmin; 
+        private IPrinterServiceAdmin _printerAdmin; 
 
-        public PrinterRepositoryTeamManager(IRepositoryTask repoTask, IRepositoryTeam repoTeam, IRepositoryITWorker repoWorker, IPrinterRepositoryAdmin printerAdmin) 
+        public PrinterServiceTeamManager(IRepositoryTask repoTask, IRepositoryTeam repoTeam, IRepositoryITWorker repoWorker, IPrinterServiceAdmin printerAdmin) 
         {
             _repositoryTask = repoTask;
             _repositoryTeam = repoTeam;

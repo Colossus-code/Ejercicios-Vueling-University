@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
 {
-    public interface IAssignerRepositoryAdmin
+    public interface IAssignerServiceAdmin
     {
         string assingItWorkerToManager(int idWorker, string teamName);
         string assingItWorkerToTeach(int idWorker, string teamName);

@@ -13,13 +13,13 @@ using TaskStatus = Ejercicio_AsignadorTareas.Enum.TaskStatus;
 
 namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 {
-    public class AssignerRepositoryAdmin : IAssignerRepositoryAdmin
+    public class AssignerServiceAdmin : IAssignerServiceAdmin
     {
         private IRepositoryITWorker _repositoryWorkers;
         private IRepositoryTeam _repositoryTeams;
         private IRepositoryTask _repositoryTasks;
 
-        public AssignerRepositoryAdmin(IRepositoryITWorker repoWorker, IRepositoryTeam team, IRepositoryTask task)
+        public AssignerServiceAdmin(IRepositoryITWorker repoWorker, IRepositoryTeam team, IRepositoryTask task)
         {
             _repositoryWorkers = repoWorker;
             _repositoryTeams = team;

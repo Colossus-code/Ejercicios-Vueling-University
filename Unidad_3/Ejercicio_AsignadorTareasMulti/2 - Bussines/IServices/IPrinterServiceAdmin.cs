@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
 {
-    public interface IPrinterRepositoryAdmin
+    public interface IPrinterServiceAdmin
     {
         string printerRepositoryTeamNames();
         string printerRepositoryITWorkersByTeamNames(string teamName);
