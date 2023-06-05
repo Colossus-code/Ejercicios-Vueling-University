@@ -258,6 +258,10 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 ITWorker worker = _repositoryWorkers.getWorkerById(workerId);
                 Task seachTask = _repositoryTasks.getTaskById(taskID);
 
+                if (!worker.TechKnowledges.Contains(seachTask.Technology))
+                {
+                    return false;
+                }
                 if (worker.ItWorkerTaskId > 0)
                 {
                     Task taskToUnassing = _repositoryTasks.getTaskById(worker.ItWorkerTaskId);
@@ -303,7 +307,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 
                     worker.ItWorkerTaskId = -99;
                 }
-                if (worker.TeamName != "")
+                if (worker.TeamName != null)
                 {
                     Team teamToUnassing = _repositoryTeams.getTeamsList().FirstOrDefault(e => e.TechnicianId.Contains(worker.ItWorkerId));
                     teamToUnassing.TechnicianId.Remove(worker.ItWorkerId);
@@ -372,39 +376,42 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
         }
         public string getItWorkersList()
         {
-            string listItWorkersToString = "";
+            string listItWorkersToString = "\n***************************************************************************";
 
             List<ITWorker> workers = _repositoryWorkers.getItWorkerList();
 
             foreach (ITWorker worker in workers.Where(e => e.ItWorkerId > 0))
             {
+                listItWorkersToString+= "\n_________________________________________________________________________\n";
                 listItWorkersToString += $" \n Worker ID: {worker.ItWorkerId}.\n Worker name: {worker.Name}";
             }
-
+            listItWorkersToString += "\n***************************************************************************\n";
             return listItWorkersToString;
         }
         public string getTeamsList()
         {
-            string listTeamsToString = "";
+            string listTeamsToString = "\n***************************************************************************\n";
 
             List<Team> teams = _repositoryTeams.getTeamsList();
             foreach (Team team in teams)
             {
-                listTeamsToString += $" Team name: {team.TeamName}.\n";
+                listTeamsToString += "\n_________________________________________________________________________\n";
+                listTeamsToString += $" Team name: {team.TeamName}.\n";               
             }
-
+            listTeamsToString += "\n***************************************************************************\n";
             return listTeamsToString;
         }
         public string getTaskList()
         {
-            string listTaskToString = "";
+            string listTaskToString = "\n***************************************************************************\n";
 
             List<Task> tasks = _repositoryTasks.getTasks();
             foreach (Task task in tasks)
             {
+                listTaskToString += "\n_________________________________________________________________________\n";
                 listTaskToString += $" Task ID: {task.TaskId} \n Team description: {task.TaskDescription}.\n";
             }
-
+            listTaskToString += "\n***************************************************************************\n";
             return listTaskToString;
         }
     }

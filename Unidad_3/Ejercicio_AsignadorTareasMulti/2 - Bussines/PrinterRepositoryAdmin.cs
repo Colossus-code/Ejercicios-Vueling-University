@@ -30,6 +30,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 Team team = _repositoryTeam.findTeamByTeamName(teamName);
                 ITWorker managerTeam = _repositoryWorker.getWorkerById(team.ManagerTeamId);
 
+                itWorkersTeamNamesToString += "\n***************************************************************************\n";
                 itWorkersTeamNamesToString += $" Team name: {team.TeamName}.\n Team manager: {(managerTeam != null ? managerTeam.Name : " ")} {(managerTeam != null ? managerTeam.Surname : " ")}.\n";
                 
                 if (team.TechnicianId.Count() > 0)
@@ -40,6 +41,8 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                     {
                         itWorkersTeamNamesToString += $" Technician worker: {worker.ItWorkerId}. {worker.Name} {worker.Surname}\n";
                     }
+
+                    itWorkersTeamNamesToString += "\n***************************************************************************\n";
                 }
                 else
                 {
@@ -64,6 +67,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                 Team team = _repositoryTeam.findTeamByTeamName(teamName);
                 ITWorker managerTeam = _repositoryWorker.getWorkerById(team.ManagerTeamId);
 
+                itWorkersTeamNamesToString += "\n***************************************************************************\n";
                 itWorkersTeamNamesToString += $" Team name: {team.TeamName}.\n Team manager: {(managerTeam != null ? managerTeam.Name : " ")} {(managerTeam != null ? managerTeam.Surname : " ")}.\n";
 
                 if (team.TechnicianId.Count() > 0)
@@ -80,6 +84,8 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                         {
                             itWorkersTeamNamesToString += $" Workers task assigned: {task.TaskDescription}\n";
                         }
+
+                        itWorkersTeamNamesToString += "\n***************************************************************************\n";
                     }
                 }
                 else
@@ -119,12 +125,14 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 
             try
             {
+                taskListToString += "\n***************************************************************************\n";
                 foreach (Task task in taskList.Where(e => e.Assigned == false))
                 {
                     taskListToString += $" ID Task: {task.TaskId}.\n Task description: {task.TaskDescription}.\n Task technology: {task.Technology}\n";
                 }
-            
-            }catch (Exception)
+                taskListToString += "\n***************************************************************************\n";
+            }
+            catch (Exception)
             {
                 return "Not found unassigned tasks.";
             }

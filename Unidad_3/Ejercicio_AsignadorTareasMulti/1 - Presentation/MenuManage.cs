@@ -25,7 +25,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 
             _menuManageAdmin = menuManageAdmin;
         }
-        public bool manageMenu(string rol, int option)
+        public bool manageMenu(string rol, int option, int idSelected)
         {
 
             switch (rol)
@@ -35,7 +35,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
                     return _menuManageAdmin.manageMenuAdmin(option);
                     
                 case "rolManager":
-                    return _menuManageTeamManager.manageMenuTeamManager(option);
+                    return _menuManageTeamManager.manageMenuTeamManager(option, idSelected);
 
                 case "rolTech":
                     return _menuManageTech.manageMenuTech(option);
@@ -45,18 +45,7 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines
 
             return false;
         }
-        
-        public void manageMenuManager(int option)
-        {
-           
-
-        }
-
-        public void manageMenuTech(int option)
-        {
             
-
-        }
 
     }
 }

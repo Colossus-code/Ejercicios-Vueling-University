@@ -47,7 +47,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
                     // Prints the message of bussisnes layer by the rol kind
                     int menuOptionSelected = _inputValidationInt.validationIntEntry(_printerMenuOptions.menuToPrint(rolSelected));
 
-                    exit = _menuManage.manageMenu(rolSelected, menuOptionSelected);
+                    exit = _menuManage.manageMenu(rolSelected, menuOptionSelected, idSelected);
                 
                 }while(exit != false);
 

@@ -40,6 +40,9 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation.Helpers
             containerBuilder.RegisterType<Builder>().As<IBuilder>();
             containerBuilder.RegisterType<PrinterRepositoryAdmin>().As<IPrinterRepositoryAdmin>();
             containerBuilder.RegisterType<AssignerRepositoryAdmin>().As<IAssignerRepositoryAdmin>();
+            containerBuilder.RegisterType<AssignerRepositoryTeamManager>().As<IAssignerRepositoryTeamManager>();
+            containerBuilder.RegisterType<PrinterRepositoryTeamManager>().As<IPrinterRepositoryTeamManager>();
+
         }
     }
 }

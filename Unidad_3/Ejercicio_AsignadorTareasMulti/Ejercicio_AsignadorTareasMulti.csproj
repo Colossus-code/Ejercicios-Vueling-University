@@ -59,10 +59,12 @@
     <Compile Include="1 - Presentation\MenuManagers\MenuManageTeamManager.cs" />
     <Compile Include="1 - Presentation\MenuManagers\MenuManageTech.cs" />
     <Compile Include="2 - Bussines\AssignerRepositoryAdmin.cs" />
+    <Compile Include="2 - Bussines\AssignerRepositoryTeamManager.cs" />
     <Compile Include="2 - Bussines\Builder.cs" />
     <Compile Include="2 - Bussines\Data Transformation\ItWorkerDto.cs" />
     <Compile Include="2 - Bussines\Data Transformation\TaskDto.cs" />
     <Compile Include="2 - Bussines\Data Transformation\TeamDto.cs" />
+    <Compile Include="2 - Bussines\IServices\IAssignerRepositoryTeamManager.cs" />
     <Compile Include="2 - Bussines\IServices\IAssignerRepositoryAdmin.cs" />
     <Compile Include="2 - Bussines\IServices\IBuilder.cs" />
     <Compile Include="2 - Bussines\IServices\ILogin.cs" />
@@ -70,9 +72,11 @@
     <Compile Include="2 - Bussines\IServices\IPrinterMenuOptions.cs" />
     <Compile Include="1 - Presentation\MenuManage.cs" />
     <Compile Include="2 - Bussines\IServices\IPrinterRepositoryAdmin.cs" />
+    <Compile Include="2 - Bussines\IServices\IPrinterRepositoryTeamManager.cs" />
     <Compile Include="2 - Bussines\PrinterMenuOptions.cs" />
     <Compile Include="2 - Bussines\Login.cs" />
     <Compile Include="2 - Bussines\PrinterRepositoryAdmin.cs" />
+    <Compile Include="2 - Bussines\PrinterRepositoryTeamManager.cs" />
     <Compile Include="3 - Infrastructure\Entity\ITWorker.cs" />
     <Compile Include="3 - Infrastructure\Entity\Task.cs" />
     <Compile Include="3 - Infrastructure\Entity\Team.cs" />

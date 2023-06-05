@@ -37,9 +37,9 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
                     return ("\n****************************************************************\n" +
                            "                          MANAGER MODE                            \n" +
                            "__________________________________________________________________\n" +
-                           "1. List team members by team name. \n" +
+                           "1. List team members\n" +
                            "2. List unassigned tasks. \n" +
-                           "3. List task assignments by team name. \n" +
+                           "3. List task assignments. \n" +
                            "4. Assign IT worker to a team as technician. \n" +
                            "5. Assign task to IT worker. \n" +
                            "6. Exit. \n" +
@@ -48,8 +48,8 @@ namespace Ejercicio_AsignadorTareasMulti._2___Bussines.IServices
                 case "rolTech":
                     
                     return ("\n****************************************************************\n" +
-                          "                          TECH MODE                                \n" +
-                           "__________________________________________________________________\n" +
+                          "                       TECHNICIAN MODE                              \n" +
+                           "___________________________________________________________________\n" +
                           "1. List unassigned tasks. \n" +
                           "2. List task assignments by team name. \n" +                         
                           "3. Assign IT worker to a team as technician. \n" +

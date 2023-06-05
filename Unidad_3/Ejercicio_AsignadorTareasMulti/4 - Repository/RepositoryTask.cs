@@ -25,7 +25,8 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                     TaskDescription = "Create data base on SQL Server",
                     Assigned = true,
                     Technology = "SQL",
-                    StatusOfTask = TaskStatus.todo
+                    StatusOfTask = TaskStatus.todo,
+                    WorkerId = 1
                 },
 
                 new Task()
@@ -34,7 +35,8 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                     TaskDescription = "Update file into Web API",
                     Assigned = true,
                     Technology = "C#",
-                    StatusOfTask = TaskStatus.doing
+                    StatusOfTask = TaskStatus.doing,
+                    WorkerId = 3
                 },
                 new Task()
                 {
@@ -42,7 +44,8 @@ namespace Ejercicio_AsignadorTareasMulti._4___Repository
                     TaskDescription = "Create PDF with the inform of the month",
                     Assigned = true,
                     Technology = "Java",
-                    StatusOfTask = TaskStatus.doing
+                    StatusOfTask = TaskStatus.doing,
+                    WorkerId = 2
                 },
                 new Task()
                 {

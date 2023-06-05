@@ -13,6 +13,7 @@ namespace Ejercicio_AsignadorTareasMulti._1___Presentation
         private readonly string loginMsg = "****************************************************************\n Please introduce the ID of Worker for login\n****************************************************************";
         public int loginMenu()
         {
+            Console.Clear();    
             // First creating a default value witch isn't assigned to any tech
             int introducedIDLogin = -1;
 
