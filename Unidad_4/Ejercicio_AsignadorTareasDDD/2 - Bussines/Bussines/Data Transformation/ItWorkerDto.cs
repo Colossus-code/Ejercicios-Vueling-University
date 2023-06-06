@@ -16,13 +16,30 @@ namespace Bussines.Data_Transformation
         public ITWorkerLevel TechLevel { get; set; }
         public List<string> Knowledge { get; set; }
 
-        public ItWorkerDto(string workerName, string workerSurname, DateTime workerBirthDay, int workerYearsExperience, Enum techLevel, List<string> knowledge)
+        public ItWorkerDto(string workerName, string workerSurname, DateTime workerBirthDay, int workerYearsExperience, string techLevel, List<string> knowledge)
         {
             this.WorkerName = workerName;
             this.WorkerSurname = workerSurname;
             this.WorkerBirthDay = workerBirthDay;
             this.WorkerYearsExperience = workerYearsExperience;
-            this.TechLevel = (ITWorkerLevel)techLevel;
+
+            switch (techLevel.ToLower())
+            {
+                case "junior":
+
+                    TechLevel = ITWorkerLevel.junior;
+                    break;
+
+                case "medium":
+
+                    TechLevel = ITWorkerLevel.medium;
+                    break;
+
+                case "done":
+
+                    TechLevel = ITWorkerLevel.senior;
+                    break;
+            }
             this.Knowledge = knowledge;
         }
 

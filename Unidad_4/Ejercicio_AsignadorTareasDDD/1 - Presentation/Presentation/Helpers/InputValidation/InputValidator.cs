@@ -62,7 +62,7 @@ namespace Presentation.Helpers.InputValidation
 
             } while (validEntry != true);
         }
-        public Enum validationWorkerLevel(string msg, int workingYears)
+        public string validationWorkerLevel(string msg, int workingYears)
         {
             do
             {
@@ -72,17 +72,17 @@ namespace Presentation.Helpers.InputValidation
                 {
                     case "junior":
 
-                        return ITWorkerLevel.junior;
+                        return "junior";
 
                     case "medium":
 
-                        return ITWorkerLevel.medium;
+                        return "medium";
 
                     case "senior":
 
                         if (workingYears >= 5)
                         {
-                            return ITWorkerLevel.senior;
+                            return "senior";
                         }
                         else
                         {
@@ -97,7 +97,7 @@ namespace Presentation.Helpers.InputValidation
             } while (true);
 
         }
-        public Enum validationTaskStatus(string msg)
+        public string validationTaskStatus(string msg)
         {
             do
             {
@@ -107,15 +107,15 @@ namespace Presentation.Helpers.InputValidation
                 {
                     case "todo":
 
-                        return TaskStatus.todo;
+                        return "todo";
 
                     case "doing":
 
-                        return TaskStatus.doing;
+                        return "doing";
 
-                    case "senior":
+                    case "done":
 
-                        return TaskStatus.done;
+                        return "done";
 
                     default:
                         Console.WriteLine("Please, select a correct answer (to do , doing, done).");

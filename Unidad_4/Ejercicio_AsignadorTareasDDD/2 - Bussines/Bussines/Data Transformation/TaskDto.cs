@@ -15,12 +15,30 @@ namespace Bussines.Data_Transformation
         public int WorkerId { get; set; }
         public TaskStatus StatusOfTask { get; set; }
 
-        public TaskDto(string taskDesc, string taskTechnology, Enum taskStatus, bool assigned = false)
+        public TaskDto(string taskDesc, string taskTechnology, string taskStatus, bool assigned = false)
         {
             TaskDescription = taskDesc;
             Technology = taskTechnology;
             Assigned = assigned;
-            StatusOfTask = (TaskStatus)taskStatus;
+            
+            switch (taskStatus.Trim().ToLower())
+            {
+                case "todo":
+
+                    StatusOfTask = TaskStatus.todo;
+                    break;
+                
+                case "doing":
+
+                    StatusOfTask = TaskStatus.doing;
+                    break;
+                
+                case "done":
+
+                    StatusOfTask = TaskStatus.done;
+                    break;
+            }
+       
         }
 
         public TaskDto(string taskDesc, string taskTechnology, bool assigned = false)

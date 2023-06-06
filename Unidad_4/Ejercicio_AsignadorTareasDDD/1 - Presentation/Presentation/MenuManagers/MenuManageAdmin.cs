@@ -202,7 +202,7 @@ namespace Presentation.MenuManagers
 
             _inputValidator.validationYesOrNoEntry("Do you want to give a status to the task? (y/n)", out defineStatus);
 
-            Enum taskProgress;
+            string taskProgress;
 
             if (defineStatus.Equals("y"))
             {

@@ -30,7 +30,7 @@ namespace Bussines
             workerBuilt.Name = worker.WorkerName;
             workerBuilt.Surname = worker.WorkerSurname;
             workerBuilt.TechKnowledges = worker.Knowledge;
-            workerBuilt.ItWorkerLevel = (ITWorkerLevel)worker.TechLevel;
+            workerBuilt.ItWorkerLevel = worker.TechLevel;
             workerBuilt.BirthDate = worker.WorkerBirthDay;
             workerBuilt.YearsExperiencie = worker.WorkerYearsExperience;
             
@@ -50,7 +50,7 @@ namespace Bussines
             Task taskBuilt = new Task();
             taskBuilt.TaskDescription = task.TaskDescription;
             taskBuilt.Technology = task.Technology;
-            taskBuilt.StatusOfTask = (TaskStatus)task.StatusOfTask;
+            taskBuilt.StatusOfTask = task.StatusOfTask;
 
             return _repositoryTasks.setTask(taskBuilt);
         }
