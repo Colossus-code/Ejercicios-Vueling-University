@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F9F48101-6B3A-42ED-8E4F-48D5450E2899}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Ejercicio_Herencia</RootNamespace>
-    <AssemblyName>Ejercicio_Herencia</AssemblyName>
+    <ProjectGuid>{D31398E8-18A3-455B-862A-8933D8DFEF0B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Infrastructure</RootNamespace>
+    <AssemblyName>Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,17 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entitys\Father.cs" />
-    <Compile Include="Entitys\GrandFather.cs" />
-    <Compile Include="Entitys\Son.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Entity\ITWorker.cs" />
+    <Compile Include="Entity\Task.cs" />
+    <Compile Include="Entity\Team.cs" />
+    <Compile Include="Entity\Worker.cs" />
+    <Compile Include="Enum\ITWorkerLevel.cs" />
+    <Compile Include="Enum\TaskStatus.cs" />
+    <Compile Include="Enum\WorkerRol.cs" />
+    <Compile Include="IRepository\IRepositoryITWorker.cs" />
+    <Compile Include="IRepository\IRepositoryTask.cs" />
+    <Compile Include="IRepository\IRepositoryTeam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
