@@ -8,5 +8,11 @@ namespace Infrastructure.Entities
 {
     public class BankAccount
     {
+        public int Id { get; set; }
+        public string AccountId { get; set; }
+        public int AccountPin { get; set; }
+        public decimal Money { get; set; }
+        public List <int> MovementId { get; set; }
+
     }
 }

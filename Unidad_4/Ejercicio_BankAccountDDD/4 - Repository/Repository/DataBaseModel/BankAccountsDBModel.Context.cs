@@ -9,14 +9,15 @@
 
 namespace Repository.DataBaseModel
 {
+    
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BankAccountsEntities : DbContext
+    public partial class BankAccountsEntities1 : DbContext
     {
-        public BankAccountsEntities()
-            : base("name=BankAccountsEntities")
+        public BankAccountsEntities1()
+            : base("name=BankAccountsEntities1")
         {
         }
     

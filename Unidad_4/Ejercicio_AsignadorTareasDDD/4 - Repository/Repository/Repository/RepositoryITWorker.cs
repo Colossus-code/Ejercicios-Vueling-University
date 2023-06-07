@@ -107,8 +107,8 @@ namespace Repository
             try
             {
                 _newWorker = new ITWorker();
-                _newWorker.ItWorkerId = ++iteratorId;
                 _newWorker = newWorker;
+                _newWorker.ItWorkerId = ++iteratorId;
                 
 
                 setListItWorker(_newWorker);
