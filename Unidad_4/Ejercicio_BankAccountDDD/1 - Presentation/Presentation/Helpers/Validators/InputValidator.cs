@@ -41,5 +41,22 @@ namespace Presentation.Helpers.Validators
 
             } while (true);
         }
+
+        public decimal ValidateDecimal(string msg)
+        {
+            do
+            {
+                Console.WriteLine(msg);
+
+                try
+                {
+                    return Convert.ToDecimal(Console.ReadLine());
+
+                }
+                catch (FormatException) { continue; }
+
+            } while (true);
+
+        }
     }
 }

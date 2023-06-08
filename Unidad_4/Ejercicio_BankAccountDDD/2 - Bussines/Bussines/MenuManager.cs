@@ -37,7 +37,7 @@ namespace Bussines
         {
             BankAccount account = _repositoryBankAccount.GetBankAccountByAccountNumber(accountNumber);
 
-            if(account.Money < amount)
+            if(account.Money - amount < 0)
             {
                 return "Unallow operation, you havent enought money.";
             }
@@ -68,6 +68,101 @@ namespace Bussines
             {
                 return "Someting was wrong updating the pin account.";
             }
+        }
+
+        public string GetMovements(string accountNumber, string type)
+        {
+            BankAccount bankAccountDomainEntity = _repositoryBankAccount.GetBankAccountByAccountNumber(accountNumber);
+
+            List<Movement> movementsAccountDomainEntity = _repositoryMovements.getMovementsByAccountId(bankAccountDomainEntity);
+
+            if(movementsAccountDomainEntity.Count > 0)
+            {
+                string domainMovementsListToString = null;
+
+                if (type.Equals("all")){
+
+                    foreach (Movement movement in movementsAccountDomainEntity)
+                    {
+                        domainMovementsListToString += $"\nMovement amount: {movement.Amount}. \nMovement date: {movement.DateMovement}.";
+                    }
+                
+                }else if (type.Equals("positive"))
+                {
+                    foreach (Movement movement in movementsAccountDomainEntity.Where(e => e.Amount > 0))
+                    {
+                        domainMovementsListToString += $"\nMovement ID: {movement.Id}. \nMovement amount: {movement.Amount}. \nMovement date: {movement.DateMovement}.";
+                    }
+                }
+                else
+                {
+                    foreach (Movement movement in movementsAccountDomainEntity.Where(e => e.Amount < 0))
+                    {
+                        domainMovementsListToString += $"\nMovement ID: {movement.Id}. \nMovement amount: {movement.Amount}. \nMovement date: {movement.DateMovement}.";
+                    }
+                }
+                if (domainMovementsListToString == null)
+                {
+                    return $"Not {type} found movements for {accountNumber} account.";
+                }
+                return domainMovementsListToString;
+            }
+            else
+            {
+                return $"Not found movements for {accountNumber} account.";
+            }
+        }
+
+        public string CreateAccount(DomainBankAccountDto bankAccountDto)
+        {
+            if(_repositoryBankAccount.CreateBankAccount(new BankAccount
+            {
+                AccountId = bankAccountDto.AccountIdentficator,
+                AccountPin = bankAccountDto.AccountPin,
+                Money = bankAccountDto.AccountMoney
+            }))
+            {
+                return "Account has been created succesfully.";
+            }
+            else
+            {
+                return "Something was wrong creating the account.";
+            }
+
+        }
+        
+        public string DeleteAccount(int accountId)
+        {
+            if (_repositoryBankAccount.DeleteBankAccount(accountId))
+            {
+                return "Account and all of his moves has been deleted.";
+            }
+            else
+            {
+                return "Something was wrong deleting the account.";
+            }
+        }
+
+        public string GetAllAccounts()
+        {
+
+            List<BankAccount> bankAccounts = _repositoryBankAccount.GetAllAccounts();
+
+            string domainEntityBAListToString = null;
+
+            if(bankAccounts.Count > 0)
+            {
+                foreach(BankAccount bankAccount in bankAccounts)
+                {
+                    domainEntityBAListToString += $"\nAccount ID: {bankAccount.Id}.\nAccount identificator: {bankAccount.AccountId}.";
+                }
+            }
+            else
+            {
+                return "No bank accounts were found.";
+            }
+
+            return domainEntityBAListToString;
         }
     }
 }

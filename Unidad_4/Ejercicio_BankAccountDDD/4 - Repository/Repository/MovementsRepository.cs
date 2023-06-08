@@ -10,27 +10,33 @@ namespace Repository.DataBaseModel
 {
     public class MovementsRepository : IRepositoryMovements
     {
-        public List<Movement> getMovementsByAccountId(int accountId)
-        {
-            try
-            {
-                BankAccountsEntities1 dbConnection = new BankAccountsEntities1();
-                List<Movements> movementsFromDb = dbConnection.Movements.Where(e => e.AccountId == accountId).ToList();
-                List<Movement> movements = new List<Movement>();
-                // QUIZA AQUI HABRIA ALGUN TIPO DE MAPEO IMPLICITO 
-                foreach (var movement in movementsFromDb)
-                {
-                    new Movement()
-                    {
-                        Id = movement.Id,
-                        AccountId = movement.AccountId,
-                        Amount = movement.Amount,
-                        DateMovement = movement.Date
-                    };
-                };
+        private readonly BankAccountsEntities1 _bankAccountEntities;
 
-                return movements;
-            }catch (Exception) {return null;}
+        public MovementsRepository()
+        {
+            _bankAccountEntities = new BankAccountsEntities1();
+        }
+        public List<Movement> getMovementsByAccountId(BankAccount bankAccount)
+        {
+            List<Movements> movementsFromDataEntity = _bankAccountEntities.Movements.Where(e=> e.AccountId == bankAccount.Id).ToList();
+
+            List<Movement> movementsEntityDomain = new List<Movement>();
+
+            if (movementsFromDataEntity != null)
+            {
+                foreach (Movements move in movementsFromDataEntity)
+                {
+                    movementsEntityDomain.Add(new Movement
+                    {
+                        AccountId = bankAccount.Id,
+                        Amount = move.Amount,
+                        DateMovement = move.Date
+                    });
+                }
+            }
+
+            return movementsEntityDomain;
+
         }
             
 

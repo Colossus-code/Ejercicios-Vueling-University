@@ -1,4 +1,5 @@
-﻿using Bussines.IService;
+﻿using Bussines;
+using Bussines.IService;
 using Presentation.Contracts;
 using Presentation.Helpers.Validators;
 using System;
@@ -19,6 +20,8 @@ namespace Presentation
         private readonly IMenuManager _menuManager;
 
         private readonly InputValidator _validator = new InputValidator();
+
+        private DomainBankAccountDto _bankAccountDto;
 
         private const string _DATA_MISTAKE = "The data entry has mistakes.";
 
@@ -45,6 +48,7 @@ namespace Presentation
 
                 string loginResponse = _loginVerification.ValidateLogin(accountNumber, pinIntroduced);
 
+
                 if (loginResponse.Equals(_DATA_MISTAKE))
                 {
 
@@ -60,14 +64,27 @@ namespace Presentation
                     }
 
                 }
-                else
+                else if(!loginResponse.Equals(_DATA_MISTAKE) && (loginResponse.Contains("Show account")))
                 {
                     do
                     {
                         exit = ManageOptionSelected(loginResponse, accountNumber);
-                    
+
                     } while (!exit);
                 }
+                else if (loginResponse.Contains("administrator") && pinIntroduced == 0102)
+                {
+                    do
+                    {
+                        exit = ManageOptionSelectedAdministrator(loginResponse);
+                    
+                    }while (!exit);
+                }
+                else
+                {
+                    continue;
+                }
+
 
             } while (!exit);
         }
@@ -79,9 +96,27 @@ namespace Presentation
                 Console.WriteLine(loginResponse);
                 selectedChoice = _validator.ValidateNumber("Select one choice of the list:");
 
+                Console.Clear();
+
             } while (selectedChoice <= 0 && selectedChoice > 7);
 
             return SelectedOption(selectedChoice, acountNumber);
+
+        }
+
+        public bool ManageOptionSelectedAdministrator(string loginResponse)
+        {
+            int selectedChoice;
+            do
+            {
+                Console.WriteLine(loginResponse);
+                selectedChoice = _validator.ValidateNumber("Select one choice of the list:");
+
+                Console.Clear();
+
+            } while (selectedChoice <= 0 && selectedChoice > 3);
+
+            return SelectedOptionAdministrator(selectedChoice);
 
         }
         private (string accountId, int pinNumber) InputDataCredentials()
@@ -101,21 +136,30 @@ namespace Presentation
             {
                 case 1:
 
-                    return true;
+                    Console.Clear();
+                    Console.WriteLine(_menuManager.GetMovements(accountNumber, "all"));
+                    return false;
 
                 case 2:
 
-                    return true;
+                    Console.Clear();
+                    Console.WriteLine(_menuManager.GetMovements(accountNumber, "positive"));
+                    return false;
 
                 case 3:
-                    return true;
+                    Console.Clear();
+                    Console.WriteLine(_menuManager.GetMovements(accountNumber, "negative"));
+                    return false;
 
                 case 4:
-                    decimal amountIncome = 0; 
-                    
+
+                    Console.Clear();
+
+                    decimal amountIncome = 0;
+
                     do
                     {
-                        amountIncome = _validator.ValidateNumber("Introduce the amount of money to income.");
+                        amountIncome = _validator.ValidateDecimal("Introduce the amount of money to income.");
 
                     } while (amountIncome <= 0);
 
@@ -125,29 +169,77 @@ namespace Presentation
 
                 case 5:
 
+                    Console.Clear();
+
                     decimal amountOutcome = 0;
 
                     do
                     {
-                        amountOutcome = _validator.ValidateNumber("Introduce the amount of money to outcome.");
+                        amountOutcome = _validator.ValidateDecimal("Introduce the amount of money to outcome.");
 
                     } while (amountOutcome <= 0);
 
-                    Console.WriteLine(_menuManager.GenerateInput(accountNumber, amountOutcome * -1));
+                    Console.WriteLine(_menuManager.GenerateOutput(accountNumber, amountOutcome * -1));
 
                     return false;
 
                 case 6:
 
+                    Console.Clear();
+
                     string newPin = _validator.ValidateString("Introduce the new pin of the account");
 
                     Console.WriteLine(_menuManager.ChangePinAccount(accountNumber, newPin));
-                    
+
                     return false;
 
                 case 7:
 
+                    return true;
+
+
+            }
+
+            return true;
+        }
+
+        private bool SelectedOptionAdministrator(int optionSelected)
+        {
+            switch (optionSelected)
+            {
+                case 1:
+                    Console.Clear();
+
+                    string accountNumber = _validator.ValidateString("Introduce the account identificator:");
+
+                    int pinAccount = _validator.ValidateNumber("Introduce the account pin:"); // I dont make a validation here because the person who will manage it's a admin and my propouse here it's just try the crud...
+
+                    decimal moneyAccount = 0;
+                    do
+                    {
+                        moneyAccount = _validator.ValidateDecimal("Introduce the money of the account: ");
+
+                    } while (moneyAccount <= 0);
+
+                    _bankAccountDto = new DomainBankAccountDto(accountNumber, pinAccount, moneyAccount);
+
+                    Console.WriteLine(_menuManager.CreateAccount(_bankAccountDto));
+
                     return false;
+
+                case 2:
+                    Console.Clear();
+
+                    Console.WriteLine(_menuManager.GetAllAccounts());
+                    int accountIdToDelete = _validator.ValidateNumber("Select the ID of the account to delete.");
+
+                    Console.WriteLine(_menuManager.DeleteAccount(accountIdToDelete));
+
+                    return false;
+
+                case 3:
+
+                    return true;
 
 
             }
