@@ -14,18 +14,11 @@ namespace Repository.DataBaseModel
     
     public partial class Movements
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Movements()
-        {
-            this.Accounts = new HashSet<Accounts>();
-        }
-    
         public int Id { get; set; }
         public int AccountId { get; set; }
         public System.DateTime Date { get; set; }
         public decimal Amount { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Accounts> Accounts { get; set; }
+        public virtual Accounts Accounts { get; set; }
     }
 }

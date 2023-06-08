@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8FE0318D-F09C-412C-BD4C-80014F58C9BA}</ProjectGuid>
+    <ProjectGuid>{B6238B19-B710-41F5-9AE6-C88B18C1707D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infrastructure</RootNamespace>
-    <AssemblyName>Infrastructure</AssemblyName>
+    <RootNamespace>Bussines</RootNamespace>
+    <AssemblyName>Bussines</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,11 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\BankAccount.cs" />
-    <Compile Include="Entities\Movement.cs" />
-    <Compile Include="IRepository\IRepositoryBankAccount.cs" />
-    <Compile Include="IRepository\IRepositoryMovements.cs" />
+    <Compile Include="IService\ILoginVerification.cs" />
+    <Compile Include="IService\IMenuManager.cs" />
+    <Compile Include="LoginVerification.cs" />
+    <Compile Include="MenuManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\3 - Infrastructure\Infrastructure\Infrastructure.csproj">
+      <Project>{8fe0318d-f09c-412c-bd4c-80014f58c9ba}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
