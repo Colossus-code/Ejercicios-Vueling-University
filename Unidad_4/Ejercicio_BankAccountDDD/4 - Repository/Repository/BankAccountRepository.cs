@@ -36,7 +36,7 @@ namespace Repository
             }
 
         }
-        public bool IncomeMoney(BankAccount bankAccountDomainEntity, decimal amount)
+        public bool IncomeOutcomeMoney(BankAccount bankAccountDomainEntity, decimal amount)
         {
             
             Accounts bankAccountDataEntity = _dbConnection.Accounts.FirstOrDefault(e=> e.Id == bankAccountDomainEntity.Id);
@@ -52,13 +52,35 @@ namespace Repository
            
             List<Movements> movements = _dbConnection.Movements.ToList().Where(e => e.AccountId == bankAccountDomainEntity.Id).ToList();
 
-            return true;
-            //TODO 0806 añadir movimientos
-        }
+            if(movements != null)
+            {
+                if (amount > 0)
+                {
+                    movements.Add(new Movements()
+                    {
+                        Amount = amount,
+                        Date = DateTime.Now,
+                        AccountId = bankAccountDomainEntity.Id,
+                    });
+                }
+                else
+                {
+                    movements.Add(new Movements()
+                    {
+                        Amount = amount,
+                        Date = DateTime.Now,
+                        AccountId = bankAccountDomainEntity.Id,
+                    });
+                }
+            bankAccountDataEntity.Movements = movements;
 
-        public bool OutcomeMoney(int bankAccountId, decimal amount)
-        {
-            throw new NotImplementedException();
+                _dbConnection.SaveChanges();
+
+                return true; 
+            }
+
+            return false;
+            //TODO 0806 añadir movimientos
         }
         public BankAccount GetBankAccountByAccountNumber(string bankAccountNumber)
         {
@@ -93,6 +115,22 @@ namespace Repository
             }
 
             return domainAccount;
+        }
+
+        public bool ChangePinAccount(string bankAccountId, string newPin)
+        {
+            Accounts account = _dbConnection.Accounts.FirstOrDefault(e => e.AccountId ==  bankAccountId);
+
+            if (account != null)
+            {
+                account.AccountPin = newPin;
+
+                _dbConnection.SaveChanges();
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -9,5 +9,9 @@ namespace Bussines.IService
     public interface IMenuManager
     {       
         string GenerateInput(string accountNumber, decimal amount);
+
+        string GenerateOutput(string accountNumber, decimal amount);
+
+        string ChangePinAccount(string accountNumber, string newPin);
     }
 }

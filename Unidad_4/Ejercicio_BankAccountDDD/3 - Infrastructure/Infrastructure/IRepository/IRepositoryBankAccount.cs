@@ -11,8 +11,8 @@ namespace Infrastructure.IRepository
     {
         BankAccount GetBankAccountByAccountNumber(string bankAccountNumber);
         (bool, BankAccount) HasBankAccount(string bankAccountNumber);
-        bool IncomeMoney(BankAccount bankAccountId, decimal amount);
-        bool OutcomeMoney(int bankAccountId, decimal amount);
+        bool IncomeOutcomeMoney(BankAccount bankAccountId, decimal amount);
+        bool ChangePinAccount(string bankAccountId, string newPin);
 
     }
 }

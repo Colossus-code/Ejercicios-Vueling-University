@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Presentation
@@ -61,9 +62,11 @@ namespace Presentation
                 }
                 else
                 {
-
-                    exit = ManageOptionSelected(loginResponse, accountNumber);
-
+                    do
+                    {
+                        exit = ManageOptionSelected(loginResponse, accountNumber);
+                    
+                    } while (!exit);
                 }
 
             } while (!exit);
@@ -108,26 +111,39 @@ namespace Presentation
                     return true;
 
                 case 4:
-                    decimal amount = 0; 
+                    decimal amountIncome = 0; 
                     
                     do
                     {
-                        amount = _validator.ValidateNumber("Introduce the amount of money to income.");
+                        amountIncome = _validator.ValidateNumber("Introduce the amount of money to income.");
 
-                    } while (amount <= 0);
+                    } while (amountIncome <= 0);
 
-                    Console.WriteLine(_menuManager.GenerateInput(accountNumber, amount));
+                    Console.WriteLine(_menuManager.GenerateInput(accountNumber, amountIncome));
 
-                    return true;
+                    return false;
 
                 case 5:
-                        
-                        
-                    return true;
+
+                    decimal amountOutcome = 0;
+
+                    do
+                    {
+                        amountOutcome = _validator.ValidateNumber("Introduce the amount of money to outcome.");
+
+                    } while (amountOutcome <= 0);
+
+                    Console.WriteLine(_menuManager.GenerateInput(accountNumber, amountOutcome * -1));
+
+                    return false;
 
                 case 6:
 
-                    return true;
+                    string newPin = _validator.ValidateString("Introduce the new pin of the account");
+
+                    Console.WriteLine(_menuManager.ChangePinAccount(accountNumber, newPin));
+                    
+                    return false;
 
                 case 7:
 
