@@ -13,6 +13,9 @@ namespace Infrastructure.IRepository
         (bool, BankAccount) HasBankAccount(string bankAccountNumber);
         bool IncomeOutcomeMoney(BankAccount bankAccountId, decimal amount);
         bool ChangePinAccount(string bankAccountId, string newPin);
+        bool CreateBankAccount(BankAccount bankAccount);
+        bool DeleteBankAccount(int bankAccountId);
+        List<BankAccount> GetAllAccounts();
 
     }
 }

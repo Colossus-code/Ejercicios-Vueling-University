@@ -13,6 +13,8 @@ namespace Bussines
     {
         private IRepositoryBankAccount _repoBankAccount;
 
+        private const string _ADMIN_MODE = "admin_mode_03525";
+
         public LoginVerification(IRepositoryBankAccount repoAccount)
         {
 
@@ -24,6 +26,10 @@ namespace Bussines
         {
             bool validatedAccount = false;
 
+            if (accountNumber.Equals(_ADMIN_MODE))
+            {
+                return "Wellcome administrator, select one choice: \n1. Create new account. \n2. Delete one account. \n3. Exit.";
+            }
             BankAccount foundBankAccount = new BankAccount();
 
             (validatedAccount, foundBankAccount) = _repoBankAccount.HasBankAccount(accountNumber);

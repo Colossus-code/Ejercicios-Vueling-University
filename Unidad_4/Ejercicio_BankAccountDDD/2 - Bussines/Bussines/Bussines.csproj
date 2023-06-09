@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainBankAccountDto.cs" />
     <Compile Include="IService\ILoginVerification.cs" />
     <Compile Include="IService\IMenuManager.cs" />
     <Compile Include="LoginVerification.cs" />

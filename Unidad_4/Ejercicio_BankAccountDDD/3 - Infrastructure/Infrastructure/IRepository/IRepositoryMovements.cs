@@ -9,6 +9,6 @@ namespace Infrastructure.IRepository
 {
     public interface IRepositoryMovements
     {
-        List<Movement> getMovementsByAccountId(int accountId);
+        List<Movement> getMovementsByAccountId(BankAccount domainBankAccount);
     }
 }
