@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WarhammerDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Armies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TypeArmy" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="ArmyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CommanderId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CommanderProfiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommanderName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CommanderStrength" Type="int" Nullable="false" />
+          <Property Name="CommanderResistance" Type="int" Nullable="false" />
+          <Property Name="CommanderAttacks" Type="int" Nullable="false" />
+          <Property Name="CommanderLives" Type="int" Nullable="false" />
+          <Property Name="CommanderWeapon" Type="int" />
+        </EntityType>
+        <EntityType Name="UnitProfiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UnitStrength" Type="int" Nullable="false" />
+          <Property Name="UnitResistence" Type="int" Nullable="false" />
+          <Property Name="UnitAttacks" Type="int" Nullable="false" />
+          <Property Name="UnitRace" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="UnitsForArmies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitProfileID" Type="int" Nullable="false" />
+          <Property Name="ArmyID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Weapons">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="WeaponName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="WeaponAddAtributte" Type="int" />
+        </EntityType>
+        <Association Name="FK_Army">
+          <End Role="Armies" Type="Self.Armies" Multiplicity="1" />
+          <End Role="UnitsForArmies" Type="Self.UnitsForArmies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Armies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitsForArmies">
+              <PropertyRef Name="ArmyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArmyCommander">
+          <End Role="CommanderProfiles" Type="Self.CommanderProfiles" Multiplicity="1" />
+          <End Role="Armies" Type="Self.Armies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommanderProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Armies">
+              <PropertyRef Name="CommanderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommanderWeapon">
+          <End Role="Weapons" Type="Self.Weapons" Multiplicity="0..1" />
+          <End Role="CommanderProfiles" Type="Self.CommanderProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Weapons">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommanderProfiles">
+              <PropertyRef Name="CommanderWeapon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units">
+          <End Role="UnitProfiles" Type="Self.UnitProfiles" Multiplicity="1" />
+          <End Role="UnitsForArmies" Type="Self.UnitsForArmies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitsForArmies">
+              <PropertyRef Name="UnitProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WarhammerDataBaseModelStoreContainer">
+          <EntitySet Name="Armies" EntityType="Self.Armies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommanderProfiles" EntityType="Self.CommanderProfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitProfiles" EntityType="Self.UnitProfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitsForArmies" EntityType="Self.UnitsForArmies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Weapons" EntityType="Self.Weapons" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Army" Association="Self.FK_Army">
+            <End Role="Armies" EntitySet="Armies" />
+            <End Role="UnitsForArmies" EntitySet="UnitsForArmies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArmyCommander" Association="Self.FK_ArmyCommander">
+            <End Role="CommanderProfiles" EntitySet="CommanderProfiles" />
+            <End Role="Armies" EntitySet="Armies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommanderWeapon" Association="Self.FK_CommanderWeapon">
+            <End Role="Weapons" EntitySet="Weapons" />
+            <End Role="CommanderProfiles" EntitySet="CommanderProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units" Association="Self.FK_Units">
+            <End Role="UnitProfiles" EntitySet="UnitProfiles" />
+            <End Role="UnitsForArmies" EntitySet="UnitsForArmies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WarhammerDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Armies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TypeArmy" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ArmyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CommanderId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UnitsForArmies" Relationship="Self.FK_Army" FromRole="Armies" ToRole="UnitsForArmies" />
+          <NavigationProperty Name="CommanderProfiles" Relationship="Self.FK_ArmyCommander" FromRole="Armies" ToRole="CommanderProfiles" />
+        </EntityType>
+        <EntityType Name="CommanderProfiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommanderName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CommanderStrength" Type="Int32" Nullable="false" />
+          <Property Name="CommanderResistance" Type="Int32" Nullable="false" />
+          <Property Name="CommanderAttacks" Type="Int32" Nullable="false" />
+          <Property Name="CommanderLives" Type="Int32" Nullable="false" />
+          <Property Name="CommanderWeapon" Type="Int32" />
+          <NavigationProperty Name="Armies" Relationship="Self.FK_ArmyCommander" FromRole="CommanderProfiles" ToRole="Armies" />
+          <NavigationProperty Name="Weapons" Relationship="Self.FK_CommanderWeapon" FromRole="CommanderProfiles" ToRole="Weapons" />
+        </EntityType>
+        <EntityType Name="UnitProfiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UnitStrength" Type="Int32" Nullable="false" />
+          <Property Name="UnitResistence" Type="Int32" Nullable="false" />
+          <Property Name="UnitAttacks" Type="Int32" Nullable="false" />
+          <Property Name="UnitRace" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UnitsForArmies" Relationship="Self.FK_Units" FromRole="UnitProfiles" ToRole="UnitsForArmies" />
+        </EntityType>
+        <EntityType Name="UnitsForArmies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitProfileID" Type="Int32" Nullable="false" />
+          <Property Name="ArmyID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Armies" Relationship="Self.FK_Army" FromRole="UnitsForArmies" ToRole="Armies" />
+          <NavigationProperty Name="UnitProfiles" Relationship="Self.FK_Units" FromRole="UnitsForArmies" ToRole="UnitProfiles" />
+        </EntityType>
+        <EntityType Name="Weapons">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="WeaponName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WeaponAddAtributte" Type="Int32" />
+          <NavigationProperty Name="CommanderProfiles" Relationship="Self.FK_CommanderWeapon" FromRole="Weapons" ToRole="CommanderProfiles" />
+        </EntityType>
+        <Association Name="FK_Army">
+          <End Role="Armies" Type="Self.Armies" Multiplicity="1" />
+          <End Role="UnitsForArmies" Type="Self.UnitsForArmies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Armies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitsForArmies">
+              <PropertyRef Name="ArmyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArmyCommander">
+          <End Role="CommanderProfiles" Type="Self.CommanderProfiles" Multiplicity="1" />
+          <End Role="Armies" Type="Self.Armies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommanderProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Armies">
+              <PropertyRef Name="CommanderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommanderWeapon">
+          <End Role="Weapons" Type="Self.Weapons" Multiplicity="0..1" />
+          <End Role="CommanderProfiles" Type="Self.CommanderProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Weapons">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommanderProfiles">
+              <PropertyRef Name="CommanderWeapon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units">
+          <End Role="UnitProfiles" Type="Self.UnitProfiles" Multiplicity="1" />
+          <End Role="UnitsForArmies" Type="Self.UnitsForArmies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitsForArmies">
+              <PropertyRef Name="UnitProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WarhammerDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Armies" EntityType="Self.Armies" />
+          <EntitySet Name="CommanderProfiles" EntityType="Self.CommanderProfiles" />
+          <EntitySet Name="UnitProfiles" EntityType="Self.UnitProfiles" />
+          <EntitySet Name="UnitsForArmies" EntityType="Self.UnitsForArmies" />
+          <EntitySet Name="Weapons" EntityType="Self.Weapons" />
+          <AssociationSet Name="FK_Army" Association="Self.FK_Army">
+            <End Role="Armies" EntitySet="Armies" />
+            <End Role="UnitsForArmies" EntitySet="UnitsForArmies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArmyCommander" Association="Self.FK_ArmyCommander">
+            <End Role="CommanderProfiles" EntitySet="CommanderProfiles" />
+            <End Role="Armies" EntitySet="Armies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommanderWeapon" Association="Self.FK_CommanderWeapon">
+            <End Role="Weapons" EntitySet="Weapons" />
+            <End Role="CommanderProfiles" EntitySet="CommanderProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units" Association="Self.FK_Units">
+            <End Role="UnitProfiles" EntitySet="UnitProfiles" />
+            <End Role="UnitsForArmies" EntitySet="UnitsForArmies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WarhammerDataBaseModelStoreContainer" CdmEntityContainer="WarhammerDataBaseEntities">
+          <EntitySetMapping Name="Armies">
+            <EntityTypeMapping TypeName="WarhammerDataBaseModel.Armies">
+              <MappingFragment StoreEntitySet="Armies">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TypeArmy" ColumnName="TypeArmy" />
+                <ScalarProperty Name="ArmyName" ColumnName="ArmyName" />
+                <ScalarProperty Name="CommanderId" ColumnName="CommanderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommanderProfiles">
+            <EntityTypeMapping TypeName="WarhammerDataBaseModel.CommanderProfiles">
+              <MappingFragment StoreEntitySet="CommanderProfiles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CommanderName" ColumnName="CommanderName" />
+                <ScalarProperty Name="CommanderStrength" ColumnName="CommanderStrength" />
+                <ScalarProperty Name="CommanderResistance" ColumnName="CommanderResistance" />
+                <ScalarProperty Name="CommanderAttacks" ColumnName="CommanderAttacks" />
+                <ScalarProperty Name="CommanderLives" ColumnName="CommanderLives" />
+                <ScalarProperty Name="CommanderWeapon" ColumnName="CommanderWeapon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitProfiles">
+            <EntityTypeMapping TypeName="WarhammerDataBaseModel.UnitProfiles">
+              <MappingFragment StoreEntitySet="UnitProfiles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+                <ScalarProperty Name="UnitStrength" ColumnName="UnitStrength" />
+                <ScalarProperty Name="UnitResistence" ColumnName="UnitResistence" />
+                <ScalarProperty Name="UnitAttacks" ColumnName="UnitAttacks" />
+                <ScalarProperty Name="UnitRace" ColumnName="UnitRace" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitsForArmies">
+            <EntityTypeMapping TypeName="WarhammerDataBaseModel.UnitsForArmies">
+              <MappingFragment StoreEntitySet="UnitsForArmies">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UnitProfileID" ColumnName="UnitProfileID" />
+                <ScalarProperty Name="ArmyID" ColumnName="ArmyID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weapons">
+            <EntityTypeMapping TypeName="WarhammerDataBaseModel.Weapons">
+              <MappingFragment StoreEntitySet="Weapons">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="WeaponName" ColumnName="WeaponName" />
+                <ScalarProperty Name="WeaponAddAtributte" ColumnName="WeaponAddAtributte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
