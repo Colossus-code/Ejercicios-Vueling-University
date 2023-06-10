@@ -37,7 +37,9 @@ namespace Distributed_Services
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<UnitsService>().As<IUnitsService>();
+            builder.RegisterType<CommanderService>().As<ICommanderService>();
             builder.RegisterType<RepositoryUnitsProfile>().As<IRepositoryUnitsProfile>();
+            builder.RegisterType<RepositoryCommanderProfile>().As<IRepositoryCommanderProfile>();
 
 
             //Set the dependency resolver to be Autofac.

@@ -12,6 +12,6 @@ namespace Infrastructure.DomainEntity
 
         public string CommanderName { get; set; }
 
-        public Weapon CommanderWeapon { get; set; }
+        public Weapon  CommanderWeapon { get; set; }
     }
 }

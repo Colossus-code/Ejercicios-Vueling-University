@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts
 {
-    public interface IArmyCreator
+    public interface IArmyService
     {
     }
 }

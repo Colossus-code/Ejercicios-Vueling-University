@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Bussines.Services
 {
-    public class ArmyCreator : IArmyCreator
+    public class ArmyService : IArmyService
     {
         private readonly IRepositoryUnitsProfile _repoUnitsProfile; 
-        public ArmyCreator(IRepositoryUnitsProfile repoUnitsProfile)
+        public ArmyService(IRepositoryUnitsProfile repoUnitsProfile)
         {
             _repoUnitsProfile = repoUnitsProfile;
         }

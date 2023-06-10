@@ -41,10 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IArmyCreator.cs" />
+    <Compile Include="Contracts\IArmyService.cs" />
+    <Compile Include="Contracts\ICommanderService.cs" />
     <Compile Include="Contracts\IUnitsService.cs" />
     <Compile Include="DataTransferObject\ArmyDto.cs" />
+    <Compile Include="DataTransferObject\CommanderProfileDto.cs" />
     <Compile Include="DataTransferObject\UnitsProfileDto.cs" />
+    <Compile Include="DataTransferObject\WeaponDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

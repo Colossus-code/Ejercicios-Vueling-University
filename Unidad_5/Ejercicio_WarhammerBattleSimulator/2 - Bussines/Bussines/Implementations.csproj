@@ -42,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ArmyCreator.cs" />
+    <Compile Include="Services\ArmyService.cs" />
+    <Compile Include="Services\CommanderService.cs" />
     <Compile Include="Services\UnitsService.cs" />
   </ItemGroup>
   <ItemGroup>
