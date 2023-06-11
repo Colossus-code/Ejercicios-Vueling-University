@@ -88,160 +88,163 @@ namespace Repository
 
             }
             catch (Exception) { return false; }
-        }
-        public BankAccount GetBankAccountByAccountNumber(string bankAccountNumber)
+        } 
+        public bool ChangePinAccount(string bankAccountId, string newPin)
+        {
+            Accounts account = _dbConnection.Accounts.FirstOrDefault(e => e.AccountId == bankAccountId);
+
+            if (account != null)
             {
+                account.AccountPin = newPin;
 
-                Accounts dbAccount = _dbConnection.Accounts.FirstOrDefault(e => e.AccountId.Equals(bankAccountNumber));
-                BankAccount domainAccount = null;
+                _dbConnection.SaveChanges();
 
-                if (dbAccount != null)
-                {
-                    domainAccount = new BankAccount
-                    {
-                        Id = dbAccount.Id,
-                        AccountId = dbAccount.AccountId,
-                        AccountPin = Convert.ToInt32(dbAccount.AccountPin),
-                        Money = dbAccount.Money,
-                        MovementId = new List<int>()
-                    };
-                }
-                else
-                {
-                    return null;
-                }
-
-                List<Movements> moves = _dbConnection.Movements.Where(e => e.AccountId == domainAccount.Id).ToList();
-
-                if (moves != null)
-                {
-                    foreach (Movements movement in moves)
-                    {
-                        domainAccount.MovementId.Add(movement.Id);
-                    }
-                }
-
-                return domainAccount;
+                return true;
             }
 
-            public bool ChangePinAccount(string bankAccountId, string newPin)
+            return false;
+        }
+
+        public bool CreateBankAccount(BankAccount bankAccount)
+        {
+            Accounts accountDataEntity = null;
+            try
             {
-                Accounts account = _dbConnection.Accounts.FirstOrDefault(e => e.AccountId == bankAccountId);
-
-                if (account != null)
+                accountDataEntity = new Accounts
                 {
-                    account.AccountPin = newPin;
+                    AccountId = bankAccount.AccountId,
+                    AccountPin = bankAccount.AccountPin.ToString(),
+                    Money = bankAccount.Money,
+                };
+                _dbConnection.Accounts.Add(accountDataEntity);
+                _dbConnection.SaveChanges();
 
-                    _dbConnection.SaveChanges();
-
-                    return true;
-                }
-
+            }
+            catch (Exception)
+            {
                 return false;
             }
 
-            public bool CreateBankAccount(BankAccount bankAccount)
+            if (accountDataEntity.Money != 0)
             {
-                Accounts accountDataEntity = null;
-                try
+                Movements initialMovementDataEntity = new Movements
                 {
-                    accountDataEntity = new Accounts
-                    {
-                        AccountId = bankAccount.AccountId,
-                        AccountPin = bankAccount.AccountPin.ToString(),
-                        Money = bankAccount.Money,
-                    };
-                    _dbConnection.Accounts.Add(accountDataEntity);
-                    _dbConnection.SaveChanges();
+                    AccountId = accountDataEntity.Id,
+                    Amount = accountDataEntity.Money,
+                    Date = DateTime.UtcNow,
 
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-
-                if (accountDataEntity.Money != 0)
-                {
-                    Movements initialMovementDataEntity = new Movements
-                    {
-                        AccountId = accountDataEntity.Id,
-                        Amount = accountDataEntity.Money,
-                        Date = DateTime.UtcNow,
-
-                    };
-                    _dbConnection.Movements.Add(initialMovementDataEntity);
-                    _dbConnection.SaveChanges();
-                }
-
-                if (accountDataEntity != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                };
+                _dbConnection.Movements.Add(initialMovementDataEntity);
+                _dbConnection.SaveChanges();
             }
 
-            public bool DeleteBankAccount(int idAccount)
+            if (accountDataEntity != null)
             {
-                Accounts dataDomainBankAccountDelete = _dbConnection.Accounts.Find(idAccount);
-                List<Movements> dataDomainMovementsDelete = null;
-
-                if (dataDomainBankAccountDelete != null && dataDomainBankAccountDelete.Movements.Count > 0)
-                {
-                    dataDomainMovementsDelete = _dbConnection.Movements.Where(e => e.AccountId == idAccount).ToList();
-                }
-
-                if (dataDomainMovementsDelete != null)
-                {
-                    foreach (Movements move in dataDomainMovementsDelete)
-                    {
-                        _dbConnection.Movements.Remove(move);
-                    }
-
-                    _dbConnection.SaveChanges();
-                }
-
-                if (dataDomainBankAccountDelete != null)
-                {
-                    _dbConnection.Accounts.Remove(dataDomainBankAccountDelete);
-                    _dbConnection.SaveChanges();
-
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
-
-            public List<BankAccount> GetAllAccounts()
+            else
             {
-                List<Accounts> dataEntityAccounts = _dbConnection.Accounts.ToList();
-
-                List<BankAccount> bankAccounts = new List<BankAccount>();
-
-                if (dataEntityAccounts == null)
-                {
-                    return bankAccounts;
-                }
-
-                foreach (Accounts account in dataEntityAccounts)
-                {
-                    bankAccounts.Add(new BankAccount
-                    {
-                        Id = account.Id,
-                        AccountId = account.AccountId,
-                        AccountPin = Convert.ToInt32(account.AccountPin),
-                        Money = account.Money
-
-                    });
-
-                }
-
-                return bankAccounts;
+                return false;
             }
         }
+
+        public bool DeleteBankAccount(int idAccount)
+        {
+            Accounts dataDomainBankAccountDelete = _dbConnection.Accounts.Find(idAccount);
+            List<Movements> dataDomainMovementsDelete = null;
+
+            if (dataDomainBankAccountDelete != null && dataDomainBankAccountDelete.Movements.Count > 0)
+            {
+                dataDomainMovementsDelete = _dbConnection.Movements.Where(e => e.AccountId == idAccount).ToList();
+            }
+
+            if (dataDomainMovementsDelete != null)
+            {
+                foreach (Movements move in dataDomainMovementsDelete)
+                {
+                    _dbConnection.Movements.Remove(move);
+                }
+
+                _dbConnection.SaveChanges();
+            }
+
+            if (dataDomainBankAccountDelete != null)
+            {
+                _dbConnection.Accounts.Remove(dataDomainBankAccountDelete);
+                _dbConnection.SaveChanges();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public List<BankAccount> GetAllAccounts()
+        {
+            List<Accounts> dataEntityAccounts = _dbConnection.Accounts.ToList();
+
+            List<BankAccount> bankAccounts = new List<BankAccount>();
+
+            if (dataEntityAccounts == null)
+            {
+                return bankAccounts;
+            }
+
+            foreach (Accounts account in dataEntityAccounts)
+            {
+                bankAccounts.Add(new BankAccount
+                {
+                    Id = account.Id,
+                    AccountId = account.AccountId,
+                    AccountPin = Convert.ToInt32(account.AccountPin),
+                    Money = account.Money
+
+                });
+
+            }
+
+            return bankAccounts;
+        }
+
+        public BankAccount GetBankAccountByAccountNumber(string bankAccountNumber)
+        {
+
+            Accounts dbAccount = _dbConnection.Accounts.FirstOrDefault(e => e.AccountId.Equals(bankAccountNumber));
+            BankAccount domainAccount = null;
+
+            if (dbAccount != null)
+            {
+                domainAccount = new BankAccount
+                {
+                    Id = dbAccount.Id,
+                    AccountId = dbAccount.AccountId,
+                    AccountPin = Convert.ToInt32(dbAccount.AccountPin),
+                    Money = dbAccount.Money,
+                    MovementId = new List<int>()
+                };
+            }
+            else
+            {
+                return null;
+            }
+
+            List<Movements> moves = _dbConnection.Movements.Where(e => e.AccountId == domainAccount.Id).ToList();
+
+            if (moves != null)
+            {
+                foreach (Movements movement in moves)
+                {
+                    domainAccount.MovementId.Add(movement.Id);
+                }
+            }
+
+            return domainAccount;
+        }
+
+
+
     }
+}
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="09c01e52d3f24964bda64f33022a59bd" Name="Diagram1">
+        <EntityTypeShape EntityType="WarhammerDataBaseModel.Armies" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarhammerDataBaseModel.CommanderProfiles" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarhammerDataBaseModel.UnitProfiles" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarhammerDataBaseModel.UnitsForArmies" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WarhammerDataBaseModel.Weapons" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="WarhammerDataBaseModel.FK_Army" ManuallyRouted="false" />
+        <AssociationConnector Association="WarhammerDataBaseModel.FK_ArmyCommander" ManuallyRouted="false" />
+        <AssociationConnector Association="WarhammerDataBaseModel.FK_CommanderWeapon" ManuallyRouted="false" />
+        <AssociationConnector Association="WarhammerDataBaseModel.FK_Units" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
