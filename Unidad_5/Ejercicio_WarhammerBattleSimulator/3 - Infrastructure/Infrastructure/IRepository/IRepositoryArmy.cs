@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.IRepository
 {
-    public interface IRepositoryCommanderProfile
-    {
+    public interface IRepositoryArmy {
 
-        (string, bool) SaveCommanderProfile(Commander commander);
+        (string, bool) SaveArmy(Army domainEntityArmy);
     }
 }

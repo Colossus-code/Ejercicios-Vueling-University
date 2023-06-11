@@ -12,7 +12,7 @@ namespace Infrastructure.DomainEntity
 
         public string ArmyName { get; set; }
 
-        public Commander ArmyCommander { get; set; }    
+        public string ArmyCommander { get; set; }    
 
         public string ArmyRace { get; set; }
     }

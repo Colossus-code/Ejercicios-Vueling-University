@@ -1,16 +1,12 @@
-﻿using Infrastructure.DomainEntity;
-using Services.DataTransferObject;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace Bussines.DataTransferObject
+namespace Distributed_Services.Models
 {
-    public class ArmyDto
+    public class ArmyModel
     {
-
         public string ArmyName { get; set; }
 
         public string ArmyCommander { get; set; }

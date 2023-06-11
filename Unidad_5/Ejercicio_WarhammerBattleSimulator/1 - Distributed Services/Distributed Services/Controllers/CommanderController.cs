@@ -1,15 +1,13 @@
 ﻿using Distributed_Services.Models;
 using Services.Contracts;
 using Services.DataTransferObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Http;
+using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
 namespace Distributed_Services.Controllers
 {
-    public class CommanderController
+    public class CommanderController : ApiController
     {
         private readonly ICommanderService _commanderService;
 
@@ -19,8 +17,11 @@ namespace Distributed_Services.Controllers
         }
 
         [HttpPost]
-        public bool InvokeCommanderService(CommanderProfileModel commanderProfileModel, WeaponModel weaponModel)
+        public IHttpActionResult InvokeCommanderService(CommanderAndWeaponModel commanderAndWeaponModel)
         {
+            WeaponModel weaponModel = commanderAndWeaponModel.Weapon;
+            CommanderProfileModel commanderProfileModel = commanderAndWeaponModel.Profile;
+
             WeaponDto weaponDto = new WeaponDto
             {
                 WeaponAddAtribute = weaponModel.WeaponAddAtribute,
@@ -38,7 +39,19 @@ namespace Distributed_Services.Controllers
                 WeaponDto = weaponDto
             };
 
-            return _commanderService.CreateCommanderProfileWithWeapon(commanderDto, weaponDto);
+            string msg = null;
+            bool sucess = false;
+            (msg, sucess) = _commanderService.CreateCommanderProfileWithWeapon(commanderDto, weaponDto);
+
+            if (sucess)
+            {
+                return Ok(msg);
+            }
+            else
+            {
+                return StatusCode(HttpStatusCode.InternalServerError); 
+            }
         }
+       
     }
 }

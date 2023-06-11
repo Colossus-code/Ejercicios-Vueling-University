@@ -57,6 +57,7 @@
       <DependentUpon>WarhammerDataBaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryArmy.cs" />
     <Compile Include="RepositoryCommanderProfile.cs" />
     <Compile Include="RepositoryUnitsProfile.cs" />
     <Compile Include="UnitProfiles.cs">

@@ -17,47 +17,46 @@ namespace Repository
             _warhammerDb = new WarhammerDataBaseEntities();
         }
 
-        public bool SaveCommanderProfile(Commander commander)
+        public (string,bool) SaveCommanderProfile(Commander domainEntityCommander)
         {
-            if(commander != null)
+            if(domainEntityCommander != null)
             {
                 CommanderProfiles domainDataCommander = new CommanderProfiles
                 {
-                    CommanderName = commander.CommanderName,
-                    CommanderStrength = commander.Strength,
-                    CommanderResistance = commander.Resistance,
-                    CommanderLives = commander.Lives,
-                    CommanderAttacks = commander.Attacks,
+                    CommanderName = domainEntityCommander.CommanderName,
+                    CommanderStrength = domainEntityCommander.Strength,
+                    CommanderResistance = domainEntityCommander.Resistance,
+                    CommanderLives = domainEntityCommander.Lives,
+                    CommanderAttacks = domainEntityCommander.Attacks,
                     
                 };
 
-                if(commander.CommanderWeapon != null )
+
+
+                if(domainEntityCommander.CommanderWeapon != null )
                 {
-                    Weapons domainDataWeapon = _warhammerDb.Weapons.FirstOrDefault(e => e.Id == commander.CommanderWeapon.Id);
+                    Weapons domainDataWeapon = _warhammerDb.Weapons.FirstOrDefault(e => e.WeaponName.Equals(domainEntityCommander.CommanderWeapon.WeaponName));
 
                     domainDataCommander.Weapons = domainDataWeapon; 
                 }
 
-                WarhammerDataBaseEntities warhammerDataBaseEntities = new WarhammerDataBaseEntities();
-
-                warhammerDataBaseEntities.CommanderProfiles.Add(domainDataCommander);
-
                 try
                 {
+                    _warhammerDb.CommanderProfiles.Add(domainDataCommander);
                     _warhammerDb.SaveChanges();
 
-                    return true;
+                    return ($"The comander {domainEntityCommander.CommanderName} has been created", true);
 
                 }
                 catch (Exception)
                 {
 
-                    return false;
+                    return ($"The weapon name weren't found", false);
                 }
 
             }
 
-            return false;
+            return ($"Something was wrong",false);
         }
     }
 }

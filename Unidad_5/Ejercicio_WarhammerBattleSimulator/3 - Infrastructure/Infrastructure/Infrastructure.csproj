@@ -47,6 +47,7 @@
     <Compile Include="DomainEntity\UnitProfile.cs" />
     <Compile Include="DomainEntity\UnitsForArmy.cs" />
     <Compile Include="DomainEntity\Weapon.cs" />
+    <Compile Include="IRepository\IRepositoryArmy.cs" />
     <Compile Include="IRepository\IRepositoryCommanderProfile.cs" />
     <Compile Include="IRepository\IRepositoryUnitsProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

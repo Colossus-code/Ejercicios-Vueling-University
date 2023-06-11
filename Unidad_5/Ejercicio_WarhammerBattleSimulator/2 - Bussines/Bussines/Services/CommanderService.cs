@@ -22,7 +22,7 @@ namespace Bussines.Services
 
         }
 
-        public bool CreateCommanderProfileWithWeapon(CommanderProfileDto commanderProfileDto, WeaponDto weaponDto)
+        public (string, bool) CreateCommanderProfileWithWeapon(CommanderProfileDto commanderProfileDto, WeaponDto weaponDto)
         {
 
             Commander commander = new Commander

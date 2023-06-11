@@ -1,4 +1,5 @@
-﻿using Infrastructure.DomainEntity;
+﻿using Bussines.DataTransferObject;
+using Infrastructure.DomainEntity;
 using Infrastructure.IRepository;
 using Services.Contracts;
 using System;
@@ -11,11 +12,23 @@ namespace Bussines.Services
 {
     public class ArmyService : IArmyService
     {
-        private readonly IRepositoryUnitsProfile _repoUnitsProfile; 
-        public ArmyService(IRepositoryUnitsProfile repoUnitsProfile)
+        private readonly IRepositoryArmy _repoArmy; 
+        public ArmyService(IRepositoryArmy repoArmy)
         {
-            _repoUnitsProfile = repoUnitsProfile;
+            _repoArmy = repoArmy;
         }
 
+        public (string,bool) CreateArmy(ArmyDto army)
+        {
+            Army domainEntityArmy = new Army
+            {
+                ArmyName = army.ArmyName,
+                ArmyRace = army.ArmyRace,
+                ArmyCommander = army.ArmyCommander,
+
+            };
+
+            return _repoArmy.SaveArmy(domainEntityArmy);
+        }
     }
 }

@@ -19,6 +19,5 @@ namespace Distributed_Services.Models
 
         public string Race { get; set; }
 
-        public WeaponModel WeaponModel { get; set; } 
     }
 }

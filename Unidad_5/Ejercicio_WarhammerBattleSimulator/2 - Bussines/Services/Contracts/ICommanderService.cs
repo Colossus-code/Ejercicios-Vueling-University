@@ -9,6 +9,6 @@ namespace Services.Contracts
 {
     public interface ICommanderService
     {
-        bool CreateCommanderProfileWithWeapon(CommanderProfileDto commanderProfileDto, WeaponDto weaponDto);
+        (string, bool) CreateCommanderProfileWithWeapon(CommanderProfileDto commanderProfileDto, WeaponDto weaponDto);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bussines.DataTransferObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Services.Contracts
 {
     public interface IArmyService
     {
+
+        (string, bool) CreateArmy(ArmyDto army);
     }
 }

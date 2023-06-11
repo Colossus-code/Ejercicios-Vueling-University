@@ -36,10 +36,13 @@ namespace Distributed_Services
             //Register your Web API controllers.
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
+
             builder.RegisterType<UnitsService>().As<IUnitsService>();
             builder.RegisterType<CommanderService>().As<ICommanderService>();
+            builder.RegisterType<ArmyService>().As<IArmyService>();
             builder.RegisterType<RepositoryUnitsProfile>().As<IRepositoryUnitsProfile>();
             builder.RegisterType<RepositoryCommanderProfile>().As<IRepositoryCommanderProfile>();
+            builder.RegisterType<RepositoryArmy>().As<IRepositoryArmy>();
 
 
             //Set the dependency resolver to be Autofac.
