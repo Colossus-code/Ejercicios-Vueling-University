@@ -50,6 +50,7 @@
     <Compile Include="IRepository\IRepositoryArmy.cs" />
     <Compile Include="IRepository\IRepositoryCommanderProfile.cs" />
     <Compile Include="IRepository\IRepositoryUnitsProfile.cs" />
+    <Compile Include="IRepository\IRepositoryUnitsForArmy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

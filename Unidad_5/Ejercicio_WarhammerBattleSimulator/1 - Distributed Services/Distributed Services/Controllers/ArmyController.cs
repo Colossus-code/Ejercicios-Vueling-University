@@ -27,6 +27,7 @@ namespace Distributed_Services.Controllers
 
             string msg = null;
             bool sucess = false;
+
             (msg, sucess) = _armyService.CreateArmy(armyDto);
 
             if (sucess)

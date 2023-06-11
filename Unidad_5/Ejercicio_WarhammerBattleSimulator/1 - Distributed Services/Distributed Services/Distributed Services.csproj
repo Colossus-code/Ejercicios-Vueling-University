@@ -147,6 +147,7 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="Controllers\ArmyController.cs" />
     <Compile Include="Controllers\CommanderController.cs" />
+    <Compile Include="Controllers\UnitsForArmyController.cs" />
     <Compile Include="Helpers\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Models\CommanderAndWeaponModel.cs" />
     <Compile Include="Models\CommanderProfileModel.cs" />
     <Compile Include="Models\UnitProfileModel.cs" />
+    <Compile Include="Models\UnitsForArmyModel.cs" />
     <Compile Include="Models\WeaponModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\AutoFacWebApiConfig.cs" />

@@ -66,6 +66,7 @@
     <Compile Include="UnitsForArmies.cs">
       <DependentUpon>WarhammerDataBaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="RepositoryUnitsForArmy.cs" />
     <Compile Include="WarhammerDataBaseModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
