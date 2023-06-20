@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3EFB47D1-1587-40D6-8230-F050C2F4FF0E}</ProjectGuid>
+    <ProjectGuid>{0D34EB9F-F4DC-40CC-8AFE-60BA0F1A5D9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infrastructure</RootNamespace>
-    <AssemblyName>Infrastructure</AssemblyName>
+    <RootNamespace>RepositoryContracts</RootNamespace>
+    <AssemblyName>RepositoryContracts</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,18 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainEntity\Army.cs" />
-    <Compile Include="DomainEntity\Character.cs" />
-    <Compile Include="DomainEntity\Commander.cs" />
-    <Compile Include="DomainEntity\UnitProfile.cs" />
-    <Compile Include="DomainEntity\UnitsForArmy.cs" />
-    <Compile Include="DomainEntity\Weapon.cs" />
-    <Compile Include="IRepository\IRepositoryArmy.cs" />
-    <Compile Include="IRepository\IRepositoryCommanderProfile.cs" />
-    <Compile Include="IRepository\IRepositoryUnitsProfile.cs" />
-    <Compile Include="IRepository\IRepositoryUnitsForArmy.cs" />
+    <Compile Include="IPokemonFinderAndTransform.cs" />
+    <Compile Include="IPokemonRepositoryByGeneration.cs" />
+    <Compile Include="IPokemonRepositoryUrls.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\2 - Bussines\Dto\Dto.csproj">
+      <Project>{05E103C3-B535-4185-B220-705839771183}</Project>
+      <Name>Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{98517519-3084-43A1-ABD5-93DE54005120}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

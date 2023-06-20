@@ -43,9 +43,11 @@
   <ItemGroup>
     <Compile Include="Contracts\IArmyService.cs" />
     <Compile Include="Contracts\ICommanderService.cs" />
+    <Compile Include="Contracts\IUnitsForArmyService.cs" />
     <Compile Include="Contracts\IUnitsService.cs" />
     <Compile Include="DataTransferObject\ArmyDto.cs" />
     <Compile Include="DataTransferObject\CommanderProfileDto.cs" />
+    <Compile Include="DataTransferObject\UnitsForArmyDto.cs" />
     <Compile Include="DataTransferObject\UnitsProfileDto.cs" />
     <Compile Include="DataTransferObject\WeaponDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

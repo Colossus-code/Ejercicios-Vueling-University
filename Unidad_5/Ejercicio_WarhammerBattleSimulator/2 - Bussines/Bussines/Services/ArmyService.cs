@@ -12,13 +12,13 @@ namespace Bussines.Services
 {
     public class ArmyService : IArmyService
     {
-        private readonly IRepositoryArmy _repoArmy; 
+        private readonly IRepositoryArmy _repoArmy;
         public ArmyService(IRepositoryArmy repoArmy)
         {
             _repoArmy = repoArmy;
         }
 
-        public (string,bool) CreateArmy(ArmyDto army)
+        public (string, bool) CreateArmy(ArmyDto army)
         {
             Army domainEntityArmy = new Army
             {
@@ -29,6 +29,17 @@ namespace Bussines.Services
             };
 
             return _repoArmy.SaveArmy(domainEntityArmy);
+        }
+
+        public (string, bool) GetArmy(ArmyDto army)
+        {
+            Army domainEntitArmy = new Army
+            {
+                ArmyName = army.ArmyName,
+            };
+
+            return ("Ok", true);
+
         }
     }
 }
