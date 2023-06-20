@@ -177,6 +177,24 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\2 - Bussines\Contracts\Contracts\Contracts.csproj">
+      <Project>{2E2F8790-62D1-4A0A-97DF-1A05603B3857}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\2 - Bussines\Implementations\Implementations\Implementations.csproj">
+      <Project>{CC70068A-85DD-42E6-99B0-C1AA3DE0E2DB}</Project>
+      <Name>Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\3 - Domain\RepositoryContracts\RepositoryContracts\RepositoryContracts.csproj">
+      <Project>{3A627A7B-166A-4772-9BA1-B7C394644931}</Project>
+      <Name>RepositoryContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\4 - Infrastructure\InfrastructureData\RepositoryImplementations\RepositoryImplementations.csproj">
+      <Project>{75A2A5A1-892B-4028-A1BF-F36D0A1AE818}</Project>
+      <Name>RepositoryImplementations</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

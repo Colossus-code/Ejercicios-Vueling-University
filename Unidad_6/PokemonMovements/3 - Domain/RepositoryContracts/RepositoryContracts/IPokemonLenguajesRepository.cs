@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DomainEntity
+namespace RepositoryContracts
 {
-    public class Class1
+    public interface IPokemonLenguajesRepository
     {
     }
 }
