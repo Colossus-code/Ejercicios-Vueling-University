@@ -60,7 +60,7 @@ namespace InfrastructureData
 
         }
 
-        private PokemonDto TransformStringToDto(string listPropsAsStringsOfPokeapi) // todo devolver entity en ved de dto 
+        private PokemonDto TransformStringToDto(string listPropsAsStringsOfPokeapi) 
         {
 
             PokemonDto pokemonJsonAsDto = JsonConvert.DeserializeObject<PokemonDto>(listPropsAsStringsOfPokeapi);
@@ -146,7 +146,7 @@ namespace InfrastructureData
 
                 pokemonDto.types[iterator] = new Dto.Type
                 {
-                    type = new Type1 // todo revisar pega petardazo por instancia de clase no establecida
+                    type = new Type1 
                     {
                         name = types
                     }

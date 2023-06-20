@@ -90,8 +90,6 @@ namespace Bussines
                     return "The worker doesn't haves the knowledge required to this task";
                 }
 
-                //TODO sgarciam 0506 gestionar cambio de task de la que ya tiene por otra y liberar la que tenia 
-
             }
             catch (Exception)
             {

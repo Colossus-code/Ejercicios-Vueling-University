@@ -57,10 +57,6 @@ namespace WebApiPokemon.Controllers
 
             }
 
-            //catch (HttpRequestException ex)
-            //{
-            //    return BadRequest($"The pokemon {pokeModel} weren't found. See the error code: {ex.Message}");
-            //}
             catch (NotAllowGenerationException ex)
             {
                 return BadRequest(ex.Message);
@@ -82,7 +78,7 @@ namespace WebApiPokemon.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest($"The pokemon {pokeModel.PokemonName} doesn't exsist. See the error code: {ex.Message}"); //TODO sgarciam 1706 gestion de excepciones mejorada.
+                return BadRequest($"The pokemon {pokeModel.PokemonName} doesn't exsist. See the error code: {ex.Message}"); 
             }
 
         }
