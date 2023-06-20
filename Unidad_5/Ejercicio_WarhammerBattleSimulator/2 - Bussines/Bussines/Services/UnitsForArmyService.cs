@@ -1,4 +1,5 @@
-﻿using Infrastructure.IRepository;
+﻿using Infrastructure.DomainEntity;
+using Infrastructure.IRepository;
 using Services.Contracts;
 using Services.DataTransferObject;
 using System;
@@ -21,8 +22,24 @@ namespace Bussines.Services
         public (string,bool) AddUnitsToArmy (UnitsForArmyDto unitsForArmyDto)
         {
 
+            Army domainEntityArmy = new Army
+            {
+                ArmyName = unitsForArmyDto.Army.ArmyName
+            };
 
+            UnitProfile domainEntityUnitProfile = new UnitProfile
+            {
+                UnitName = unitsForArmyDto.Units.UnitName
+            };
 
+            UnitsForArmy unitsForArmyDomainEntity = new UnitsForArmy
+            {
+                ArmyId = domainEntityArmy,
+                UnitProfilesId = domainEntityUnitProfile,
+                CuantityOfUnits = unitsForArmyDto.CuantityOfUnits
+            };
+
+            return _unitsForArmyRepository.AddUnitsForArmy(unitsForArmyDomainEntity);
         }
     }
 }

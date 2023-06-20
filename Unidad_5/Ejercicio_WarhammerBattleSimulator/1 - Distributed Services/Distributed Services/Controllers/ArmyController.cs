@@ -15,6 +15,20 @@ namespace Distributed_Services.Controllers
             _armyService = armyService;
         }
 
+
+        [HttpGet]
+        public IHttpActionResult InvokeArmyServiceGet(string armyName)
+        {
+            ArmyDto armydto = new ArmyDto
+            {
+                ArmyName = armyName
+            };
+
+            return Ok("ok");
+
+        }
+        
+        
         [HttpPost]
         public IHttpActionResult InvokeArmyServiceCreation(ArmyModel armyModel)
         {

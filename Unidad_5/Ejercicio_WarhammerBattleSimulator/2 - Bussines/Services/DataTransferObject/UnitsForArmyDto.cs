@@ -1,4 +1,5 @@
-﻿using Infrastructure.DomainEntity;
+﻿using Bussines.DataTransferObject;
+using Infrastructure.DomainEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,9 @@ namespace Services.DataTransferObject
     public class UnitsForArmyDto
     {
 
-        public int Id { get; set; }
+        public ArmyDto Army { get; set; }
 
-        public string ArmyName { get; set; }
-
-        public string UnitsName { get; set; }
+        public UnitsProfileDto Units { get; set; }
 
         public int CuantityOfUnits { get; set; }
     }

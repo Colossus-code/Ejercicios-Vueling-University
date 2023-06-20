@@ -40,9 +40,11 @@ namespace Distributed_Services
             builder.RegisterType<UnitsService>().As<IUnitsService>();
             builder.RegisterType<CommanderService>().As<ICommanderService>();
             builder.RegisterType<ArmyService>().As<IArmyService>();
+            builder.RegisterType<UnitsForArmyService>().As<IUnitsForArmyService>();
             builder.RegisterType<RepositoryUnitsProfile>().As<IRepositoryUnitsProfile>();
             builder.RegisterType<RepositoryCommanderProfile>().As<IRepositoryCommanderProfile>();
             builder.RegisterType<RepositoryArmy>().As<IRepositoryArmy>();
+            builder.RegisterType<RepositoryUnitsForArmy>().As<IRepositoryUnitsForArmy>();
 
 
             //Set the dependency resolver to be Autofac.
