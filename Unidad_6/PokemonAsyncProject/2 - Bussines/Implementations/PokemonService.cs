@@ -25,11 +25,12 @@ namespace Implementations
 
         public async Task<string> AddPokemonsFromUrl(List<string> urls)
         {
+            //todo sgarciam 2006 agregar logger y test
             List<PokemonDomainEntity> pokemonsDomainEntity = await _pokemonRepositoryUrl.GetAllIntroduced(urls);
             List<PokemonDomainEntity> pokemonsToDelete = new List<PokemonDomainEntity>();
             foreach (PokemonDomainEntity pokemon in pokemonsDomainEntity)
             {
-                if (!(pokemon.Types.Contains("fire") && (pokemon.Generation.Equals("first Generation") || pokemon.Generation.Equals("second Generation") || pokemon.Generation.Equals("third Generation"))))
+                if (!(pokemon.Types.Contains("fire") && (pokemon.Generation != null)))
                 {
                     pokemonsToDelete.Add(pokemon);
                 }

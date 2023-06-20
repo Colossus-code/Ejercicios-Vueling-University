@@ -6,23 +6,20 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
-using AutofacSerilogIntegration;
-using System.IO;
-using Serilog;
-using Serilog.Extensions.Logging;
-using Serilog.Sinks.File;
 using InfrastructureData;
 using RepositoryContracts;
-using Implementations;
 using Contracts;
+using Implementations;
+using Serilog;
+using System.IO;
 
-namespace WebApi.App_Start
+namespace WebApiPokemon.Controllers
 {
     public class AutofacWebapiConfig
     {
 
         public static IContainer Container;
-        private static string _logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", "ProgramLog.txt");
+        private static string _logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AplicationLog", "Log.txt");
 
         public static void Initialize(HttpConfiguration config)
         {

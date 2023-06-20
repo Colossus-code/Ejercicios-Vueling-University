@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using WebApiPokemon.Controllers;
 
-namespace WebApi.App_Start
+namespace WebApiPokemon.App_Start
 {
     public class Bootstrapper
     {
