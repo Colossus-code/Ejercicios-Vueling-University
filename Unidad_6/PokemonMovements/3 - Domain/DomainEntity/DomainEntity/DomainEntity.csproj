@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LenguajesDomainEntity.cs" />
+    <Compile Include="LenguageMovementsDomainEntity.cs" />
+    <Compile Include="LenguagesDomainEntity.cs" />
     <Compile Include="MovementsDomainEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

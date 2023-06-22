@@ -46,5 +46,15 @@
     <Compile Include="IPokemonMovementsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\2 - Bussines\Contracts\Contracts\Contracts.csproj">
+      <Project>{2e2f8790-62d1-4a0a-97df-1a05603b3857}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DomainEntity\DomainEntity\DomainEntity.csproj">
+      <Project>{98BD227E-0A04-425F-9A7B-9FC5AFE57719}</Project>
+      <Name>DomainEntity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

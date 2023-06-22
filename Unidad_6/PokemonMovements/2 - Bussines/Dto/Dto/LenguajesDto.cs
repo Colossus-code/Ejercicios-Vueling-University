@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace DomainEntity
 {
-    public class LenguajesDomainEntity
+    public class LenguajesDto
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Url { get; set; }
+
+
+
     }
 }

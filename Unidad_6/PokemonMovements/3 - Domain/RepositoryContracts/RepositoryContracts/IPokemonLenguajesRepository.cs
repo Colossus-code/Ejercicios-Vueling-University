@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace RepositoryContracts
 {
     public interface IPokemonLenguajesRepository
     {
+        List<LenguagesDomainEntity> GetLenguage(List<MovementsDto> movementsDtoCache);
     }
 }

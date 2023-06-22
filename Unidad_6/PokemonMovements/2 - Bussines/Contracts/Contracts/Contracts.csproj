@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomExceptions\NotAllowLenguageException.cs" />
+    <Compile Include="Dto\MovementsDto.cs" />
+    <Compile Include="Dto\TypesDto.cs" />
     <Compile Include="IPokemonFinderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestService\RequestPokeApiModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

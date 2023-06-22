@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\packages\Serilog.2.12.0\lib\net47\Serilog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,8 +48,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\3 - Domain\DomainEntity\DomainEntity\DomainEntity.csproj">
+      <Project>{98bd227e-0a04-425f-9a7b-9fc5afe57719}</Project>
+      <Name>DomainEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\3 - Domain\RepositoryContracts\RepositoryContracts\RepositoryContracts.csproj">
+      <Project>{3A627A7B-166A-4772-9BA1-B7C394644931}</Project>
+      <Name>RepositoryContracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Contracts\Contracts\Contracts.csproj">
-      <Project>{2E2F8790-62D1-4A0A-97DF-1A05603B3857}</Project>
+      <Project>{2e2f8790-62d1-4a0a-97df-1a05603b3857}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
   </ItemGroup>

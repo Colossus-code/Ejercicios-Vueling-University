@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,8 +50,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\2 - Bussines\Contracts\Contracts\Contracts.csproj">
+      <Project>{2e2f8790-62d1-4a0a-97df-1a05603b3857}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\3 - Domain\DomainEntity\DomainEntity\DomainEntity.csproj">
+      <Project>{98BD227E-0A04-425F-9A7B-9FC5AFE57719}</Project>
+      <Name>DomainEntity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\3 - Domain\RepositoryContracts\RepositoryContracts\RepositoryContracts.csproj">
-      <Project>{3a627a7b-166a-4772-9ba1-b7c394644931}</Project>
+      <Project>{3A627A7B-166A-4772-9BA1-B7C394644931}</Project>
       <Name>RepositoryContracts</Name>
     </ProjectReference>
   </ItemGroup>
