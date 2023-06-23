@@ -4,6 +4,7 @@ using Contracts.RequestService;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -29,33 +30,53 @@ namespace WebApiPokemonMoves.Controllers
         [Route("PokemonMovesForTypeAndLanguage")]
         public async Task<IHttpActionResult> PokeListIntroduced(PokemonFinderModel pokemonFinder)
         {
-            _pokeLogger.Information($"Introducing {pokemonFinder.QuantityOfResults} first moves of type {pokemonFinder.TypeOfPokemon}");
+            _pokeLogger.Information($"Finding {pokemonFinder.QuantityOfResults} first moves of type {pokemonFinder.TypeOfPokemon}");
 
             try
             {
                 RequestPokeApiModel requestPokeapiModel = new RequestPokeApiModel
                 {
-                    Language = pokemonFinder.LanguageToFind,
+                    Language = pokemonFinder.LanguageToFind.ToLower(),
                     Quantity = Convert.ToInt32(pokemonFinder.QuantityOfResults),
-                    Type = pokemonFinder.TypeOfPokemon
+                    Type = pokemonFinder.TypeOfPokemon.ToLower()
 
                 };
 
-                await _pokeFinderService.IntroduceMovesByTypeAndLng(requestPokeapiModel);
 
-                return Ok("Okay");
+                return Ok(await _pokeFinderService.IntroduceMovesByTypeAndLng(requestPokeapiModel));
 
 
-            }catch(NotAllowLenguageException ex) { 
-            
+            }
+            catch (FileNotFoundException ex)
+            {
+                _pokeLogger.Error($"Error at: {DateTime.UtcNow}, exception message: {ex.Message}. Exception stacktrace: {ex.StackTrace}");
+                return BadRequest("Can't to persist into a file, comprove that path file it's correctly and the file wasn't deleted.");
+            }
+            catch (FormatException ex)
+            {
+                _pokeLogger.Error($"Error at: {DateTime.UtcNow}, exception message: {ex.Message}. Exception stacktrace: {ex.StackTrace}");
+                return BadRequest("You must to introduce a number of quantity");
+
+            }
+            catch (NotAllowLenguageException ex)
+            {
+
                 _pokeLogger.Error($"Error at: {DateTime.UtcNow}, exception message: {ex.Message}. Exception stacktrace: {ex.StackTrace}");
                 return BadRequest(ex.Message);
-            
-            }catch(Exception ex) { 
-            
+            }            
+            catch (NotRealTypeException ex)
+            {
+
+                _pokeLogger.Error($"Error at: {DateTime.UtcNow}, exception message: {ex.Message}. Exception stacktrace: {ex.StackTrace}");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+
                 _pokeLogger.Error($"Error at: {DateTime.UtcNow}, exception message: {ex.Message}. Exception stacktrace: {ex.StackTrace}");
                 return BadRequest("An error has been occurred, contact with the administrator.");
             }
         }
     }
+
 }

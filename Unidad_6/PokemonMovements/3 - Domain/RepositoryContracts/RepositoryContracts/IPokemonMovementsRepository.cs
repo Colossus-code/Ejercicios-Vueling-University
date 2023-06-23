@@ -11,9 +11,9 @@ namespace RepositoryContracts
 {
     public interface IPokemonMovementsRepository
     {
-        List<MovementsDomainEntity> GetActualMovementsDomain(List<MovementsDto> movementsDtos);
-        List<MovementsDto> GetActualMovementsDto(RequestPokeApiModel requestPokeApi);
         Task<List<MovementsDto>> GetApiMovements(RequestPokeApiModel requestPokeApi);
         void PersistMovements(List<MovementsDto> movementsDto);
+        List<MovementsDto> GetActualMovementsDto();
+        Task<List<MovementsDto>> GetRestMovements(int lastId, int toTake, RequestPokeApiModel requestPokeApi);
     }
 }

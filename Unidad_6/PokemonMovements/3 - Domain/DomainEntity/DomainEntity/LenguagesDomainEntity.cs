@@ -8,9 +8,10 @@ namespace Dto
 {
     public class LenguagesDomainEntity
     {
+        public string Lenguage { get; set;}
         public int MoveId { get; set; }
-        public Dictionary<string,string> MovementNameByLanguage { get; set; }
-        public Dictionary<string,string> MovementDescByLanguage { get; set; }
+        public string MovementNameByLanguage { get; set; }
+        public string MovementDescByLanguage { get; set; }
 
 
     }

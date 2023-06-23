@@ -11,7 +11,7 @@ namespace DomainEntity
     {
         public int MoveId { get; set; }
         public string MoveType { get; set; }      
-        public List<LenguagesDomainEntity> MoveLenguage { get; set; }
+        public LenguagesDomainEntity MoveLenguage { get; set; }
 
     }
 }

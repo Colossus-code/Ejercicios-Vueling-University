@@ -9,6 +9,6 @@ namespace RepositoryContracts
 {
     public interface IPokemonLenguajesRepository
     {
-        List<LenguagesDomainEntity> GetLenguage(List<MovementsDto> movementsDtoCache);
+        //List<LenguagesDomainEntity> GetLenguage(List<MovementsDto> movementsDtoCache);
     }
 }

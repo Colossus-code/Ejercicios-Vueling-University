@@ -15,14 +15,14 @@ namespace DomainEntity
 
         public override string ToString()
         {
-            string toReturn = $"New movements has been introduced at: {IntroducedAt}\n";
+            string toReturn = $"\nNew movements has been introduced at: {IntroducedAt}\n";
             
             
             foreach(var movement in MovementsFound)
             {
                 toReturn += $"With the ID: {movement.MoveId} and type by: {movement.MoveType}\n";
-                toReturn += $" {movement.MoveLenguage.Select(e => e.MovementNameByLanguage.Values)}";
-                toReturn += $" {movement.MoveLenguage.Select(e => e.MovementDescByLanguage.Values)}";
+                toReturn += $" {movement.MoveLenguage.MovementNameByLanguage}";
+                toReturn += $" {movement.MoveLenguage.MovementDescByLanguage}";
             }
 
             return toReturn ;

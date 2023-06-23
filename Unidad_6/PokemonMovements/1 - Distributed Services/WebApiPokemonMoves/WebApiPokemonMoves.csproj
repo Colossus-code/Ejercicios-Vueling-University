@@ -152,7 +152,7 @@
   <ItemGroup>
     <Content Include="AplicationLog\Log.txt" />
     <Content Include="Global.asax" />
-    <Content Include="LocalFiles\PokemonMovements.txt" />
+    <Content Include="LocalFiles\PokemonPresentation.txt" />
     <Content Include="LocalFiles\PokemonMovementsDto.txt" />
     <Content Include="Web.config" />
   </ItemGroup>

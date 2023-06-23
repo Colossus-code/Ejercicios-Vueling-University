@@ -20,31 +20,23 @@ namespace RepositoryImplementations
     public class PokemonMovementsRepository : IPokemonMovementsRepository
     {
         private readonly string _pathFileDto;
-        private readonly string _pathFile;
         private readonly IPokemonFinderRepository _pokemonFinderRepo; 
         private const string  _pokeApiRouteType = "https://pokeapi.co/api/v2/type/";
 
         public PokemonMovementsRepository(IPokemonFinderRepository pokemonFindrRepo)
         {
             _pathFileDto = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocalFiles", "PokemonMovementsDto.txt");
-            _pathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocalFiles", "PokemonMovements.txt");
+            _pokemonFinderRepo = pokemonFindrRepo;
         }
 
-        public List<MovementsDto> GetActualMovementsDto(RequestPokeApiModel requestPokeApi)
+        public List<MovementsDto> GetActualMovementsDto()
         {
-            List<MovementsDto> movementsDto = _pokemonFinderRepo.GetListFromFile(requestPokeApi);
+            List<MovementsDto> movementsDto = _pokemonFinderRepo.GetListFromFile();
 
             return movementsDto; 
 
         }
 
-        public List<MovementsDomainEntity> GetActualMovementsDomain(List<MovementsDto> movementsDtos)
-        {
-            List<MovementsDomainEntity> movementsDomain = _pokemonFinderRepo.GetMovements(movementsDtos);
-
-            return movementsDomain;
-
-        }
         public async Task<List<MovementsDto>> GetApiMovements(RequestPokeApiModel requestPokeApi)
         {
             HttpClient client = new HttpClient();
@@ -53,20 +45,18 @@ namespace RepositoryImplementations
             
             string resutAsString = await getTypeFromApi.Content.ReadAsStringAsync();
 
-            List<TypesDto> typeAtacks = JsonConvert.DeserializeObject<List<TypesDto>>(resutAsString).Take(requestPokeApi.Quantity).ToList();
+            TypesDto typeAtacks = JsonConvert.DeserializeObject<TypesDto>(resutAsString);
 
             List<MovementsDto> movementsDtos = new List<MovementsDto>();
 
-            foreach (var type in typeAtacks)
+            foreach (var urlMove in typeAtacks.moves)
             {
 
-                HttpResponseMessage webApiResoult = await client.GetAsync(type.moves.Select(url => url.url).FirstOrDefault());
+                HttpResponseMessage webApiResoult = await client.GetAsync(urlMove.url);
 
-                string result = await getTypeFromApi.Content.ReadAsStringAsync();
+                string result = await webApiResoult.Content.ReadAsStringAsync();
 
                 MovementsDto movementDto = JsonConvert.DeserializeObject<MovementsDto>(result);
-
-                movementDto.names[0] =movementDto.names.FirstOrDefault(lenguage => lenguage.language.name.Contains(requestPokeApi.Language));
                 
                 movementsDtos.Add(movementDto);
     
@@ -75,13 +65,38 @@ namespace RepositoryImplementations
 
             return movementsDtos;
 
-        }
+        }   
 
         public void PersistMovements(List<MovementsDto> movementsDto)
         {
-            string serialiceMovements = JsonConvert.SerializeObject(movementsDto);
+            string readText = File.ReadAllText(_pathFileDto);
 
-            File.AppendAllText(_pathFileDto, serialiceMovements);
+            List<MovementsDto> actualMovs = JsonConvert.DeserializeObject<List<MovementsDto>>(readText);
+
+            if(actualMovs != null)
+            {
+                foreach (var movementDto in actualMovs)
+                {
+                    movementsDto.Add(movementDto);
+                }
+            }
+
+            File.WriteAllText(_pathFileDto, JsonConvert.SerializeObject(movementsDto));
+        }        
+
+        public async Task<List<MovementsDto>> GetRestMovements(int lastId, int toTake, RequestPokeApiModel requestPokeApi)
+        {
+            List<MovementsDto> movementsDtos = await GetApiMovements(requestPokeApi);
+            List<MovementsDto> movementsDtosToResponse = new List<MovementsDto>();
+
+
+            foreach (var movement in movementsDtos.Where(e => e.id > lastId && movementsDtosToResponse.Count < toTake))
+            {
+                movementsDtosToResponse.Add(movement);
+            };
+
+            return movementsDtosToResponse;
         }
+
     }
 }

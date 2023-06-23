@@ -12,8 +12,9 @@ namespace RepositoryContracts
     public interface IPokemonFinderRepository
     {
 
-        List<MovementsDto> GetListFromFile(RequestPokeApiModel requestMode);
+        List<MovementsDto> GetListFromFile();
+        bool PersistEntity(string serialiceEntity);
 
-        List<MovementsDomainEntity> GetMovements(List<MovementsDto> movementsDto);
+        string GetActualPresentation();
     }
 }
