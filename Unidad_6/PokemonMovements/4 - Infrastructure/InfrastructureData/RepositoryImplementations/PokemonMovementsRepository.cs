@@ -89,11 +89,21 @@ namespace RepositoryImplementations
             List<MovementsDto> movementsDtos = await GetApiMovements(requestPokeApi);
             List<MovementsDto> movementsDtosToResponse = new List<MovementsDto>();
 
-
-            foreach (var movement in movementsDtos.Where(e => e.id > lastId && movementsDtosToResponse.Count < toTake))
+            if(toTake < movementsDtos.Count())
             {
-                movementsDtosToResponse.Add(movement);
-            };
+                foreach (var movement in movementsDtos.Where(e => e.id > lastId && movementsDtosToResponse.Count < toTake))
+                {
+                    movementsDtosToResponse.Add(movement);
+                };
+            }
+            else
+            {
+                foreach (var movement in movementsDtos.Where(e => e.id > lastId && movementsDtosToResponse.Count() < movementsDtos.Count()))
+                {
+                    movementsDtosToResponse.Add(movement);
+                };
+            }
+           
 
             return movementsDtosToResponse;
         }

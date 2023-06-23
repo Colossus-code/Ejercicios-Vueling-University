@@ -3,6 +3,8 @@ using Contracts.CustomExceptions;
 using Contracts.RequestService;
 using DomainEntity;
 using Dto;
+using Implementations.Persist;
+using Implementations.Validators;
 using RepositoryContracts;
 using Serilog;
 using System;
@@ -19,7 +21,8 @@ namespace Implementations
         private readonly IPokemonFinderRepository _pokemonFinderRepository;
         private readonly ILogger _pokeLogger;
 
-        private readonly List<string> _allowLang;
+        private readonly PokemonFinderPersist _pokeFinderPersist; 
+        private readonly PokemonFinderValiator _pokeFinderValidator;
 
         public PokemonFinderService(IPokemonMovementsRepository repoMovements, IPokemonFinderRepository repoFinder, ILogger logger)
         {
@@ -28,24 +31,16 @@ namespace Implementations
             _pokemonFinderRepository = repoFinder;
             _pokeLogger = logger;
 
-            _allowLang = new List<string>
-            {
-                "es",
-                "it",
-                "en",
-                "ja",
-                "zh-Hans",
-                "fr",
-                "de",
+            _pokeFinderPersist = new PokemonFinderPersist(_pokemonMovementsRepository,_pokemonFinderRepository,logger);
+            _pokeFinderValidator = new PokemonFinderValiator(logger);
 
-            };
 
         }
 
         public async Task<string> IntroduceMovesByTypeAndLng(RequestPokeApiModel requesApiModel)
         {
 
-            ComprobeData(requesApiModel);
+            _pokeFinderValidator.ComprobeData(requesApiModel);
 
             List<MovementsDto> movementsDtoCache = _pokemonMovementsRepository.GetActualMovementsDto();
 
@@ -53,24 +48,11 @@ namespace Implementations
 
             if (movementsDtoCache == null)
             {
-                _pokeLogger.Information("Not found cache data");
-
-                movementsDtoCache = await _pokemonMovementsRepository.GetApiMovements(requesApiModel);
-
-                movementsDtoCache = movementsDtoCache.Take(requesApiModel.Quantity).ToList();
-                
-                _pokemonMovementsRepository.PersistMovements(movementsDtoCache);
-
-                lenguageMovementsDomainEntity = TransformToEntity(movementsDtoCache, requesApiModel.Language);
-
-                _pokeLogger.Information($"Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
-
-                return PerisistEntity(lenguageMovementsDomainEntity);
+               return await GetWithoutCache(movementsDtoCache, requesApiModel, lenguageMovementsDomainEntity);
 
             }
             else
             {
-
                 movementsDtoCache = movementsDtoCache.Where(type => type.type.name.Equals(requesApiModel.Type)).ToList();
 
                 if (movementsDtoCache.Count >= requesApiModel.Quantity && movementsDtoCache.Count != 0)
@@ -78,116 +60,90 @@ namespace Implementations
 
                     movementsDtoCache = movementsDtoCache.Take(requesApiModel.Quantity).ToList();
 
-                    return PersistAndTransform(movementsDtoCache, lenguageMovementsDomainEntity ,requesApiModel).ToString();
+                    return _pokeFinderPersist.PersistAndTransform(movementsDtoCache, lenguageMovementsDomainEntity ,requesApiModel).ToString();
                      
 
                 }
                 else if (movementsDtoCache.Count < requesApiModel.Quantity && movementsDtoCache.Count != 0)
                 {
-                    int toTake = requesApiModel.Quantity - movementsDtoCache.Count;
 
-                    int lastId = movementsDtoCache.Select(e => e.id.Value).Last();
-
-                    List<MovementsDto> restMovements = await _pokemonMovementsRepository.GetRestMovements(lastId, toTake, requesApiModel);
-
-                    _pokemonMovementsRepository.PersistMovements(restMovements);
-
-                    _pokeLogger.Information($"Found {requesApiModel.Quantity-toTake} moves, adding {toTake} new {movementsDtoCache.Count} moves DTO.");
-
-                    return PersistAndTransform(restMovements,lenguageMovementsDomainEntity,requesApiModel).ToString();
-
+                    return await GetWithoutEnoughtCache(movementsDtoCache,requesApiModel,lenguageMovementsDomainEntity);
 
                 }
                 else
                 {
-                    movementsDtoCache = await _pokemonMovementsRepository.GetApiMovements(requesApiModel);
-
-                    if(movementsDtoCache == null)
-                    {
-                        throw new NotRealTypeException($"The following type:{requesApiModel.Type} it's not defined like a pokemon type.");
-                    }
-                    movementsDtoCache = movementsDtoCache.Take(requesApiModel.Quantity).Where(type => type.type.name.Equals(requesApiModel.Type)).ToList();
-
-                    _pokemonMovementsRepository.PersistMovements(movementsDtoCache);
-                  
-                    return PersistAndTransform(movementsDtoCache, lenguageMovementsDomainEntity, requesApiModel).ToString();
-
+                    return await GetWitoutTypeCache(movementsDtoCache,requesApiModel,lenguageMovementsDomainEntity);
                 }
 
             }
 
-        }
-
-        private LenguageMovementsDomainEntity TransformToEntity(List<MovementsDto> movementsDtoCache, string language)
+        } 
+        
+        private async Task<string> GetWithoutCache(List<MovementsDto> movementsDtoCache, RequestPokeApiModel requestApiModel, LenguageMovementsDomainEntity lenguageMovementsDomainEntity)
         {
-            LenguageMovementsDomainEntity lenguageMovementsDomainEntity = new LenguageMovementsDomainEntity();
+            _pokeLogger.Information("Not found cache data");
 
-            List<MovementsDomainEntity> movementsDomainEntities = new List<MovementsDomainEntity>();
+            movementsDtoCache = await _pokemonMovementsRepository.GetApiMovements(requestApiModel);
 
-            foreach (MovementsDto moveDto in movementsDtoCache)
+            if (movementsDtoCache.Count < requestApiModel.Quantity)
             {
-                movementsDomainEntities.Add(new MovementsDomainEntity
-                {
-                    MoveId = moveDto.id.Value,
-                    MoveType = moveDto.type.name,
-                    MoveLenguage = new LenguagesDomainEntity
-                    {
-                        Lenguage = language,
-                        MoveId = moveDto.id.Value,
-                        MovementNameByLanguage = moveDto.names.Where(e => e.language.name.Equals(language)).Select(e => e.name).FirstOrDefault(),
-                        MovementDescByLanguage = moveDto.flavor_text_entries.Where(e => e.language.name.Equals(language)).Select(e => e.flavor_text).FirstOrDefault(),
-                    }
-                });
+                _pokemonMovementsRepository.PersistMovements(movementsDtoCache);
+
+                lenguageMovementsDomainEntity = _pokeFinderValidator.TransformToEntity(movementsDtoCache, requestApiModel.Language);
+
+                _pokeLogger.Warning($"Selected {requestApiModel.Quantity}, but only found {movementsDtoCache.Count}. Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
+
+                throw new NotEnougthMovementsException($"Selected more moves than actual exist. Adding: {movementsDtoCache.Count}");
             }
-
-            lenguageMovementsDomainEntity.MovementsFound = movementsDomainEntities;
-
-            return lenguageMovementsDomainEntity;
-        }
-        private string PerisistEntity(LenguageMovementsDomainEntity movementDomain)
-        {
-            _pokemonFinderRepository.PersistEntity(movementDomain.ToString());
-
-            return movementDomain.ToString();
-        }
-       
-        private bool ComprobeData(RequestPokeApiModel requesApiModel)
-        {
-            if (!_allowLang.Contains(requesApiModel.Language)){
-
-                throw new NotAllowLenguageException("Not allow lenguage, select: es, it, en, ja or zh-Hans");
-            }
-
-            return true;
-        }
-
-        private string PersistAndTransform(List<MovementsDto> movementsDtoCache, LenguageMovementsDomainEntity lenguageMovementsDomainEntity, RequestPokeApiModel requesApiModel)
-        {
-
-            lenguageMovementsDomainEntity = TransformToEntity(movementsDtoCache, requesApiModel.Language);
-
-            string actualPresentation = _pokemonFinderRepository.GetActualPresentation();
-
-            LenguageMovementsDomainEntity nowToPersist = new LenguageMovementsDomainEntity();
-
-            nowToPersist.MovementsFound = new List<MovementsDomainEntity>();
-
-            foreach(MovementsDomainEntity move in lenguageMovementsDomainEntity.MovementsFound.OrderBy(e => e.MoveId))
+            else
             {
-                if(!(actualPresentation.Contains(move.MoveLenguage.MovementNameByLanguage) 
-                    && actualPresentation.Contains(move.MoveId.ToString())))
-                {
+                movementsDtoCache = movementsDtoCache.Take(requestApiModel.Quantity).ToList();
 
-                    nowToPersist.MovementsFound.Add(move);
-                }
+                _pokemonMovementsRepository.PersistMovements(movementsDtoCache);
+
+                lenguageMovementsDomainEntity = _pokeFinderValidator.TransformToEntity(movementsDtoCache, requestApiModel.Language);
+
+                _pokeLogger.Information($"Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
+
+                _pokeFinderPersist.PerisistEntity(lenguageMovementsDomainEntity);
+
+                return lenguageMovementsDomainEntity.ToString();
+            }
+        }
+
+        private async Task<string> GetWithoutEnoughtCache(List<MovementsDto> movementsDtoCache, RequestPokeApiModel requestApiModel, LenguageMovementsDomainEntity lenguageMovementsDomainEntity)
+        {
+            int toTake = requestApiModel.Quantity - movementsDtoCache.Count;
+
+            int lastId = movementsDtoCache.Select(e => e.id.Value).Last();
+
+            List<MovementsDto> restMovements = await _pokemonMovementsRepository.GetRestMovements(lastId, toTake, requestApiModel);
+
+            _pokemonMovementsRepository.PersistMovements(restMovements);
+
+            _pokeFinderValidator.ComprobeQuantity(movementsDtoCache, requestApiModel, lenguageMovementsDomainEntity);
+
+            _pokeLogger.Information($"Found {requestApiModel.Quantity - toTake} moves, adding {toTake} new {movementsDtoCache.Count} moves DTO.");
+
+            return _pokeFinderPersist.PersistAndTransform(restMovements, lenguageMovementsDomainEntity, requestApiModel).ToString();
+        }
+
+        private async Task<string> GetWitoutTypeCache(List<MovementsDto> movementsDtoCache, RequestPokeApiModel requestApiModel, LenguageMovementsDomainEntity lenguageMovementsDomainEntity)
+        {
+            movementsDtoCache = await _pokemonMovementsRepository.GetApiMovements(requestApiModel);
+
+            if (movementsDtoCache == null)
+            {
+                throw new NotRealTypeException($"The following type:{requestApiModel.Type} it's not defined like a pokemon type.");
             }
 
-            _pokemonFinderRepository.PersistEntity(nowToPersist.ToString());
+            movementsDtoCache = movementsDtoCache.Take(requestApiModel.Quantity).Where(type => type.type.name.Equals(requestApiModel.Type)).ToList();
 
-            _pokeLogger.Information($"Writing new {nowToPersist.MovementsFound.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage.Lenguage}");
+            _pokemonMovementsRepository.PersistMovements(movementsDtoCache);
 
-            return nowToPersist.ToString();
-                   
+            _pokeFinderValidator.ComprobeQuantity(movementsDtoCache, requestApiModel, lenguageMovementsDomainEntity);
+
+            return _pokeFinderPersist.PersistAndTransform(movementsDtoCache, lenguageMovementsDomainEntity, requestApiModel).ToString();
 
         }
     }

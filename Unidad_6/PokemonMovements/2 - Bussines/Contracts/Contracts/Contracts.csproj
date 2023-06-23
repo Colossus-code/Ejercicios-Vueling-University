@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomExceptions\NotAllowLenguageException.cs" />
+    <Compile Include="CustomExceptions\NotEnougthMovementsException.cs" />
     <Compile Include="CustomExceptions\NotRealTypeException.cs" />
     <Compile Include="Dto\MovementsDto.cs" />
     <Compile Include="Dto\TypesDto.cs" />

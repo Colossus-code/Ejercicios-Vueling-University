@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Contracts.CustomExceptions
 {
-    internal class NotEnougthMovements
+    public class NotEnougthMovementsException : Exception
     {
+
+        public NotEnougthMovementsException()
+        {
+
+        }
+
+
+        public NotEnougthMovementsException(string msg) : base(msg) { }
     }
 }
