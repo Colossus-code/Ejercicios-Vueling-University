@@ -1,4 +1,5 @@
-﻿using Contracts.RequestService;
+﻿using Contracts;
+using Contracts.RequestService;
 using DomainEntity;
 using Dto;
 using Implementations.Validators;
@@ -12,21 +13,19 @@ using System.Threading.Tasks;
 
 namespace Implementations.Persist
 {
-    public class PokemonFinderPersist
+    public class PokemonFinderPersist : IPokemonFinderPersist
     {
         private readonly ILogger _pokeLogger;
-        private readonly IPokemonMovementsRepository _pokemonMovementsRepository;
         private readonly IPokemonFinderRepository _pokemonFinderRepository;
 
-        private readonly PokemonFinderValiator _pokeValidations;
-        public PokemonFinderPersist(IPokemonMovementsRepository repoMovements, IPokemonFinderRepository repoFinder, ILogger logger)
+        private readonly IPokemonFinderTransform _pokeFinderTransform; 
+        public PokemonFinderPersist(IPokemonFinderRepository repoFinder, ILogger logger, IPokemonFinderTransform pokemonFinderTransform)
         {
 
-            _pokemonMovementsRepository = repoMovements;
             _pokemonFinderRepository = repoFinder;
             _pokeLogger = logger;
 
-            _pokeValidations = new PokemonFinderValiator(logger);
+            _pokeFinderTransform = pokemonFinderTransform;
 
         }
         public string PerisistEntity(LenguageMovementsDomainEntity movementDomain)
@@ -40,7 +39,7 @@ namespace Implementations.Persist
         public string PersistAndTransform(List<MovementsDto> movementsDtoCache, LenguageMovementsDomainEntity lenguageMovementsDomainEntity, RequestPokeApiModel requesApiModel)
         {
 
-            lenguageMovementsDomainEntity = _pokeValidations.TransformToEntity(movementsDtoCache, requesApiModel.Language);
+            lenguageMovementsDomainEntity = _pokeFinderTransform.TransformToEntity(movementsDtoCache, requesApiModel.Language);
 
             string actualPresentation = _pokemonFinderRepository.GetActualPresentation();
 

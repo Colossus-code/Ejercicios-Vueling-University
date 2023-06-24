@@ -18,22 +18,21 @@ namespace Implementations
     public class PokemonFinderService : IPokemonFinderService
     {
         private readonly IPokemonMovementsRepository _pokemonMovementsRepository;
-        private readonly IPokemonFinderRepository _pokemonFinderRepository;
         private readonly ILogger _pokeLogger;
 
-        private readonly PokemonFinderPersist _pokeFinderPersist; 
-        private readonly PokemonFinderValiator _pokeFinderValidator;
+        private readonly IPokemonFinderPersist _pokeFinderPersist; 
+        private readonly IPokemonFinderValidator _pokeFinderValidator;
+        private readonly IPokemonFinderTransform _pokeFinderTransform;
 
-        public PokemonFinderService(IPokemonMovementsRepository repoMovements, IPokemonFinderRepository repoFinder, ILogger logger)
+        public PokemonFinderService(IPokemonMovementsRepository repoMovements, ILogger logger, IPokemonFinderPersist pokemonFinderPersist, IPokemonFinderValidator pokemonFinderValidator, IPokemonFinderTransform pokemonFinderTransform)
         {
 
             _pokemonMovementsRepository = repoMovements;
-            _pokemonFinderRepository = repoFinder;
             _pokeLogger = logger;
 
-            _pokeFinderPersist = new PokemonFinderPersist(_pokemonMovementsRepository,_pokemonFinderRepository,logger);
-            _pokeFinderValidator = new PokemonFinderValiator(logger);
-
+            _pokeFinderPersist = pokemonFinderPersist;
+            _pokeFinderValidator = pokemonFinderValidator;
+            _pokeFinderTransform = pokemonFinderTransform;
 
         }
 
@@ -89,7 +88,7 @@ namespace Implementations
             {
                 _pokemonMovementsRepository.PersistMovements(movementsDtoCache);
 
-                lenguageMovementsDomainEntity = _pokeFinderValidator.TransformToEntity(movementsDtoCache, requestApiModel.Language);
+                lenguageMovementsDomainEntity = _pokeFinderTransform.TransformToEntity(movementsDtoCache, requestApiModel.Language);
 
                 _pokeLogger.Warning($"Selected {requestApiModel.Quantity}, but only found {movementsDtoCache.Count}. Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
 
@@ -101,7 +100,7 @@ namespace Implementations
 
                 _pokemonMovementsRepository.PersistMovements(movementsDtoCache);
 
-                lenguageMovementsDomainEntity = _pokeFinderValidator.TransformToEntity(movementsDtoCache, requestApiModel.Language);
+                lenguageMovementsDomainEntity = _pokeFinderTransform.TransformToEntity(movementsDtoCache, requestApiModel.Language);
 
                 _pokeLogger.Information($"Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
 
@@ -134,7 +133,7 @@ namespace Implementations
 
             if (movementsDtoCache == null)
             {
-                throw new NotRealTypeException($"The following type:{requestApiModel.Type} it's not defined like a pokemon type.");
+                throw new NotRealTypeException($"The following type: {requestApiModel.Type} it's not defined like a pokemon type.");
             }
 
             movementsDtoCache = movementsDtoCache.Take(requestApiModel.Quantity).Where(type => type.type.name.Equals(requestApiModel.Type)).ToList();

@@ -47,7 +47,8 @@
     <Compile Include="Persist\PokemonFinderPersist.cs" />
     <Compile Include="PokemonFinderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validators\PokemonFinderValiator.cs" />
+    <Compile Include="Transform\PokemonFinderTransform.cs" />
+    <Compile Include="Validators\PokemonFinderValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

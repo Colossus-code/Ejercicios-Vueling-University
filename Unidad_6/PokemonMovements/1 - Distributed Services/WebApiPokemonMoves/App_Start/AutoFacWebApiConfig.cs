@@ -12,6 +12,9 @@ using RepositoryImplementations;
 using RepositoryContracts;
 using Implementations;
 using Contracts;
+using Implementations.Validators;
+using Implementations.Persist;
+using Implementations.Transform;
 
 namespace WebApiPokemonMoves.App_Start
 {
@@ -49,6 +52,9 @@ namespace WebApiPokemonMoves.App_Start
             builder.RegisterType<PokemonLenguajesRepository>().As<IPokemonLenguajesRepository>();
             builder.RegisterType<PokemonMovementsRepository>().As<IPokemonMovementsRepository>();
             builder.RegisterType<PokemonFinderService>().As<IPokemonFinderService>();
+            builder.RegisterType<PokemonFinderPersist>().As<IPokemonFinderPersist>();
+            builder.RegisterType<PokemonFinderValidator>().As<IPokemonFinderValidator>();
+            builder.RegisterType<PokemonFinderTransform>().As<IPokemonFinderTransform>();
 
             //Set the dependency resolver to be Autofac.
             Container = builder.Build();

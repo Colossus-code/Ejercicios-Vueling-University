@@ -42,7 +42,11 @@ namespace RepositoryImplementations
             HttpClient client = new HttpClient();
 
             HttpResponseMessage getTypeFromApi = await client.GetAsync(_pokeApiRouteType+requestPokeApi.Type);
-            
+
+            if (!getTypeFromApi.IsSuccessStatusCode)
+            {
+                return null;
+            }
             string resutAsString = await getTypeFromApi.Content.ReadAsStringAsync();
 
             TypesDto typeAtacks = JsonConvert.DeserializeObject<TypesDto>(resutAsString);
@@ -75,13 +79,13 @@ namespace RepositoryImplementations
 
             if(actualMovs != null)
             {
-                foreach (var movementDto in actualMovs)
+                foreach (var movementDto in movementsDto)
                 {
-                    movementsDto.Add(movementDto);
+                    actualMovs.Add(movementDto);
                 }
             }
 
-            File.WriteAllText(_pathFileDto, JsonConvert.SerializeObject(movementsDto));
+            File.WriteAllText(_pathFileDto, JsonConvert.SerializeObject(actualMovs));
         }        
 
         public async Task<List<MovementsDto>> GetRestMovements(int lastId, int toTake, RequestPokeApiModel requestPokeApi)

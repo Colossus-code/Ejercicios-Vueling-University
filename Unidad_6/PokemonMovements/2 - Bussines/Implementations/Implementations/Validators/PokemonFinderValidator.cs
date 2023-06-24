@@ -1,7 +1,10 @@
-﻿using Contracts.CustomExceptions;
+﻿using Contracts;
+using Contracts.CustomExceptions;
 using Contracts.RequestService;
 using DomainEntity;
 using Dto;
+using Implementations.Persist;
+using RepositoryContracts;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -11,15 +14,21 @@ using System.Threading.Tasks;
 
 namespace Implementations.Validators
 {
-    public class PokemonFinderValiator
+    public class PokemonFinderValidator : IPokemonFinderValidator
     {
         private readonly ILogger _pokeLogger;
 
         private readonly List<string> _allowLang;
 
-        public PokemonFinderValiator(ILogger logger)
+        private readonly IPokemonFinderPersist _pokeFinderPersist;
+        private readonly IPokemonFinderTransform _pokeFinderTransform;
+
+        public PokemonFinderValidator(ILogger logger, IPokemonFinderPersist pokemonFinderPersist, IPokemonFinderTransform pokemonFinderTransform)
         {
             _pokeLogger = logger;
+            
+            _pokeFinderPersist = pokemonFinderPersist;
+            _pokeFinderTransform = pokemonFinderTransform;
 
             _allowLang = new List<string>
             {
@@ -49,39 +58,17 @@ namespace Implementations.Validators
         {
             if (movementsDto.Count() < requesApiModel.Quantity)
             {
+                lenguageMovementsDomainEntity = _pokeFinderTransform.TransformToEntity(movementsDto, requesApiModel.Language);
+
                 _pokeLogger.Warning($"Selected {requesApiModel.Quantity}, but only found {movementsDto.Count}. Writing new {movementsDto.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
+
+                _pokeFinderPersist.PerisistEntity(lenguageMovementsDomainEntity);
 
                 throw new NotEnougthMovementsException($"Selected more moves than actual exist. Adding: {movementsDto.Count}");
             }
 
             return true;
         }
-
-        public LenguageMovementsDomainEntity TransformToEntity(List<MovementsDto> movementsDtoCache, string language)
-        {
-            LenguageMovementsDomainEntity lenguageMovementsDomainEntity = new LenguageMovementsDomainEntity();
-
-            List<MovementsDomainEntity> movementsDomainEntities = new List<MovementsDomainEntity>();
-
-            foreach (MovementsDto moveDto in movementsDtoCache)
-            {
-                movementsDomainEntities.Add(new MovementsDomainEntity
-                {
-                    MoveId = moveDto.id.Value,
-                    MoveType = moveDto.type.name,
-                    MoveLenguage = new LenguagesDomainEntity
-                    {
-                        Lenguage = language,
-                        MoveId = moveDto.id.Value,
-                        MovementNameByLanguage = moveDto.names.Where(e => e.language.name.Equals(language)).Select(e => e.name).FirstOrDefault(),
-                        MovementDescByLanguage = moveDto.flavor_text_entries.Where(e => e.language.name.Equals(language)).Select(e => e.flavor_text).FirstOrDefault(),
-                    }
-                });
-            }
-
-            lenguageMovementsDomainEntity.MovementsFound = movementsDomainEntities;
-
-            return lenguageMovementsDomainEntity;
-        }
     }
+       
 }
