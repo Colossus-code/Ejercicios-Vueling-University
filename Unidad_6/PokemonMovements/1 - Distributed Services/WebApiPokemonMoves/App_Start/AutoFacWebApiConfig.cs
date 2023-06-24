@@ -8,6 +8,13 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
+using RepositoryImplementations;
+using RepositoryContracts;
+using Implementations;
+using Contracts;
+using Implementations.Validators;
+using Implementations.Persist;
+using Implementations.Transform;
 
 namespace WebApiPokemonMoves.App_Start
 {
@@ -40,6 +47,14 @@ namespace WebApiPokemonMoves.App_Start
             builder.RegisterInstance(Log.Logger)
                 .As<ILogger>()
                 .SingleInstance();
+
+            builder.RegisterType<PokemonFinderRepository>().As<IPokemonFinderRepository>();
+            builder.RegisterType<PokemonLenguajesRepository>().As<IPokemonLenguajesRepository>();
+            builder.RegisterType<PokemonMovementsRepository>().As<IPokemonMovementsRepository>();
+            builder.RegisterType<PokemonFinderService>().As<IPokemonFinderService>();
+            builder.RegisterType<PokemonFinderPersist>().As<IPokemonFinderPersist>();
+            builder.RegisterType<PokemonFinderValidator>().As<IPokemonFinderValidator>();
+            builder.RegisterType<PokemonFinderTransform>().As<IPokemonFinderTransform>();
 
             //Set the dependency resolver to be Autofac.
             Container = builder.Build();

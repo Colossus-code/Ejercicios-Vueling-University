@@ -150,7 +150,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AplicationLog\Log.txt" />
     <Content Include="Global.asax" />
+    <Content Include="LocalFiles\PokemonPresentation.txt" />
+    <Content Include="LocalFiles\PokemonMovementsDto.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +179,28 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\2 - Bussines\Contracts\Contracts\Contracts.csproj">
+      <Project>{2e2f8790-62d1-4a0a-97df-1a05603b3857}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\2 - Bussines\Implementations\Implementations\Implementations.csproj">
+      <Project>{cc70068a-85dd-42e6-99b0-c1aa3de0e2db}</Project>
+      <Name>Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\3 - Domain\DomainEntity\DomainEntity\DomainEntity.csproj">
+      <Project>{98bd227e-0a04-425f-9a7b-9fc5afe57719}</Project>
+      <Name>DomainEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\3 - Domain\RepositoryContracts\RepositoryContracts\RepositoryContracts.csproj">
+      <Project>{3a627a7b-166a-4772-9ba1-b7c394644931}</Project>
+      <Name>RepositoryContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\4 - Infrastructure\InfrastructureData\RepositoryImplementations\RepositoryImplementations.csproj">
+      <Project>{75a2a5a1-892b-4028-a1bf-f36d0a1ae818}</Project>
+      <Name>RepositoryImplementations</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
