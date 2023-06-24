@@ -41,13 +41,36 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq">
+      <Version>4.18.4</Version>
+    </PackageReference>
+    <PackageReference Include="Serilog">
+      <Version>2.12.0</Version>
+    </PackageReference>
     <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.extensibility.core">
+      <Version>2.4.2</Version>
+    </PackageReference>
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="IntroduceMoves.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\2 - Bussines\Contracts\Contracts\Contracts.csproj">
+      <Project>{2E2F8790-62D1-4A0A-97DF-1A05603B3857}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\2 - Bussines\Implementations\Implementations\Implementations.csproj">
+      <Project>{CC70068A-85DD-42E6-99B0-C1AA3DE0E2DB}</Project>
+      <Name>Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\3 - Domain\RepositoryContracts\RepositoryContracts\RepositoryContracts.csproj">
+      <Project>{3A627A7B-166A-4772-9BA1-B7C394644931}</Project>
+      <Name>RepositoryContracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
