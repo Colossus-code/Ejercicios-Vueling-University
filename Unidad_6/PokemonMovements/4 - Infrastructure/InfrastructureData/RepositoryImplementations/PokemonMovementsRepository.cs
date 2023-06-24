@@ -1,4 +1,5 @@
-﻿using Contracts.Dto;
+﻿using Contracts.CustomExceptions;
+using Contracts.Dto;
 using Contracts.RequestService;
 using DomainEntity;
 using Dto;
@@ -45,8 +46,9 @@ namespace RepositoryImplementations
 
             if (!getTypeFromApi.IsSuccessStatusCode)
             {
-                return null;
+                throw new NotRealTypeException("no es ok");
             }
+
             string resutAsString = await getTypeFromApi.Content.ReadAsStringAsync();
 
             TypesDto typeAtacks = JsonConvert.DeserializeObject<TypesDto>(resutAsString);

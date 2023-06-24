@@ -102,7 +102,7 @@ namespace Implementations
 
                 lenguageMovementsDomainEntity = _pokeFinderTransform.TransformToEntity(movementsDtoCache, requestApiModel.Language);
 
-                _pokeLogger.Information($"Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
+                _pokeLogger.Information($"Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage.Lenguage}");
 
                 _pokeFinderPersist.PerisistEntity(lenguageMovementsDomainEntity);
 
