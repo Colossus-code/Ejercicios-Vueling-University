@@ -49,7 +49,6 @@ namespace WebApiPokemonMoves.App_Start
                 .SingleInstance();
 
             builder.RegisterType<PokemonFinderRepository>().As<IPokemonFinderRepository>();
-            builder.RegisterType<PokemonLenguajesRepository>().As<IPokemonLenguajesRepository>();
             builder.RegisterType<PokemonMovementsRepository>().As<IPokemonMovementsRepository>();
             builder.RegisterType<PokemonFinderService>().As<IPokemonFinderService>();
             builder.RegisterType<PokemonFinderPersist>().As<IPokemonFinderPersist>();

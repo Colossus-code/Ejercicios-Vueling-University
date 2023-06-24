@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PokemonFinderRepository.cs" />
-    <Compile Include="PokemonLenguajesRepository.cs" />
     <Compile Include="PokemonMovementsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +64,14 @@
       <Project>{3A627A7B-166A-4772-9BA1-B7C394644931}</Project>
       <Name>RepositoryContracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LocalFiles\PokemonMovementsDto.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LocalFiles\PokemonPresentation.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

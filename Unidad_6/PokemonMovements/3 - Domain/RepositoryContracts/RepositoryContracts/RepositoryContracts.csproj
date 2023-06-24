@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPokemonFinderRepository.cs" />
-    <Compile Include="IPokemonLenguajesRepository.cs" />
     <Compile Include="IPokemonMovementsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

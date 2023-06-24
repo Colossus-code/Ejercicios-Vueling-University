@@ -169,6 +169,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{889F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinesTestingSuite", "Unidad_6\PokemonMovements\Testing\BussinesTestingSuite\BussinesTestingSuite.csproj", "{AA11BA77-3693-4C5F-9EED-EFA8495C6A30}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net6CacheProject", "Net6CacheProject", "{19BA0D07-CA85-40CB-926C-80A7E36D2240}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net6Cache", "Unidad_7\Net6CacheProject\Net6Cache\Net6Cache.csproj", "{D9127BE9-7B3A-4217-8E02-3CD3A2E6D7EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -327,6 +331,10 @@ Global
 		{AA11BA77-3693-4C5F-9EED-EFA8495C6A30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA11BA77-3693-4C5F-9EED-EFA8495C6A30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA11BA77-3693-4C5F-9EED-EFA8495C6A30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9127BE9-7B3A-4217-8E02-3CD3A2E6D7EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9127BE9-7B3A-4217-8E02-3CD3A2E6D7EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9127BE9-7B3A-4217-8E02-3CD3A2E6D7EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9127BE9-7B3A-4217-8E02-3CD3A2E6D7EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -408,6 +416,8 @@ Global
 		{A19572FF-8741-4BE5-9275-E6AEC93F4A2E} = {DC8F2739-38AE-4084-8512-138B459D1B2F}
 		{889F1696-FCC5-4ADF-A105-4B590ED51F91} = {FB596AE7-02A4-4843-805D-34D7790D2D40}
 		{AA11BA77-3693-4C5F-9EED-EFA8495C6A30} = {889F1696-FCC5-4ADF-A105-4B590ED51F91}
+		{19BA0D07-CA85-40CB-926C-80A7E36D2240} = {10553E5C-8B36-41C3-A2A1-FC93FD2DC552}
+		{D9127BE9-7B3A-4217-8E02-3CD3A2E6D7EE} = {19BA0D07-CA85-40CB-926C-80A7E36D2240}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B8CA17E-F82F-4D59-99D3-6510947C46C7}
