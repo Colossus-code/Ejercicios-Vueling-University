@@ -118,3 +118,11 @@
    en System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    en System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    en WebApiPokemonMoves.Controllers.PokemonFinderController.<PokeListIntroduced>d__3.MoveNext() en C:\Users\HolaCons\source\repos\Ejercicios Vueling University\Ejercicios VU\Unidad_6\PokemonMovements\1 - Distributed Services\WebApiPokemonMoves\Controllers\PokemonFinderController.cs:línea 46
+2023-06-24 20:25:44.456 +02:00 [INF] Finding 3 first moves of type fire
+2023-06-24 20:25:52.050 +02:00 [ERR] Error at: 24/06/2023 18:25:51, exception message: Not allow lenguage, select: es, it, en, ja or zh-Hans. Exception stacktrace:    en Implementations.Validators.PokemonFinderValidator.ComprobeData(RequestPokeApiModel requesApiModel) en C:\Users\HolaCons\source\repos\Ejercicios Vueling University\Ejercicios VU\Unidad_6\PokemonMovements\2 - Bussines\Implementations\Implementations\Validators\PokemonFinderValidator.cs:línea 54
+   en Implementations.PokemonFinderService.<IntroduceMovesByTypeAndLng>d__6.MoveNext() en C:\Users\HolaCons\source\repos\Ejercicios Vueling University\Ejercicios VU\Unidad_6\PokemonMovements\2 - Bussines\Implementations\Implementations\PokemonFinderService.cs:línea 42
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+   en System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   en System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   en System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   en WebApiPokemonMoves.Controllers.PokemonFinderController.<PokeListIntroduced>d__3.MoveNext() en C:\Users\HolaCons\source\repos\Ejercicios Vueling University\Ejercicios VU\Unidad_6\PokemonMovements\1 - Distributed Services\WebApiPokemonMoves\Controllers\PokemonFinderController.cs:línea 46

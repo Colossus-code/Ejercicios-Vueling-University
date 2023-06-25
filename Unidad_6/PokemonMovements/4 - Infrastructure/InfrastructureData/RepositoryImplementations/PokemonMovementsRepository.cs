@@ -46,7 +46,7 @@ namespace RepositoryImplementations
 
             if (!getTypeFromApi.IsSuccessStatusCode)
             {
-                throw new NotRealTypeException("no es ok");
+                throw new NotRealTypeException($"The following type: {requestPokeApi.Type } it's not defined like a pokemon type.");
             }
 
             string resutAsString = await getTypeFromApi.Content.ReadAsStringAsync();

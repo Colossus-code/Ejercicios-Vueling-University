@@ -44,7 +44,7 @@ namespace Implementations
             List<MovementsDto> movementsDtoCache = _pokemonMovementsRepository.GetActualMovementsDto();
 
             LenguageMovementsDomainEntity lenguageMovementsDomainEntity = new LenguageMovementsDomainEntity();
-
+            
             if (movementsDtoCache == null)
             {
                return await GetWithoutCache(movementsDtoCache, requesApiModel, lenguageMovementsDomainEntity);
@@ -59,6 +59,7 @@ namespace Implementations
 
                     movementsDtoCache = movementsDtoCache.Take(requesApiModel.Quantity).ToList();
 
+                    
                     return _pokeFinderPersist.PersistAndTransform(movementsDtoCache, lenguageMovementsDomainEntity ,requesApiModel).ToString();
                      
 
