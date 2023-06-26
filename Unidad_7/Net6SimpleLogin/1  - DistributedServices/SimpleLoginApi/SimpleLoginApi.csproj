@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.19" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\2 - Bussines\Contracts\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\..\2 - Bussines\Implementations\Implementations\Implementations.csproj" />
+    <ProjectReference Include="..\..\3 - Infrastructure\InfrastructureData\SimpleLoginRepository\SimpleLoginRepository.csproj" />
+  </ItemGroup>
+
+</Project>

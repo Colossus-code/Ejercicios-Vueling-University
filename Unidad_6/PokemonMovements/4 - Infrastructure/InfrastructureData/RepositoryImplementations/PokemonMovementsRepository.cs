@@ -77,17 +77,17 @@ namespace RepositoryImplementations
         {
             string readText = File.ReadAllText(_pathFileDto);
 
-            List<MovementsDto> actualMovs = JsonConvert.DeserializeObject<List<MovementsDto>>(readText);
+            if(!string.IsNullOrEmpty(readText))
+            {           
+                List<MovementsDto> actualMovs = JsonConvert.DeserializeObject<List<MovementsDto>>(readText);
 
-            if(actualMovs != null)
-            {
-                foreach (var movementDto in movementsDto)
+                foreach (var movementDto in actualMovs)
                 {
-                    actualMovs.Add(movementDto);
+                    movementsDto.Add(movementDto);
                 }
             }
 
-            File.WriteAllText(_pathFileDto, JsonConvert.SerializeObject(actualMovs));
+            File.WriteAllText(_pathFileDto, JsonConvert.SerializeObject(movementsDto));
         }        
 
         public async Task<List<MovementsDto>> GetRestMovements(int lastId, int toTake, RequestPokeApiModel requestPokeApi)

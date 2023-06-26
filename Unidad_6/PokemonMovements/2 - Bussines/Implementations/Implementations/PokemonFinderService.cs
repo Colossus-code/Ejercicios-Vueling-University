@@ -59,8 +59,8 @@ namespace Implementations
 
                     movementsDtoCache = movementsDtoCache.Take(requesApiModel.Quantity).ToList();
 
-                    
-                    return _pokeFinderPersist.PersistAndTransform(movementsDtoCache, lenguageMovementsDomainEntity ,requesApiModel).ToString();
+
+                    return _pokeFinderPersist.PersistAndTransform(movementsDtoCache, lenguageMovementsDomainEntity, requesApiModel);
                      
 
                 }
@@ -92,6 +92,8 @@ namespace Implementations
                 lenguageMovementsDomainEntity = _pokeFinderTransform.TransformToEntity(movementsDtoCache, requestApiModel.Language);
 
                 _pokeLogger.Warning($"Selected {requestApiModel.Quantity}, but only found {movementsDtoCache.Count}. Writing new {movementsDtoCache.Count} of type {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveType} in {lenguageMovementsDomainEntity.MovementsFound.FirstOrDefault().MoveLenguage}");
+
+                _pokeFinderPersist.PerisistEntity(lenguageMovementsDomainEntity);
 
                 throw new NotEnougthMovementsException($"Selected more moves than actual exist. Adding: {movementsDtoCache.Count}");
             }

@@ -63,7 +63,11 @@ namespace WebApiPokemonMoves.Controllers
 
                 _pokeLogger.Error($"Error at: {DateTime.UtcNow}, exception message: {ex.Message}. Exception stacktrace: {ex.StackTrace}");
                 return BadRequest(ex.Message);
-            }            
+            }
+            catch(NotEnougthMovementsException ex)
+            {
+                return Ok(ex.Message);
+            }
             catch (NotRealTypeException ex)
             {
 

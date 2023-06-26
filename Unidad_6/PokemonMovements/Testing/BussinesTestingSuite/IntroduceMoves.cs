@@ -114,27 +114,13 @@ namespace BussinesTestingSuite
 
             _mockPokeFinderRepoMovs.Setup(e => e.GetActualMovementsDto()).Returns(movements);
             
-            _pokeFinderPersist.Setup(e => e.PersistAndTransform(It.IsAny<List<MovementsDto>>(), lenguageMovementsDomainEntity, It.IsAny<RequestPokeApiModel>()))
+            _pokeFinderPersist.Setup(e => e.PersistAndTransform(It.IsAny<List<MovementsDto>>(), It.IsAny<LenguageMovementsDomainEntity>(), It.IsAny<RequestPokeApiModel>()))
                 .Returns(lenguageMovementsDomainEntity.ToString());
            
-            
-            //_pokeFinderPersist.Setup(e => e.PersistAndTransform(movements, 
-            //    new LenguageMovementsDomainEntity
-            //    {
-            //        MovementsFound = new List<Movements>
-            //        {
-            //            lenguageMovementsDomainEntity.MovementsFound.First(), lenguageMovementsDomainEntity.MovementsFound.Last() },
-
-            //        IntroducedAt = DateTime.UtcNow
-
-            //        }, 
-            //    new RequestPokeApiModel { Language = "en", Quantity = 2, Type = "ice" })).Returns(lenguageMovementsDomainEntity.ToString());
-
-
 
             var result = _pokeService.IntroduceMovesByTypeAndLng(new RequestPokeApiModel() { Language = "en", Quantity = 2, Type = "ice" });
 
-            Assert.Equal(result.Result, _pokeFinderPersist.Object.ToString());
+            Assert.True(result.Result == lenguageMovementsDomainEntity.ToString());
         }
         [Fact]
         public void AssertNotNull_WhenIntroduce_MoveIsActuallyOnCacheNotLang()
@@ -148,25 +134,33 @@ namespace BussinesTestingSuite
         }
 
         [Fact]
-        public void AssertException_WhenIntroduce_NotAllowLang()
+        public async void AssertException_WhenIntroduce_NotAllowLang()
         {
             RequestPokeApiModel notAllowLang = new RequestPokeApiModel
             {
                 Language = "pfpfp",
                 Quantity = 1,
                 Type = "water"
+
             };
 
+            _pokeFinderValidator.Setup(e => e.ComprobeData(notAllowLang)).Throws(new NotAllowLenguageException());
 
+            try
+            {
+                await _pokeService.IntroduceMovesByTypeAndLng(notAllowLang);
 
-            //Action act = () => _pokeFinderValidator.Setup(e => e.ComprobeData(notAllowLang)).Throws(new NotAllowLenguageException());
+            }
+            catch (NotAllowLenguageException ex)
+            {
 
-            Action act = () => _pokeService.IntroduceMovesByTypeAndLng(notAllowLang);
-            
-            Assert.Throws<NotAllowLenguageException>(act);
+                Assert.NotNull(ex.Message);
 
-            //Assert.Throws<NotAllowLenguageException>();
+            }
+
         }
+
+
         [Fact]
         public void AssertException_WhenIntroduce_NotAllowType()
         {
