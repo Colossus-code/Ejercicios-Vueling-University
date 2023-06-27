@@ -1,7 +1,16 @@
 ﻿using Contracts;
+using Contracts.CustomExceptions;
+using Contracts.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SimpleLoginApi.Model;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SimpleLoginApi.Controllers
 {
@@ -12,7 +21,10 @@ namespace SimpleLoginApi.Controllers
         private readonly ILoginUserService _loginUserService;
         private readonly IRegistUserService _registUserService;
         private readonly ITrackOrderService _trackOrderService;
-        public SimpleLoginController(IRegistUserService registUserService, ITrackOrderService trackOrderService, ILoginUserService loginUserService)
+
+        private readonly IConfiguration _configuration;
+        public SimpleLoginController(IRegistUserService registUserService, ITrackOrderService trackOrderService, ILoginUserService loginUserService,
+            IConfiguration config)
         {
             _registUserService = registUserService;
 
@@ -20,13 +32,136 @@ namespace SimpleLoginApi.Controllers
 
             _loginUserService = loginUserService;
 
+            _configuration = config;
         }
 
         [HttpPost]
         [Route("RegistUser")]
-        public IActionResult RegistUser(UserModel userModel)
+        public async Task<IActionResult> RegistUser(UserModel request)
         {
-            return Ok("Oka");
+           var userDto = TransformModel(request, true);
+
+            try
+            {
+                await _registUserService.GenerateUser(userDto);
+                
+                CreateToken(userDto);
+
+                return Ok(userDto.PasswordSalt);
+            }
+            catch(DbUpdateException ex)
+            {
+                //todo sgarciam meter logger aqui 
+
+                return BadRequest("User allready registrated with this username.");
+            }            
+            catch
+            {
+                return BadRequest();
+            }
+
+        }        
+        
+        [HttpPost]
+        [Route("LoginUser")]
+        public IActionResult LoginUser(UserModel request)
+        {
+            var userDto = TransformModel(request,false);
+
+            try
+            {
+                if (_loginUserService.LoggingUser(userDto))
+                {
+                    CreateToken(userDto);
+
+                    return Ok(userDto.PasswordSalt);
+                }
+
+                return BadRequest("User or password wrong");
+                
+            }
+            catch(DataIntroducedErrorException ex)
+            {
+                return BadRequest($"{ex.Message}"); 
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
         }
+
+        [HttpGet,Authorize]
+        [Route("GetTrackProducts")]
+        public IActionResult GetProducts()
+        {
+
+            return Ok(); 
+        }
+
+
+        private UserDto TransformModel(UserModel request, bool encypt)
+        {
+
+            UserDto userDto = new UserDto
+            {
+                Username = request.UserName,
+                Password = request.UserPass
+            };
+
+            if(encypt == true)
+            {
+                CreatePasswordHash(request.UserPass, out byte[] passwordHash, out byte[] passwordSalt);
+
+                userDto.PasswordHash = passwordHash;
+                userDto.PasswordSalt = passwordSalt;
+
+                return userDto;
+            }
+            else
+            {
+                return userDto;
+            }
+            
+        }
+        private void CreatePasswordHash (string password, out byte[] passwordHash, out byte[] passwordSalt) 
+        { 
+        
+            using( var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));   
+
+            }
+        
+        }
+        private string CreateToken(UserDto userDto)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+
+                new Claim(ClaimTypes.Name, userDto.Username + userDto.PasswordHash),
+
+
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                _configuration.GetSection("Jwt:Key").Value));
+
+            var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var securityToken = new JwtSecurityToken
+                (
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(30),
+                    signingCredentials: credential
+
+                );
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+            return jwt;
+        }
+
     }
 }

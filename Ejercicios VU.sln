@@ -187,7 +187,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleLoginApi", "Unidad_7\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InfrastructureData", "InfrastructureData", "{3B5EAB83-6215-49B7-B650-BD093D27398B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLoginRepository", "Unidad_7\Net6SimpleLogin\3 - Infrastructure\InfrastructureData\SimpleLoginRepository\SimpleLoginRepository.csproj", "{969D1F54-5726-4C76-A846-5C8E2A4B210A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleLoginRepository", "Unidad_7\Net6SimpleLogin\3 - Infrastructure\InfrastructureData\SimpleLoginRepository\SimpleLoginRepository.csproj", "{969D1F54-5726-4C76-A846-5C8E2A4B210A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{68729197-6637-448F-B8B8-9F18DD3DA2BD}"
 EndProject
@@ -195,11 +195,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Implementations", "Implemen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainEntities", "DomainEntities", "{D6DB8CE5-B119-492A-81AE-0B70D6B83852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Unidad_7\Net6SimpleLogin\2 - Bussines\Contracts\Contracts\Contracts.csproj", "{F38B0C2A-2E6B-447D-A601-1D7D508D18A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Unidad_7\Net6SimpleLogin\2 - Bussines\Contracts\Contracts\Contracts.csproj", "{F38B0C2A-2E6B-447D-A601-1D7D508D18A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainEntity", "Unidad_7\Net6SimpleLogin\2 - Bussines\DomainEntities\DomainEntity\DomainEntity.csproj", "{DA2CD5DB-FBE5-4E23-A5B3-619387473FC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainEntity", "Unidad_7\Net6SimpleLogin\2 - Bussines\DomainEntities\DomainEntity\DomainEntity.csproj", "{DA2CD5DB-FBE5-4E23-A5B3-619387473FC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implementations", "Unidad_7\Net6SimpleLogin\2 - Bussines\Implementations\Implementations\Implementations.csproj", "{9E12DC1D-2660-4546-9390-63C230C20711}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implementations", "Unidad_7\Net6SimpleLogin\2 - Bussines\Implementations\Implementations\Implementations.csproj", "{9E12DC1D-2660-4546-9390-63C230C20711}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRegistUserService", "Unidad_7\Net6SimpleLogin\Testing\TestRegistUserService\TestRegistUserService.csproj", "{6C9A7B11-4D34-4618-9C51-60AA0E740EF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -383,6 +385,10 @@ Global
 		{9E12DC1D-2660-4546-9390-63C230C20711}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E12DC1D-2660-4546-9390-63C230C20711}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E12DC1D-2660-4546-9390-63C230C20711}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C9A7B11-4D34-4618-9C51-60AA0E740EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C9A7B11-4D34-4618-9C51-60AA0E740EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C9A7B11-4D34-4618-9C51-60AA0E740EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C9A7B11-4D34-4618-9C51-60AA0E740EF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -480,6 +486,7 @@ Global
 		{F38B0C2A-2E6B-447D-A601-1D7D508D18A1} = {68729197-6637-448F-B8B8-9F18DD3DA2BD}
 		{DA2CD5DB-FBE5-4E23-A5B3-619387473FC8} = {D6DB8CE5-B119-492A-81AE-0B70D6B83852}
 		{9E12DC1D-2660-4546-9390-63C230C20711} = {BEDAB22D-E7D2-46A9-90A0-94EBA8AF9928}
+		{6C9A7B11-4D34-4618-9C51-60AA0E740EF6} = {00E6BC8F-8805-462A-B308-F60027F587A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B8CA17E-F82F-4D59-99D3-6510947C46C7}

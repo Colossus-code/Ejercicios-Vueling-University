@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DomainEntity
 {
-    public class OrdersDomainEntity
+    public class PasswordEncryptDomainEntity
     {
-        public string OrderName { get; set; } = string.Empty;
+        public byte[] SaltPassword { get; set; }
 
-        public string? OrderDescription { get; set; }
+        public byte[] HashPassword { get; set; }
 
     }
 }

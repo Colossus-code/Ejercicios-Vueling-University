@@ -19,6 +19,7 @@ namespace SimpleLoginRepository.Models
         }
 
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<UserPassword> UserPassword { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,19 +46,40 @@ namespace SimpleLoginRepository.Models
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Customers");
+            });
+
+            modelBuilder.Entity<UserPassword>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
+
+                entity.Property(e => e.UserId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("UserID");
+
+                entity.Property(e => e.UserHash)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.UserSalt)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.HasOne(d => d.User)
+                    .WithOne(p => p.UserPassword)
+                    .HasForeignKey<UserPassword>(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserPass");
             });
 
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.HasKey(e => e.UserId);
 
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.HasIndex(e => e.UserName, "IX_Username")
+                    .IsUnique();
 
-                entity.Property(e => e.UserPassword)
+                entity.Property(e => e.UserName)
                     .IsRequired()
                     .HasMaxLength(50);
             });
