@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DomainEntity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,9 @@ namespace Contracts.RepositoryContracts
 {
     public interface IRepositoryUserLogin
     {
+
+        Task<bool> PersistDb(UserDomainEntity userDomain);
+
+        Task<UserDomainEntity>? GetUser(UserDomainEntity userDomainEntity);
     }
 }
