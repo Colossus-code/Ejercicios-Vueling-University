@@ -20,8 +20,8 @@ namespace Implementations
                 Username = userDto.Username,
                 Password = new PasswordEncryptDomainEntity
                 {
-                    SaltPassword = Encoding.UTF8.GetString(userDto.PasswordSalt),
-                    HashPassword = Encoding.UTF8.GetString(userDto.PasswordHash)
+                    SaltPassword = userDto.PasswordSalt,
+                    HashPassword = userDto.PasswordHash
                 }
             };
 

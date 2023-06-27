@@ -9,6 +9,6 @@ namespace Contracts
 {
     public interface ILoginUserService
     {
-        bool LoggingUser(UserDto userDto, string password);
+        bool LoggingUser(UserDto userDto);
     }
 }

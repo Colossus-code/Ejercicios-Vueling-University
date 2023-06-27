@@ -8,8 +8,8 @@ namespace SimpleLoginRepository.Models
     public partial class UserPassword
     {
         public int UserId { get; set; }
-        public string UserHash { get; set; }
-        public string UserSalt { get; set; }
+        public byte[] UserHash { get; set; }
+        public byte[] UserSalt { get; set; }
 
         public virtual Users User { get; set; }
     }

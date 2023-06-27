@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Contracts.CustomExceptions;
 using Contracts.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,7 @@ namespace SimpleLoginApi.Controllers
         [Route("RegistUser")]
         public async Task<IActionResult> RegistUser(UserModel request)
         {
-           var userDto = TransformModel(request);
+           var userDto = TransformModel(request, true);
 
             try
             {
@@ -65,14 +66,11 @@ namespace SimpleLoginApi.Controllers
         [Route("LoginUser")]
         public IActionResult LoginUser(UserModel request)
         {
-            var userDto = new UserDto
-            {
-                Username = request.UserName,
-            };
+            var userDto = TransformModel(request,false);
 
             try
             {
-                if (_loginUserService.LoggingUser(userDto, request.UserPass))
+                if (_loginUserService.LoggingUser(userDto))
                 {
                     CreateToken(userDto);
 
@@ -93,20 +91,38 @@ namespace SimpleLoginApi.Controllers
 
         }
 
-        private UserDto TransformModel(UserModel request)
+        [HttpGet,Authorize]
+        [Route("GetTrackProducts")]
+        public IActionResult GetProducts()
+        {
+
+            return Ok(); 
+        }
+
+
+        private UserDto TransformModel(UserModel request, bool encypt)
         {
 
             UserDto userDto = new UserDto
             {
                 Username = request.UserName,
+                Password = request.UserPass
             };
 
-            CreatePasswordHash(request.UserPass, out byte[] passwordHash, out byte[] passwordSalt);
+            if(encypt == true)
+            {
+                CreatePasswordHash(request.UserPass, out byte[] passwordHash, out byte[] passwordSalt);
 
-            userDto.PasswordHash = passwordHash;
-            userDto.PasswordSalt = passwordSalt;
+                userDto.PasswordHash = passwordHash;
+                userDto.PasswordSalt = passwordSalt;
 
-            return userDto;
+                return userDto;
+            }
+            else
+            {
+                return userDto;
+            }
+            
         }
         private void CreatePasswordHash (string password, out byte[] passwordHash, out byte[] passwordSalt) 
         { 

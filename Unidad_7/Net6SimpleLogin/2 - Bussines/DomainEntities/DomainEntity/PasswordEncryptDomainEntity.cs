@@ -8,9 +8,9 @@ namespace DomainEntity
 {
     public class PasswordEncryptDomainEntity
     {
-        public string SaltPassword { get; set; }
+        public byte[] SaltPassword { get; set; }
 
-        public string HashPassword { get; set; }
+        public byte[] HashPassword { get; set; }
 
     }
 }

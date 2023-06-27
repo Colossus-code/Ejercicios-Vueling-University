@@ -1,4 +1,5 @@
-﻿using DomainEntity;
+﻿using Contracts.Dto;
+using DomainEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace Contracts.RepositoryContracts
 
         Task<bool> PersistDb(UserDomainEntity userDomain);
 
-        Task<UserDomainEntity>? GetUser(UserDomainEntity userDomainEntity);
+        Task<UserDomainEntity>? GetUser(UserDto userDto);
     }
 }

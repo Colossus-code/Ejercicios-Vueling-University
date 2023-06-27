@@ -59,11 +59,11 @@ namespace SimpleLoginRepository.Models
 
                 entity.Property(e => e.UserHash)
                     .IsRequired()
-                    .HasMaxLength(150);
+                    .HasMaxLength(250);
 
                 entity.Property(e => e.UserSalt)
                     .IsRequired()
-                    .HasMaxLength(150);
+                    .HasMaxLength(250);
 
                 entity.HasOne(d => d.User)
                     .WithOne(p => p.UserPassword)

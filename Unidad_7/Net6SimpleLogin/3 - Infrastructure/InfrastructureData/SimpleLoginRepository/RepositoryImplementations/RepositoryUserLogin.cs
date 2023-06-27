@@ -38,9 +38,9 @@ namespace SimpleLoginRepository.RepositoryImplementations
             return true;
         }
 
-        public async Task<UserDomainEntity> ? GetUser(UserDomainEntity userDomainEntity)
+        public async Task<UserDomainEntity> ? GetUser(UserDto userDto)
         {
-            var userData = _dbConnection.Users.FirstOrDefault(e => e.UserName.Equals(userDomainEntity.Username));
+            var userData = _dbConnection.Users.FirstOrDefault(e => e.UserName.Equals(userDto.Username));
 
             if(userData != null)
             {
@@ -48,41 +48,33 @@ namespace SimpleLoginRepository.RepositoryImplementations
 
                 userData.UserPassword = userPass;
 
-                if (ValidateUser(userDomainEntity, userData))
-                {
-                    return userDomainEntity;
-                }
-                else
-                {
-                    return null; 
-                }
+                UserDomainEntity ? userDomainEntity = ValidateUser(userDto, userData);
+                
+                return userDomainEntity;
+
             }
 
             return null; 
            
         }
 
-        private bool ValidateUser(UserDomainEntity userDomainEntity, Users userData)
+        private UserDomainEntity ? ValidateUser(UserDto userDto, Users userData)
         {
 
-            UserDto userDto = new UserDto();
-
-            using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(userData.UserPassword.UserSalt)))
+            using (var hmac = new HMACSHA512(userData.UserPassword.UserSalt))
             {
-                userDto.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDomainEntity.Password.HashPassword));
+                userDto.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
 
-                string tempPass = Encoding.UTF8.GetString(userDto.PasswordSalt);
-
-                if (tempPass.Equals(userData.UserPassword.UserHash))
+                if (userDto.PasswordHash.SequenceEqual(userData.UserPassword.UserHash))
                 {
-                    userDomainEntity =  TransformFromDb.TransformDataToEntity(userData);
 
-                    return true;
+
+                    return TransformFromDb.TransformDataToEntity(userData);
                 }
 
             }
 
-            return false;
+            return null;  
         }
     }
 }

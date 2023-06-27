@@ -20,19 +20,10 @@ namespace Implementations
             _repositoryLogin = repoLogin;   
         }
 
-        public bool LoggingUser(UserDto userDto, string password)
+        public bool LoggingUser(UserDto userDto)
         {
-            UserDomainEntity userDomain = new UserDomainEntity
-            {
-                Orders = null,
-                Username = userDto.Username,
-                Password = new PasswordEncryptDomainEntity
-                {
-                    HashPassword = password
-                }
-            };
-
-            if (_repositoryLogin.GetUser(userDomain) != null)
+           
+            if (_repositoryLogin.GetUser(userDto) != null)
             {
                 return true;
             }
