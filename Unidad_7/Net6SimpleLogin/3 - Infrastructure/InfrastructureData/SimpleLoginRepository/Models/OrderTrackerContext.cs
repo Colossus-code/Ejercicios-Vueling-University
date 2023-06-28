@@ -19,6 +19,7 @@ namespace SimpleLoginRepository.Models
         }
 
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<StockPoduct> StockPoduct { get; set; }
         public virtual DbSet<UserPassword> UserPassword { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -37,6 +38,8 @@ namespace SimpleLoginRepository.Models
             {
                 entity.HasKey(e => e.OrderId);
 
+                entity.Property(e => e.OrderDateDeliver).HasColumnType("date");
+
                 entity.Property(e => e.OrderDescription).HasMaxLength(50);
 
                 entity.Property(e => e.OrderProduct)
@@ -47,6 +50,19 @@ namespace SimpleLoginRepository.Models
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Orders_Customers");
+            });
+
+            modelBuilder.Entity<StockPoduct>(entity =>
+            {
+                entity.HasKey(e => e.ProductId);
+
+                entity.Property(e => e.ProductDescription)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ProductName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<UserPassword>(entity =>

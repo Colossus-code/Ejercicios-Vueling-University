@@ -27,5 +27,35 @@ namespace Implementations
 
             return userDomain;
         }
+
+        public static List<OrdersDomainEntity> TransformOrderDtosToEntity(List<OrderDto> orderDto)
+        {
+            List<OrdersDomainEntity> ordersDomain = new List<OrdersDomainEntity>();
+
+            foreach(OrderDto order in orderDto)
+            {
+
+                ordersDomain.Add(new OrdersDomainEntity
+                {
+                    OrderName = order.OrderName,
+                    OrderDescription = order.OrderDescription,
+                    DeliverTime = order.DeliverTime
+                });
+            }
+
+            return ordersDomain; 
+        }
+
+        internal static OrdersDomainEntity TransformOrderDtoToEntity(OrderDto orderDto)
+        {
+            OrdersDomainEntity newOrder = new OrdersDomainEntity
+            {
+                OrderName = orderDto.OrderName,
+                OrderDescription = orderDto.OrderDescription,
+                DeliverTime = orderDto.DeliverTime
+            };
+
+            return newOrder;
+        }
     }
 }

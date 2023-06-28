@@ -10,5 +10,6 @@ namespace Contracts
     public interface ILoginUserService
     {
         bool LoggingUser(UserDto userDto);
+        bool ValidateToken(string accessToken);
     }
 }

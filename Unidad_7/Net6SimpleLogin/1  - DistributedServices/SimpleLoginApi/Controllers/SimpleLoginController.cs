@@ -1,11 +1,13 @@
 ﻿using Contracts;
 using Contracts.CustomExceptions;
 using Contracts.Dto;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using SimpleLoginApi.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,15 +22,11 @@ namespace SimpleLoginApi.Controllers
     {
         private readonly ILoginUserService _loginUserService;
         private readonly IRegistUserService _registUserService;
-        private readonly ITrackOrderService _trackOrderService;
 
         private readonly IConfiguration _configuration;
-        public SimpleLoginController(IRegistUserService registUserService, ITrackOrderService trackOrderService, ILoginUserService loginUserService,
-            IConfiguration config)
+        public SimpleLoginController(IRegistUserService registUserService, ILoginUserService loginUserService, IConfiguration config)
         {
             _registUserService = registUserService;
-
-            _trackOrderService = trackOrderService;
 
             _loginUserService = loginUserService;
 
@@ -45,13 +43,13 @@ namespace SimpleLoginApi.Controllers
             {
                 await _registUserService.GenerateUser(userDto);
                 
-                CreateToken(userDto);
+                var token = CreateToken(userDto);
 
-                return Ok(userDto.PasswordSalt);
+                return Ok(token);
             }
             catch(DbUpdateException ex)
             {
-                //todo sgarciam meter logger aqui 
+                //TODO 2806 sgarciam meter logger aqui 
 
                 return BadRequest("User allready registrated with this username.");
             }            
@@ -72,9 +70,9 @@ namespace SimpleLoginApi.Controllers
             {
                 if (_loginUserService.LoggingUser(userDto))
                 {
-                    CreateToken(userDto);
+                    var token = CreateToken(userDto);
 
-                    return Ok(userDto.PasswordSalt);
+                    return Ok(token);
                 }
 
                 return BadRequest("User or password wrong");
@@ -90,16 +88,7 @@ namespace SimpleLoginApi.Controllers
             }
 
         }
-
-        [HttpGet,Authorize]
-        [Route("GetTrackProducts")]
-        public IActionResult GetProducts()
-        {
-
-            return Ok(); 
-        }
-
-
+        
         private UserDto TransformModel(UserModel request, bool encypt)
         {
 
@@ -136,26 +125,30 @@ namespace SimpleLoginApi.Controllers
         
         }
         private string CreateToken(UserDto userDto)
-        {
+        {          
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                _configuration.GetSection("Jwt:Key").Value));
+
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            
             List<Claim> claims = new List<Claim>
             {
 
-                new Claim(ClaimTypes.Name, userDto.Username + userDto.PasswordHash),
+                new Claim(ClaimTypes.NameIdentifier, $"{userDto.Username}-{userDto.Password}")
 
 
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("Jwt:Key").Value));
-
-            var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var securityToken = new JwtSecurityToken
                 (
+                    issuer: _configuration.GetSection("Jwt:Issuer").Value,
+                    audience: _configuration.GetSection("Jwt:Audience").Value,
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: credential
-
+                    signingCredentials: credentials
+                    
+                    
                 );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(securityToken);

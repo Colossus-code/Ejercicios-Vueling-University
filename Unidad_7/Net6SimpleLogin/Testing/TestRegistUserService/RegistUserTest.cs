@@ -34,7 +34,7 @@ namespace TestRegistUserService
             UserDomainEntity userDomainEntity = new UserDomainEntity
             {
                 Username = userDto.Username,
-                Password = Encoding.UTF8.GetString(userDto.PasswordHash),
+                //Password = Encoding.UTF8.GetString(userDto.PasswordHash),
                 Orders = new List<OrdersDomainEntity>
                 {
                     new OrdersDomainEntity
@@ -68,7 +68,7 @@ namespace TestRegistUserService
             UserDomainEntity userDomainEntity = new UserDomainEntity
             {
                 Username = userDto.Username,
-                Password = Encoding.UTF8.GetString(userDto.PasswordHash),
+                //Password = Encoding.UTF8.GetString(userDto.PasswordHash),
                 Orders = null
             };
 

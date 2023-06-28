@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DomainEntity
+namespace Contracts.Dto
 {
-    public class OrdersDomainEntity
+    public class OrderDto
     {
+
         public string OrderName { get; set; } = string.Empty;
 
         public string? OrderDescription { get; set; }
 
         public DateTime DeliverTime { get; set; }
-
     }
 }

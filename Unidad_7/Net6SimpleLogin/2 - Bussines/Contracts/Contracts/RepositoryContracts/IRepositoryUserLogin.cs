@@ -13,6 +13,6 @@ namespace Contracts.RepositoryContracts
 
         Task<bool> PersistDb(UserDomainEntity userDomain);
 
-        Task<UserDomainEntity>? GetUser(UserDto userDto);
+        UserDomainEntity? GetUser(UserDto userDto);
     }
 }
