@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Contracts.Dto
 {
-    internal class OrderDto
+    public class OrderDto
     {
+
+        public string OrderName { get; set; } = string.Empty;
+
+        public string? OrderDescription { get; set; }
+
+        public DateTime DeliverTime { get; set; }
     }
 }

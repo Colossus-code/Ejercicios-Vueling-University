@@ -8,6 +8,7 @@ namespace Contracts
 {
     public interface ITrackOrderService
     {
-        object? GetTrack(string userName);
+        string AddProduct(string userName, string productName);
+        string GetTrack(string userName);
     }
 }

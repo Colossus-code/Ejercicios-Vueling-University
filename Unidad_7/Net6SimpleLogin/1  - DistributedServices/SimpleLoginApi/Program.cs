@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache(memoryCacheOptions =>
 {
-    memoryCacheOptions.SizeLimit = 1024;
+    //memoryCacheOptions.SizeLimit = 1024;
     memoryCacheOptions.ExpirationScanFrequency = TimeSpan.FromMinutes(3);
     MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions
     {

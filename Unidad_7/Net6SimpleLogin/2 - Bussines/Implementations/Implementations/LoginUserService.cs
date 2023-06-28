@@ -36,14 +36,11 @@ namespace Implementations
             {
                 throw new DataIntroducedErrorException("Wrong username or password");
             }
-
-
-
         }
 
         public bool ValidateToken(string accessToken)
         {
-            
+
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                _configuration.GetSection("Jwt:Key").Value));
@@ -53,23 +50,20 @@ namespace Implementations
             var audience = _configuration.GetSection("Jwt:Audience").Value;
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            try
+
+            tokenHandler.ValidateToken(accessToken, new TokenValidationParameters
             {
-                tokenHandler.ValidateToken(accessToken, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
-                    IssuerSigningKey = key,
-                }, out SecurityToken validatedToken);
-            }
-            catch
-            {
-                return false;
-            }
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidIssuer = issuer,
+                ValidAudience = audience,
+                IssuerSigningKey = key,
+            }, out SecurityToken validatedToken);
+
+
             return true;
+
 
         }
     }

@@ -22,15 +22,11 @@ namespace SimpleLoginApi.Controllers
     {
         private readonly ILoginUserService _loginUserService;
         private readonly IRegistUserService _registUserService;
-        private readonly ITrackOrderService _trackOrderService;
 
         private readonly IConfiguration _configuration;
-        public SimpleLoginController(IRegistUserService registUserService, ITrackOrderService trackOrderService, ILoginUserService loginUserService,
-            IConfiguration config)
+        public SimpleLoginController(IRegistUserService registUserService, ILoginUserService loginUserService, IConfiguration config)
         {
             _registUserService = registUserService;
-
-            _trackOrderService = trackOrderService;
 
             _loginUserService = loginUserService;
 
@@ -53,7 +49,7 @@ namespace SimpleLoginApi.Controllers
             }
             catch(DbUpdateException ex)
             {
-                //todo sgarciam meter logger aqui 
+                //TODO 2806 sgarciam meter logger aqui 
 
                 return BadRequest("User allready registrated with this username.");
             }            
@@ -92,42 +88,7 @@ namespace SimpleLoginApi.Controllers
             }
 
         }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetTrackProductsAuthorize")]
-        public IActionResult GetProductsAuthorized()
-        {
-
-            return Ok("It worked"); 
-        }        
         
-        [HttpGet]
-        [Route("GetTrackProductsValidating")]
-        public IActionResult GetProducts()
-        {
-            var _bearer_token = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-           
-            _loginUserService.ValidateToken(_bearer_token);
-
-            string userName = string.Empty; 
-
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity != null)
-            {
-                IEnumerable<Claim> claims = identity.Claims;
-                userName = claims.First().Value;
-
-            }
-
-            int separator = userName.IndexOf("-");
-
-            userName = userName.Remove(separator);
-
-            return Ok("Oken");
-        }
-
-
         private UserDto TransformModel(UserModel request, bool encypt)
         {
 
@@ -164,12 +125,7 @@ namespace SimpleLoginApi.Controllers
         
         }
         private string CreateToken(UserDto userDto)
-        {
-
-            //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            
-            //var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            
+        {          
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetSection("Jwt:Key").Value));
 

@@ -12,5 +12,7 @@ namespace DomainEntity
 
         public string? OrderDescription { get; set; }
 
+        public DateTime DeliverTime { get; set; }
+
     }
 }

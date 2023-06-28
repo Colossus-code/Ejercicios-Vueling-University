@@ -11,6 +11,7 @@ namespace SimpleLoginRepository.Models
         public string OrderProduct { get; set; }
         public string OrderDescription { get; set; }
         public int? CustomerId { get; set; }
+        public DateTime OrderDateDeliver { get; set; }
 
         public virtual Users Customer { get; set; }
     }
