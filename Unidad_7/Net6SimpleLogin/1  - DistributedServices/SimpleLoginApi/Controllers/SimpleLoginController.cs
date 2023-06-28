@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using SimpleLoginApi.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -94,11 +95,36 @@ namespace SimpleLoginApi.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetTrackProducts")]
-        public IActionResult GetProducts()
+        [Route("GetTrackProductsAuthorize")]
+        public IActionResult GetProductsAuthorized()
         {
 
             return Ok("It worked"); 
+        }        
+        
+        [HttpGet]
+        [Route("GetTrackProductsValidating")]
+        public IActionResult GetProducts()
+        {
+            var _bearer_token = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+           
+            _loginUserService.ValidateToken(_bearer_token);
+
+            string userName = string.Empty; 
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                IEnumerable<Claim> claims = identity.Claims;
+                userName = claims.First().Value;
+
+            }
+
+            int separator = userName.IndexOf("-");
+
+            userName = userName.Remove(separator);
+
+            return Ok("Oken");
         }
 
 
