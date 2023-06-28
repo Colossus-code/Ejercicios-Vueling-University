@@ -92,7 +92,7 @@ namespace SimpleLoginApi.Controllers
         public IActionResult GetProductsAuthorized()
         {
 
-            return Ok("It worked");
+            return Ok("It worked!");
 
             // Metodo de prueba, simplemente vale para ver otra manera de verificar que el Token funciona desde Swagger. 
         }
