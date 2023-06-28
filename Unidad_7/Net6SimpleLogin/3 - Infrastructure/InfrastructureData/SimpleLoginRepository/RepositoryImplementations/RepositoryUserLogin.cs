@@ -38,13 +38,13 @@ namespace SimpleLoginRepository.RepositoryImplementations
             return true;
         }
 
-        public async Task<UserDomainEntity> ? GetUser(UserDto userDto)
+        public UserDomainEntity ? GetUser(UserDto userDto)
         {
             var userData = _dbConnection.Users.FirstOrDefault(e => e.UserName.Equals(userDto.Username));
 
             if(userData != null)
             {
-                var userPass = await _dbConnection.UserPassword.FindAsync(userData.UserId);
+                var userPass =  _dbConnection.UserPassword.Find(userData.UserId);
 
                 userData.UserPassword = userPass;
 

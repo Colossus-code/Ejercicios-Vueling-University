@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Contracts.CustomExceptions;
 using Contracts.Dto;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,9 +46,9 @@ namespace SimpleLoginApi.Controllers
             {
                 await _registUserService.GenerateUser(userDto);
                 
-                CreateToken(userDto);
+                var token = CreateToken(userDto);
 
-                return Ok(userDto.PasswordSalt);
+                return Ok(token);
             }
             catch(DbUpdateException ex)
             {
@@ -72,9 +73,9 @@ namespace SimpleLoginApi.Controllers
             {
                 if (_loginUserService.LoggingUser(userDto))
                 {
-                    CreateToken(userDto);
+                    var token = CreateToken(userDto);
 
-                    return Ok(userDto.PasswordSalt);
+                    return Ok(token);
                 }
 
                 return BadRequest("User or password wrong");
@@ -91,12 +92,13 @@ namespace SimpleLoginApi.Controllers
 
         }
 
-        [HttpGet,Authorize]
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetTrackProducts")]
         public IActionResult GetProducts()
         {
 
-            return Ok(); 
+            return Ok("It worked"); 
         }
 
 
@@ -137,25 +139,34 @@ namespace SimpleLoginApi.Controllers
         }
         private string CreateToken(UserDto userDto)
         {
+
+            //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            
+            //var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                _configuration.GetSection("Jwt:Key").Value));
+
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            
             List<Claim> claims = new List<Claim>
             {
 
-                new Claim(ClaimTypes.Name, userDto.Username + userDto.PasswordHash),
+                new Claim(ClaimTypes.NameIdentifier, $"{userDto.Username}-{userDto.Password}")
 
 
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("Jwt:Key").Value));
-
-            var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var securityToken = new JwtSecurityToken
                 (
+                    issuer: _configuration.GetSection("Jwt:Issuer").Value,
+                    audience: _configuration.GetSection("Jwt:Audience").Value,
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: credential
-
+                    signingCredentials: credentials
+                    
+                    
                 );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(securityToken);
