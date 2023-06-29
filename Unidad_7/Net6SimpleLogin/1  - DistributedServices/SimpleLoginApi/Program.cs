@@ -19,6 +19,7 @@ builder.Services.AddScoped<IRepositoryUserTrackOrder, RepositoryUserTrackOrder>(
 builder.Services.AddScoped<ILoginUserService, LoginUserService>();
 builder.Services.AddScoped<IRegistUserService, RegistUserService>();
 builder.Services.AddScoped<ITrackOrderService, TrackOrderService>();
+builder.Services.AddScoped<IRepositoryCache, RepositoryCache>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

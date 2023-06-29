@@ -40,6 +40,13 @@ namespace SimpleLoginApi.Controllers
 
                 string response = _trackOrderService.AddProduct(userName, request.ProductName);
 
+                if(response == null)
+                {
+                    // retornara 404 not fund 
+
+                    return (BadRequest("NotFound"), "Error404" );
+                }
+
                 return (Ok("Add product"), response);
 
                 //TODO 2806 revisar como devolver la tupla 
