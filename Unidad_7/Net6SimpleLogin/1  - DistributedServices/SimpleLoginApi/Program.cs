@@ -6,12 +6,20 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SimpleLoginRepository.RepositoryImplementations;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+});
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IRepositoryUserLogin, RepositoryUserLogin>();
@@ -20,6 +28,11 @@ builder.Services.AddScoped<ILoginUserService, LoginUserService>();
 builder.Services.AddScoped<IRegistUserService, RegistUserService>();
 builder.Services.AddScoped<ITrackOrderService, TrackOrderService>();
 builder.Services.AddScoped<IRepositoryCache, RepositoryCache>();
+
+builder.Logging.ClearProviders();
+
+var logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Logging.AddSerilog(logger);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

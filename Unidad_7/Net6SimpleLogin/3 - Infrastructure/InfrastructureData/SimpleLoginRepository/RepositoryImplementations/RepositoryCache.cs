@@ -18,7 +18,6 @@ namespace SimpleLoginRepository.RepositoryImplementations
             _memoryCache = memoCache;
         }
 
-        // GESTIONAR CON GENERICO 
         public List<T> GetCache<T>(string userName)
         {
             var response = _memoryCache.Get(userName);

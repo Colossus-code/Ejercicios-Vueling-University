@@ -17,14 +17,22 @@ namespace SimpleLoginApi.Controllers
         private readonly ILoginUserService _loginUserService;
         private readonly ITrackOrderService _trackOrderService;
 
-        public ShopController(ITrackOrderService trackOrderService, ILoginUserService loginUserService)
+        private readonly ILogger<SimpleLoginController> _logger;
+
+        public ShopController(ITrackOrderService trackOrderService, ILoginUserService loginUserService, ILogger<SimpleLoginController> logger)
         {
 
             _trackOrderService = trackOrderService;
 
             _loginUserService = loginUserService;
+            
+            _logger = logger;   
         }
-
+        /// <summary>
+        ///  This method adds product to your deliver.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddProduct")]
         public (IActionResult, string) AddProduct(ProductModel request)
@@ -33,6 +41,7 @@ namespace SimpleLoginApi.Controllers
             {
                 if (!ValidateLogin())
                 {
+                    _logger.LogError("Try action without had been login.");
                     return (BadRequest("Must to login first."), "Not login");
                 }
 
@@ -42,7 +51,7 @@ namespace SimpleLoginApi.Controllers
 
                 if(response == null)
                 {
-                    // retornara 404 not fund 
+                    _logger.LogError("Product not found.");
 
                     return (BadRequest("NotFound"), "Error404" );
                 }
@@ -53,25 +62,32 @@ namespace SimpleLoginApi.Controllers
             }
             catch (NotEnoughtStockException ex)
             {
+                _logger.LogError("Not enought stock.");
                 return (BadRequest("Not enought stock"), ex.Message);
             }
             catch (DataIntroducedErrorException ex)
             {
+                _logger.LogError("Product not found.");
                 return (BadRequest("Not found product"), ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError("Critical error.");
                 return (BadRequest(), "test");
                 // REVISAR ERROR CODES PARA DEVOLVER ERROR 
             }
         }
-
+        /// <summary>
+        /// This method shows you the orders wich it's on your profile, with the time you will recive. 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetTrackProductsValidating")]
         public (IActionResult, string) GetProducts()
         {
             if (!ValidateLogin())
             {
+                _logger.LogError("Try action without had been login.");
                 return (BadRequest("Must to login first."), "Not login");
             }
 
@@ -86,6 +102,7 @@ namespace SimpleLoginApi.Controllers
             }
             catch (NotOrdersException ex)
             {
+                _logger.LogWarning("Not found orders.");
                 return (BadRequest("Not found orders"), ex.Message);
             }
 
@@ -93,6 +110,10 @@ namespace SimpleLoginApi.Controllers
 
         }
 
+        /// <summary>
+        /// Thats not make nothing, just for educational propose.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetTrackProductsAuthorize")]
@@ -113,7 +134,7 @@ namespace SimpleLoginApi.Controllers
             }
             catch (ArgumentNullException ex)
             {
-                //REGISTRAR EN EL LOGGER 
+                _logger.LogError($"Invalid token: {ex.Message}");
                 return false;
             }
         }

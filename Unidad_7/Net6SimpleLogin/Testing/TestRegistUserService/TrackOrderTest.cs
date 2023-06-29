@@ -1,4 +1,5 @@
-﻿using Contracts.Dto;
+﻿using Contracts.CustomExceptions;
+using Contracts.Dto;
 using Contracts.RepositoryContracts;
 using DomainEntity;
 using Implementations;
@@ -104,6 +105,70 @@ namespace TestUserService
 
             Assert.Null(jsonOrder);
         }
-       
+        [Fact]
+        public void Assert_Throw_DataIntroducedEx_When_DataIsWong()
+        {
+            string username = "Nannini Malini";
+
+            string productName = "Encurtidos";
+
+            ProductDto productDto = null;
+
+            _repositoryUserTrackOrder.Setup(e => e.GetProductByProductName(productName)).Returns(productDto);
+
+            Assert.Throws<DataIntroducedErrorException>(() => _trackOrderService.AddProduct(username,productName));
+
+        }
+        [Fact]
+        public void Assert_Throw_NotEnoughtStockEx_When_StockIsZero()
+        {
+            string username = "Nannini Malini";
+
+            string productName = "Encurtidos";
+
+            ProductDto productDto = new ProductDto
+            {
+                ProductName = productName,
+                ProductDescription = "Encurtidos variados",
+                ProductStock = 0
+            };
+
+            _repositoryUserTrackOrder.Setup(e => e.GetProductByProductName(productName)).Returns(productDto);
+
+            Assert.Throws<NotEnoughtStockException>(() => _trackOrderService.AddProduct(username, productName));
+
+        }
+        [Fact]
+        public void Assert_NotNull_When_DataItsWellAndEnoughtStock()
+        {
+            string username = "Nannini Malini";
+
+            string productName = "Encurtidos";
+
+            ProductDto productDto = new ProductDto
+            {
+                ProductName = productName,
+                ProductDescription = "Encurtidos variados",
+                ProductStock = 420
+            };
+
+            OrderDto orderDto = new OrderDto
+            {
+                OrderName = productName,
+                OrderDescription = productDto.ProductDescription,
+                DeliverTime = DateTime.UtcNow.AddDays(1)
+            };
+
+            _repositoryUserTrackOrder.Setup(e => e.GetProductByProductName(productName)).Returns(productDto);
+
+            _repositoryUserTrackOrder.Setup(e => e.RemoveFromStock(productName)).Verifiable();
+
+            _repositoryUserTrackOrder.Setup(e => e.GenerateOrder(orderDto,username)).Verifiable();
+
+            string response = _trackOrderService.AddProduct(username, productName);
+
+            Assert.NotNull(response);
+
+        }
     }
 }
