@@ -5,6 +5,7 @@ using Contracts.RepositoryContracts;
 using DomainEntity;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using SimpleLoginRepository.RepositoryImplementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,13 @@ namespace Implementations
     public class TrackOrderService : ITrackOrderService
     {
         private readonly IRepositoryUserTrackOrder _repositoryUserTrack;
+        private readonly IRepositoryCache _repositoryCache; 
         
-        private readonly IMemoryCache _memoryCacheService; 
-        public TrackOrderService(IRepositoryUserTrackOrder repoUserTrack, IMemoryCache cacheService)
+
+        public TrackOrderService(IRepositoryUserTrackOrder repoUserTrack, IRepositoryCache repositoryCache)
         {
             _repositoryUserTrack = repoUserTrack;
-            _memoryCacheService = cacheService;
+            _repositoryCache = repositoryCache;
         }
 
         public string AddProduct(string userName, string productName)
@@ -61,15 +63,20 @@ namespace Implementations
 
         public string GetTrack(string userName)
         {
-            List<OrdersDomainEntity> orderDomainCache = (List <OrdersDomainEntity>) _memoryCacheService.Get(userName);
+            List<OrdersDomainEntity> orderDomainCache = _repositoryCache.GetCache<OrdersDomainEntity>(userName);
 
-            if(orderDomainCache == null)
+            if (orderDomainCache == null)
             {
                 List<OrderDto> orderDto = _repositoryUserTrack.GetOrderByUsername(userName);
 
+                if(orderDto == null)
+                {
+                    return null; 
+                }
+
                 List<OrdersDomainEntity> orderDomain = TransformHelper.TransformOrderDtosToEntity(orderDto);
 
-                _memoryCacheService.Set(userName, orderDomain);
+                _repositoryCache.SetCache(userName, orderDomain);
 
                 string response = JsonSerializer.Serialize(orderDomain);
 

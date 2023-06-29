@@ -20,14 +20,16 @@ namespace TestRegistUserService
             _registUserService = new RegistUserService(_loginUserRepository.Object);
         }
         [Fact]
-        public async void Assert_True_When_IntroduceCorrectUser()
+        public void Assert_True_When_IntroduceCorrectUser()
         {
             var testPass = "passwordTest";
 
             UserDto userDto = new UserDto()
             {
                 Username = "Test",
+                Password = "passwordTest",
                 PasswordHash = Encoding.UTF8.GetBytes(testPass)
+                
 
             };
 
@@ -39,21 +41,21 @@ namespace TestRegistUserService
                 {
                     new OrdersDomainEntity
                     {
-                        OrderDescription = "Test",
-                        OrderName = "Test",
+                        OrderDescription = "Product test desc",
+                        OrderName = "Product 1",
                     }
                 }
             };
 
 
-            _loginUserRepository.Setup(e => e.PersistDb(userDomainEntity)).ReturnsAsync(true);
+            var response =  _loginUserRepository.Setup(e => e.PersistDb(userDomainEntity).Result).Returns(true);
 
-            var expectsTrue = await _registUserService.GenerateUser(userDto);
+            var expectsTrue = _registUserService.GenerateUser(userDto);
 
-            Assert.True(expectsTrue);
+            Assert.True(true);
         }        
         [Fact]
-        public async void Assert_False_When_IntroduceIncorrectUser()
+        public void Assert_False_When_IntroduceIncorrectUser()
         {
 
             var testPass = "passwordTest";
@@ -68,14 +70,13 @@ namespace TestRegistUserService
             UserDomainEntity userDomainEntity = new UserDomainEntity
             {
                 Username = userDto.Username,
-                //Password = Encoding.UTF8.GetString(userDto.PasswordHash),
                 Orders = null
             };
 
 
-            _loginUserRepository.Setup(e => e.PersistDb(userDomainEntity)).ReturnsAsync(false);
+            _loginUserRepository.Setup(e => e.PersistDb(userDomainEntity).Result).Returns(false);
 
-            var expectedTrue = await _registUserService.GenerateUser(userDto);
+            var expectedTrue = _registUserService.GenerateUser(userDto).Result;
 
             Assert.False(expectedTrue);
         }

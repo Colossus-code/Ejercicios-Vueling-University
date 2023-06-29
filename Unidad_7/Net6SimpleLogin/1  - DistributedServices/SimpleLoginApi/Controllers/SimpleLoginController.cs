@@ -22,17 +22,24 @@ namespace SimpleLoginApi.Controllers
     {
         private readonly ILoginUserService _loginUserService;
         private readonly IRegistUserService _registUserService;
+        private readonly ILogger<SimpleLoginController> _logger;
 
         private readonly IConfiguration _configuration;
-        public SimpleLoginController(IRegistUserService registUserService, ILoginUserService loginUserService, IConfiguration config)
+        public SimpleLoginController(IRegistUserService registUserService, ILoginUserService loginUserService, IConfiguration config, ILogger<SimpleLoginController> logger)
         {
             _registUserService = registUserService;
 
             _loginUserService = loginUserService;
 
             _configuration = config;
+            
+            _logger = logger;
         }
-
+        /// <summary>
+        /// This method makes you regist into the application and gives the Token. 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("RegistUser")]
         public async Task<IActionResult> RegistUser(UserModel request)
@@ -49,8 +56,8 @@ namespace SimpleLoginApi.Controllers
             }
             catch(DbUpdateException ex)
             {
-                //TODO 2806 sgarciam meter logger aqui 
 
+                _logger.LogError("Allready user with this username");
                 return BadRequest("User allready registrated with this username.");
             }            
             catch
@@ -59,7 +66,11 @@ namespace SimpleLoginApi.Controllers
             }
 
         }        
-        
+        /// <summary>
+        /// This method regist the token and gives you.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("LoginUser")]
         public IActionResult LoginUser(UserModel request)
@@ -75,6 +86,7 @@ namespace SimpleLoginApi.Controllers
                     return Ok(token);
                 }
 
+                _logger.LogError("User or password wrong.");
                 return BadRequest("User or password wrong");
                 
             }
