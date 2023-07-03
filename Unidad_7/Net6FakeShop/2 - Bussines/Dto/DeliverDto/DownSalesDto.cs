@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Dto
 {
-    internal class DownSales
+    public class DownSalesDto
     {
     }
 }
