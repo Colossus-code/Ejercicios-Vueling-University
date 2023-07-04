@@ -11,7 +11,7 @@ namespace Implementations
 {
     public class UserService : IUserService
     {
-        private readonly ICustomersRepository _customerRepository; 
+        private readonly ICustomersRepository _customerRepository;
         public UserService(ICustomersRepository customerRepo)
         {
             _customerRepository = customerRepo;
@@ -19,15 +19,24 @@ namespace Implementations
 
         public string AgregateUsers(List<CustomerDto> customersDto)
         {
-            
+
             List<Customer> customers = new List<Customer>();
 
             ValidateInformation(customersDto);
 
             TransformDtoToEntity(customersDto, customers);
 
-            _customerRepository.GenerateUsers(customers);
-           
+            if (_customerRepository.ComprobeNotExist(customers))
+            {
+
+                _customerRepository.GenerateUsers(customers);
+
+            }
+            else
+            {
+                throw new NotAllowUserId("The user ID introduced it's allready created.");
+            }
+
             return JsonSerializer.Serialize(customers);
         }
 
@@ -36,7 +45,7 @@ namespace Implementations
             if (!customersDto.Any(e => e.ValidateCustomerId()))
             {
                 throw new NotAllowUserId($"The ID's must to be natural ones.");
-            }         
+            }
 
             if (!customersDto.Any(e => e.CountryShortName.ValidateShortName()))
             {
