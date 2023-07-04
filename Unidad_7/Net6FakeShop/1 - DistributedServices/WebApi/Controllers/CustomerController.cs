@@ -3,6 +3,7 @@ using Dto;
 using Implementations.CustomExceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -25,7 +26,7 @@ namespace WebApi.Controllers
         /// <returns> Ok if everything was ok, error code if something was wrong.</returns>
         [HttpPost]
         [Route("CreateUsers")]
-        public IActionResult GenerateUsers(List<UserModel> models)
+        public IActionResult GenerateUsers([Required]List<UserModel> models)
         {
             List<CustomerDto> customersDto = new List<CustomerDto>();
 
@@ -48,6 +49,7 @@ namespace WebApi.Controllers
                 string response = _userService.AgregateUsers(customersDto);
 
                 return Ok(response);
+            
             }catch(NotAllowLocationException ex)
             {
                 return BadRequest(ex.Message);

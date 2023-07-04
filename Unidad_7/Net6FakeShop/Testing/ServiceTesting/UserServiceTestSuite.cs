@@ -42,12 +42,14 @@ namespace ServiceTesting
         public void Assert_NotEmpty_When_UserItsOkay()
         {
             //Arrange 
-            List<CustomerDto> usersDto = GetCustomersDto(5, "EUR");
+            List<CustomerDto> usersDto = GetCustomersDto(999, "EUR");
 
             List<Customer> customers = GetCustomersDomain();
 
             //Act  
 
+            _repostoryMock.Setup(e => e.ComprobeNotExist(It.IsAny<List<Customer>>())).Returns(true);    
+            
             _repostoryMock.Setup(e => e.GenerateUsers(customers)).Returns(true);
 
             var response = _userService.AgregateUsers(usersDto);
