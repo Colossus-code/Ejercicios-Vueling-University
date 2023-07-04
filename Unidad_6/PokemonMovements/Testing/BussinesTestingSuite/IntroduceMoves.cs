@@ -149,6 +149,7 @@ namespace BussinesTestingSuite
             try
             {
                 await _pokeService.IntroduceMovesByTypeAndLng(notAllowLang);
+               
 
             }
             catch (NotAllowLenguageException ex)

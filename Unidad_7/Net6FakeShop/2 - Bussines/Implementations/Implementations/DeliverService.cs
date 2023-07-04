@@ -27,11 +27,11 @@ namespace Implementations
 
         public string CreateOrder(DeliverDto deliveryDto) 
         {
-            ValidateInformation(deliveryDto);
+            ValidateInformation(deliveryDto); // VALIDAMOS INFO 
         
-            List<ProductDto> productsDto = FindProducts(deliveryDto);         
+            List<ProductDto> productsDto = FindProducts(deliveryDto);    // RECOGEMOS PRODUCTOS COMO DOMAIN Y PARSEAMOS A DTO      
 
-            CustomerDto customerDto = _customersRepository.FoundUserById(deliveryDto.Customer.Id);
+            CustomerDto customerDto = _customersRepository.FoundUserById(deliveryDto.Customer.Id); // RECOGEMOS EL CUSTOMER COMO DOMAIN Y PARSEAMOS A DTO
 
             if(customerDto == null)
             {
@@ -44,7 +44,7 @@ namespace Implementations
 
             customerDto.OrdersId.Add(deliveryDto);
 
-            Deliver deliver = TransformDtoToEntity(deliveryDto);
+            Deliver deliver = TransformDeliverDtoToEntity(deliveryDto);
 
             UpdateUserInformation(customerDto, deliver.Id);
 
@@ -72,31 +72,32 @@ namespace Implementations
 
             foreach (int productId in productsId)
             {
-                productsDto.Add(_productsRepository.GetProducts());
+                Product productFromApi = _productsRepository.GetProduct(productId);
 
-            }
+                if(productFromApi == null) 
+                { 
+                    throw new NotFoundProductsExcepion("The introduced products didn't found");
+                
+                }
 
-            if (productsDto.Count < 0)
-            {
+                productsDto.Add(TransformProductEntityToDto(productFromApi));
 
-                throw new NotFoundProductsExcepion("The introduced products didn't found");
-
-            }
+            }          
 
             return productsDto;
         }
-        private void InsertProductsIntoDeliver(DeliverDto deliveryDto, List<ProductDto> products, CustomerDto customerDto)
+        private void InsertProductsIntoDeliver(DeliverDto deliveryDto, List<ProductDto> productsDto, CustomerDto customerDto)
         {
             decimal totalPrice = 0; 
-            foreach (ProductDto product in products)
+            foreach (ProductDto productDto in productsDto)
             {
-                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == product.Id).Price = _currencyRepository.TransformCoin(product.Price, customerDto.CountryShortName.ShortCoinName);
-                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == product.Id).Category = product.Category;
-                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == product.Id).Title = product.Title;
-                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == product.Id).Description = product.Description;
-                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == product.Id).Image = product.Image;
+                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == productDto.Id).Price = _currencyRepository.TransformCoin(productDto.Price, customerDto.CountryShortName.ShortCoinName);
+                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == productDto.Id).Category = productDto.Category;
+                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == productDto.Id).Title = productDto.Title;
+                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == productDto.Id).Description = productDto.Description;
+                deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == productDto.Id).Image = productDto.Image;
 
-                totalPrice += deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == product.Id).Price;
+                totalPrice += deliveryDto.ProductsQuantity.Keys.FirstOrDefault(e => e.Id == productDto.Id).Price;
             }
 
             deliveryDto.TotalPriece = totalPrice + customerDto.CountryShortName.DeliverTaxes;
@@ -104,7 +105,7 @@ namespace Implementations
             deliveryDto.DeliverDay = DateTime.Now.AddDays(3).Date;
         }
 
-        private Deliver TransformDtoToEntity(DeliverDto deliverDto)
+        private Deliver TransformDeliverDtoToEntity(DeliverDto deliverDto)
         {
             int lastId = _ordersRepository.FindLastId();
             Deliver deliver = new Deliver
@@ -143,6 +144,51 @@ namespace Implementations
 
 
         }
-         
+
+        private ProductDto TransformProductEntityToDto(Product productFromApi)
+        {
+            return new ProductDto
+            {
+                Id = productFromApi.Id,
+                Category = productFromApi.Category,
+                Description = productFromApi.Description,
+                Price = productFromApi.Price,
+                Title = productFromApi.Title,
+                Image = productFromApi.Image
+            };
+        }
+
+        private CustomerDto TransformCustomerEntityToDto(Customer customer)
+        {
+            CustomerDto customerDto = new CustomerDto
+            {
+                Id = customer.Id,
+                CustomerName = customer.CustomerName,
+                CustomerSurname = customer.CustomerSurname,
+                
+
+            };
+
+            foreach(int deliverId in customer.OrdersId)
+            {
+                Deliver deliver = _ordersRepository.FindDeliverById(deliverId); // RECOJO EL DELIVER DOMAIN 
+
+                foreach(int key in deliver.ProductsIdQuantity.Keys)
+                {
+                    Product product = _productsRepository.GetProduct(key); // RECOJO EL PRODUCTO POR CADA ID QUE TIENE ALMACENADO EN LA CANTIDAD DE PRODUCTOS 
+
+                    ProductDto productDto = TransformProductEntityToDto(product);
+
+                    DeliverDto deliverDto = new DeliverDto
+                    {
+                        
+                    }
+                }
+                
+                customerDto.OrdersId.Add()
+            }
+        }
+
+
     }
 }
